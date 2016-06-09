@@ -90,7 +90,7 @@ void makeGroup() {
 		gid[i] = id;
 		for (j = i + 1; j < 2 * n; j++) {
 			Point p2 = (j % 2) ? lines[j / 2].second : lines[j / 2].first;
-			if (hypot(p1.x - p2.x, p1.y - p2.y) <= 1e-4) {
+			if (hypot(p1.x - p2.x, p1.y - p2.y) <= 1e-4) {	//1e-3にしたほうがよいかも…
 				gid[j] = id;
 			}
 		}
