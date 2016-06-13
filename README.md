@@ -1,50 +1,51 @@
-# Ž¿–â‚Í
- J1618 —é–Ø‹ ‚Ü‚ÅSlack‚ÅDM‚Å‹³‚¦‚Ä‚­‚¾‚³‚¢D
-# ƒŠƒ|ƒWƒgƒŠ‚Ì\¬
- ‚Æ‚è‚ ‚¦‚¸Cˆêlˆê‚Âƒuƒ‰ƒ“ƒ`‚ðì‚èC‚»‚±‚ÉŒÂX‚Ì¬‰Ê‚ðƒRƒ~ƒbƒg‚·‚é‚±‚Æ‚É‚µ‚Ü‚·D
-# ƒ\ƒŠƒ…[ƒVƒ‡ƒ“‚ð’u‚­‘O‚É
- wiki‚É‚»‚ÌƒvƒƒWƒFƒNƒgEƒ\ƒŠƒ…[ƒVƒ‡ƒ“‚É‚Â‚¢‚ÄˆÈ‰º‚Ì‚±‚Æ‚ð–¾‹L‚µ‚ÄŠT—v‚ð‘‚¢‚Ä‚¨‚­‚Æ—Ç‚¢‚Å‚·Di‹­§‚Å‚Í‚È‚¢j 
- * VisualStudio/ƒRƒ“ƒpƒCƒ‰‚Ìƒo[ƒWƒ‡ƒ“
- * •K—vƒ‰ƒCƒuƒ‰ƒŠ(OpenCV, OpenMP, OpenGL, Vulkan, DirectX, WindowsSDK, CUDA, Mantle, AMP‚È‚Ç‚Ì“ÁŽê‚È‚à‚Ì)
- * à–¾
-# ‘å‚Ü‚©‚È—¬‚ê
-### ‚Í‚¶‚ß
+ï»¿# è³ªå•ã¯
+ J1618 éˆ´æœ¨è±ª ã¾ã§Slackã§DMã§æ•™ãˆã¦ãã ã•ã„ï¼Ž
+# ãƒªãƒã‚¸ãƒˆãƒªã®æ§‹æˆ
+ ã¨ã‚Šã‚ãˆãšï¼Œä¸€äººä¸€ã¤ãƒ–ãƒ©ãƒ³ãƒã‚’ä½œã‚Šï¼Œãã“ã«å€‹ã€…ã®æˆæžœã‚’ã‚³ãƒŸãƒƒãƒˆã™ã‚‹ã“ã¨ã«ã—ã¾ã™ï¼Ž
+# ã‚½ãƒªãƒ¥ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ç½®ãå‰ã«
+ wikiã«ãã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãƒ»ã‚½ãƒªãƒ¥ãƒ¼ã‚·ãƒ§ãƒ³ã«ã¤ã„ã¦ä»¥ä¸‹ã®ã“ã¨ã‚’æ˜Žè¨˜ã—ã¦æ¦‚è¦ã‚’æ›¸ã„ã¦ãŠãã¨è‰¯ã„ã§ã™ï¼Žï¼ˆå¼·åˆ¶ã§ã¯ãªã„ï¼‰ 
+ * VisualStudio/ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³
+ * å¿…è¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(OpenCV, OpenMP, OpenGL, Vulkan, DirectX, WindowsSDK, CUDA, Mantle, AMPãªã©ã®ç‰¹æ®Šãªã‚‚ã®)
+ * èª¬æ˜Ž 
+ 
+# å¤§ã¾ã‹ãªæµã‚Œ
+### ã¯ã˜ã‚
 #### git clone https://github.com/mct-procon/procon2016
- ‚±‚ê‚ÅƒŠƒ|ƒWƒgƒŠ‚ðƒNƒ[ƒ“D
-#### git branch ƒuƒ‰ƒ“ƒ`‚Ì–¼‘O
- ‚±‚ê‚ÅCƒ[ƒJƒ‹‚Éƒuƒ‰ƒ“ƒ`‚Â‚­‚èC
-#### git checkout ƒuƒ‰ƒ“ƒ`‚Ì–¼‘O
- ƒuƒ‰ƒ“ƒ`•ÏX
-#### git push origin ƒuƒ‰ƒ“ƒ`‚Ì–¼‘O
- ƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚Éƒuƒ‰ƒ“ƒ`ì¬
-### ƒAƒbƒvƒ[ƒh
+ ã“ã‚Œã§ãƒªãƒã‚¸ãƒˆãƒªã‚’ã‚¯ãƒ­ãƒ¼ãƒ³ï¼Ž
+#### git branch ãƒ–ãƒ©ãƒ³ãƒã®åå‰
+ ã“ã‚Œã§ï¼Œãƒ­ãƒ¼ã‚«ãƒ«ã«ãƒ–ãƒ©ãƒ³ãƒã¤ãã‚Šï¼Œ
+#### git checkout ãƒ–ãƒ©ãƒ³ãƒã®åå‰
+ ãƒ–ãƒ©ãƒ³ãƒå¤‰æ›´
+#### git push origin ãƒ–ãƒ©ãƒ³ãƒã®åå‰
+ ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã«ãƒ–ãƒ©ãƒ³ãƒä½œæˆ
+### ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰
 #### git add *
- •ÏX“à—e‚ð‚Ü‚Æ‚ß‚Ä
-#### git commit -a -m "ƒRƒƒ“ƒg"
- •ÏX“à—e‚ðƒRƒ~ƒbƒg‚µC
-#### git push origin ƒuƒ‰ƒ“ƒ`–¼
- ƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚É”½‰f‚·‚éD
-# Šî–{“I‚ÈƒRƒ}ƒ“ƒh
-### [Å‰‚Ì‚Ý] git clone https://github.com/mct-procon/procon2016
- ƒŠƒ|ƒWƒgƒŠ‚ðƒ[ƒJƒ‹‚Éƒ_ƒEƒ“ƒ[ƒh‚·‚éD 
+ å¤‰æ›´å†…å®¹ã‚’ã¾ã¨ã‚ã¦
+#### git commit -a -m "ã‚³ãƒ¡ãƒ³ãƒˆ"
+ å¤‰æ›´å†…å®¹ã‚’ã‚³ãƒŸãƒƒãƒˆã—ï¼Œ
+#### git push origin ãƒ–ãƒ©ãƒ³ãƒå
+ ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã«åæ˜ ã™ã‚‹ï¼Ž
+# åŸºæœ¬çš„ãªã‚³ãƒžãƒ³ãƒ‰
+### [æœ€åˆã®ã¿] git clone https://github.com/mct-procon/procon2016
+ ãƒªãƒã‚¸ãƒˆãƒªã‚’ãƒ­ãƒ¼ã‚«ãƒ«ã«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ï¼Ž 
 ## BRANCH
-### git branch ƒuƒ‰ƒ“ƒ`‚Ì–¼‘O
- ƒuƒ‰ƒ“ƒ`‚ðì¬‚µ‚Ü‚·D 
-### git checkout ƒuƒ‰ƒ“ƒ`‚Ì–¼‘O
- ƒuƒ‰ƒ“ƒ`‚ðˆÚ“®‚µ‚Ü‚·D 
+### git branch ãƒ–ãƒ©ãƒ³ãƒã®åå‰
+ ãƒ–ãƒ©ãƒ³ãƒã‚’ä½œæˆã—ã¾ã™ï¼Ž 
+### git checkout ãƒ–ãƒ©ãƒ³ãƒã®åå‰
+ ãƒ–ãƒ©ãƒ³ãƒã‚’ç§»å‹•ã—ã¾ã™ï¼Ž 
 ### git branch
- ƒ[ƒJƒ‹‚Ìƒuƒ‰ƒ“ƒ`‚Ìˆê——‚ð•\Ž¦‚µ‚Ü‚·D 
-### git branch -d ƒuƒ‰ƒ“ƒ`‚Ì–¼‘O
- ƒuƒ‰ƒ“ƒ`‚ðíœ‚µ‚Ü‚·D 
+ ãƒ­ãƒ¼ã‚«ãƒ«ã®ãƒ–ãƒ©ãƒ³ãƒã®ä¸€è¦§ã‚’è¡¨ç¤ºã—ã¾ã™ï¼Ž 
+### git branch -d ãƒ–ãƒ©ãƒ³ãƒã®åå‰
+ ãƒ–ãƒ©ãƒ³ãƒã‚’å‰Šé™¤ã—ã¾ã™ï¼Ž 
 ### git branch -r
- ƒŠƒ‚[ƒg‚Ìƒuƒ‰ƒ“ƒ`‚Ìˆê——‚ð•\Ž¦‚µ‚Ü‚·D
+ ãƒªãƒ¢ãƒ¼ãƒˆã®ãƒ–ãƒ©ãƒ³ãƒã®ä¸€è¦§ã‚’è¡¨ç¤ºã—ã¾ã™ï¼Ž
 ## COMMIT
 ### git add *
- •ÒWE’Ç‰Á“à—e‚ðƒXƒe[ƒWƒ“ƒO‚É‚ ‚°‚Ü‚·D
-### git commit -a -m "ƒRƒƒ“ƒg"
- ƒRƒ~ƒbƒg‚µ‚Ü‚·D
-### git push@(‚½‚¢‚Ä‚¢‚Í‚ ‚Æ‚Ì‚æ‚¤‚É) origin ƒuƒ‰ƒ“ƒ`–¼
- ƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚É•ÏX“à—e(ƒRƒ~ƒbƒg‚½‚¿)‚ð‘—‚è‚Ü‚·D 
+ ç·¨é›†ãƒ»è¿½åŠ å†…å®¹ã‚’ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ³ã‚°ã«ã‚ã’ã¾ã™ï¼Ž
+### git commit -a -m "ã‚³ãƒ¡ãƒ³ãƒˆ"
+ ã‚³ãƒŸãƒƒãƒˆã—ã¾ã™ï¼Ž
+### git pushã€€(ãŸã„ã¦ã„ã¯ã‚ã¨ã®ã‚ˆã†ã«) origin ãƒ–ãƒ©ãƒ³ãƒå
+ ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã«å¤‰æ›´å†…å®¹(ã‚³ãƒŸãƒƒãƒˆãŸã¡)ã‚’é€ã‚Šã¾ã™ï¼Ž 
 ## UPDATE
 ### git pull
- ƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚©‚ç•ÏX“à—e(ƒRƒ~ƒbƒg‚½‚¿)‚ðŽó‚¯Žæ‚èCƒ[ƒJƒ‹ƒŠƒ|ƒWƒgƒŠ‚É”½‰f‚µ‚Ü‚·D
+ ãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã‹ã‚‰å¤‰æ›´å†…å®¹(ã‚³ãƒŸãƒƒãƒˆãŸã¡)ã‚’å—ã‘å–ã‚Šï¼Œãƒ­ãƒ¼ã‚«ãƒ«ãƒªãƒã‚¸ãƒˆãƒªã«åæ˜ ã—ã¾ã™ï¼Ž
