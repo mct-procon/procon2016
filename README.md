@@ -22,7 +22,7 @@
  変更内容をまとめて
 #### git commit -a -m "コメント"
  変更内容をコミットし，
-#### git push
+#### git push origin ブランチ名
  リモートリポジトリに反映する．
 # 基本的なコマンド
 ### [最初のみ] git clone https://github.com/mct-procon/procon2016
@@ -43,7 +43,7 @@
  編集・追加内容をステージングにあげます．
 ### git commit -a -m "コメント"
  コミットします．
-### git push
+### git push　(たいていはあとのように) origin ブランチ名
  リモートリポジトリに変更内容(コミットたち)を送ります． 
 ## UPDATE
 ### git pull
