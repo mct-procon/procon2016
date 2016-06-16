@@ -14,15 +14,15 @@
 ### はじめ
 #### git clone https://github.com/mct-procon/procon2016
  これでリポジトリをクローン．
+#### git config --local user.name "自分の名前"
+#### git config --local user.email "自分のE-mail"
+ 自分のユーザー設定を設定  
 #### git branch ブランチの名前
  これで，ローカルにブランチつくり，
 #### git checkout ブランチの名前
  ブランチ変更  
 #### git push origin ブランチの名前
  リモートリポジトリにブランチ作成  
-#### git config --local user.name "自分の名前"
-#### git config --local user.email "自分のE-mail"
- 自分のユーザー設定を設定  
 ### アップロード
 #### git add *
  変更内容をまとめて
