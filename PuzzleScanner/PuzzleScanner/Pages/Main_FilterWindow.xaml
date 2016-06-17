@@ -30,11 +30,13 @@
         <Slider x:Name="S_MAX" Grid.Column="1" Grid.Row="2" Maximum="100" Minimum="0" Value="70" ValueChanged="Slider_ValueChanged"/>
         <Slider x:Name="S_MIN" Grid.Column="1" Grid.Row="3" Maximum="100" Minimum="0" Value="20" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="S" Grid.Row="2"/>
-        <Slider x:Name="V_MAX" Grid.Column="1" Grid.Row="4" MaxHeight="100" Minimum="0" Value="70" ValueChanged="Slider_ValueChanged"/>
-        <Slider x:Name="V_MIN" Grid.Column="1" Grid.Row="5" MaxHeight="100" Minimum="0" Value="30" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="V_MAX" Grid.Column="1" Grid.Row="4" Maximum="100" Minimum="0" Value="70" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="V_MIN" Grid.Column="1" Grid.Row="5" Maximum="100" Minimum="0" Value="30" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="V" Grid.Row="4"/>
-        <Image x:Name="img" Grid.Row="6" Grid.ColumnSpan="2"/>
+        <ScrollViewer x:Name="Scroller" Grid.Row="6" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Image x:Name="img"/>
+        </ScrollViewer>
         <Button Content="Update" Grid.Row="7" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,5" Width="60" Height="25" Click="Update_Click"/>
-        <Button Content="Next" Grid.Row="7" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="60" Height="25"/>
+        <Button Content="Next" Grid.Row="7" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="60" Height="25" Click="Next_Click"/>
     </Grid>
 </Page>

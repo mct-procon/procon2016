@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections;
 using Emgu.CV;
+using System.Windows.Controls.Primitives;
 
 namespace PuzzleScanner.Pages {
     /// <summary>
@@ -22,14 +23,14 @@ namespace PuzzleScanner.Pages {
     public partial class Main_ScannerWindow : Page {
 
 
-        private const int MAX_S = 220;
-        private const int MIN_S = 70;
+        private int MAX_S = 220;
+        private int MIN_S = 70;
 
-        private const int MAX_V = 160;
-        private const int MIN_V = 10;
+        private int MAX_V = 160;
+        private int MIN_V = 10;
 
-        private const byte MAX_H = 50;
-
+        private int MAX_H = 50;
+        private int MIN_H = 0;
         string ImagePath = "";
         int ImageWidth = 0;
         int ImageHeight = 0;
@@ -42,6 +43,11 @@ namespace PuzzleScanner.Pages {
             ImagePath = imagepath;
             InitializeComponent();
             UpdateContent();
+        }
+
+        public Main_ScannerWindow(UMat filteredImg, Mat ReadedImg) {
+            InitializeComponent();
+            UpdateContent_WithoutFilter(filteredImg, ReadedImg);
         }
 
         private async void UpdateContent() {
@@ -143,6 +149,100 @@ namespace PuzzleScanner.Pages {
             Waiter.Visibility = Visibility.Hidden;
         }
 
+        private async void UpdateContent_WithoutFilter(UMat FilteredImg, Mat ReadedImg) {
+            Waiter.Opacity = 0;
+            Waiter.Visibility = Visibility.Visible;
+            var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
+            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
+
+            ImageList.Items.Clear();
+            ResultCanvas.Children.Clear();
+            Emgu.CV.Util.VectorOfVectorOfPoint contours = new Emgu.CV.Util.VectorOfVectorOfPoint();
+            UMat resultImg = new UMat();
+            UMat ToShowFiltered = FilteredImg.Clone();
+            await Task.Run(() => {
+                CvInvoke.FindContours(FilteredImg, contours, null, Emgu.CV.CvEnum.RetrType.List, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
+            });
+            var res = contours.ToArrayOfArray().Select(x => new Emgu.CV.Util.VectorOfPoint(x));
+            var n = 0;
+            Emgu.CV.Util.VectorOfPoint polyStorage = null;
+            Image BASE_IMG = new Image() { Source = ToWPFBitmap(ReadedImg.Bitmap) };
+            Thumbnail.Source = BASE_IMG.Source;
+            CheckBox BASE_CHECKBOX = new CheckBox { Content = "Base", IsChecked = true };
+            BASE_CHECKBOX.Checked += (ss, ee) => BASE_IMG.Visibility = Visibility.Visible;
+            BASE_CHECKBOX.Unchecked += (ss, ee) => BASE_IMG.Visibility = Visibility.Hidden;
+            ImageList.Items.Add(BASE_CHECKBOX);
+
+            Image TEST_IMG = new Image() { Source = ToWPFBitmap(ToShowFiltered.Bitmap) };
+            CheckBox TEST_CHECKBOX = new CheckBox { Content = "Filtered", IsChecked = true };
+            TEST_CHECKBOX.Checked += (ss, ee) => TEST_IMG.Visibility = Visibility.Visible;
+            TEST_CHECKBOX.Unchecked += (ss, ee) => TEST_IMG.Visibility = Visibility.Hidden;
+            ImageList.Items.Add(TEST_CHECKBOX);
+
+
+            ResultCanvas.Children.Add(BASE_IMG);
+            ResultCanvas.Children.Add(TEST_IMG);
+            ResultCanvas.Height = ReadedImg.Height;
+            ResultCanvas.Width = ReadedImg.Width;
+            Canvas.SetTop(BASE_IMG, 2.5);
+            Canvas.SetLeft(BASE_IMG, 2.5);
+            Canvas.SetZIndex(BASE_IMG, 0);
+            Canvas.SetTop(TEST_IMG, 2.5);
+            Canvas.SetLeft(TEST_IMG, 2.5);
+            Canvas.SetZIndex(TEST_IMG, 1);
+
+            foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 100)) {
+                polyStorage = new Emgu.CV.Util.VectorOfPoint();
+                await Task.Run(() => CvInvoke.ApproxPolyDP(parray, polyStorage, 10, true));
+                System.Drawing.Point? prevPoint = null;
+                Stack<UIElement> drawers = new Stack<UIElement>(polyStorage.Size * 2);
+                CheckBox chbox = new CheckBox() { Content = n.ToString(), IsChecked = true };
+                var cacheArray = polyStorage.ToArray();
+                foreach (var p in cacheArray) {
+                    Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = 5, Height = 5 };
+                    Canvas.SetZIndex(esp, 3);
+                    Canvas.SetTop(esp, p.Y);
+                    Canvas.SetLeft(esp, p.X);
+                    ResultCanvas.Children.Add(esp);
+                    drawers.Push(esp);
+                    if (prevPoint.HasValue) {
+                        Line l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = 1, X1 = prevPoint.Value.X, X2 = p.X, Y1 = prevPoint.Value.Y, Y2 = p.Y };
+                        Canvas.SetZIndex(l, 2);
+                        Canvas.SetTop(l, 2.5);
+                        Canvas.SetLeft(l, 2.5);
+                        drawers.Push(l);
+                        ResultCanvas.Children.Add(l);
+                    }
+                    prevPoint = p;
+                }
+
+                //汚い
+                Line _l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = 1, X1 = prevPoint.Value.X, X2 = cacheArray[0].X, Y1 = prevPoint.Value.Y, Y2 = cacheArray[0].Y };
+                Canvas.SetZIndex(_l, 2);
+                Canvas.SetTop(_l, 2.5);
+                Canvas.SetLeft(_l, 2.5);
+                drawers.Push(_l);
+                ResultCanvas.Children.Add(_l);
+
+                chbox.Checked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Visible; } };
+                chbox.Unchecked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Hidden; } };
+                ImageList.Items.Add(chbox);
+                n++;
+            }
+            ImageWidth = ReadedImg.Width;
+            ImageHeight = ReadedImg.Height;
+
+            polyStorage.Dispose();
+            contours.Dispose();
+            ReadedImg.Dispose();
+            resultImg.Dispose();
+
+            anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
+            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
+            Waiter.Visibility = Visibility.Hidden;
+        }
+
+
         private UMat FilterMat(UMat mm) {
             UMat res = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             byte[] cache_in = mm.Bytes;
@@ -179,6 +279,38 @@ namespace PuzzleScanner.Pages {
             ResultCanvas.Width = ImageWidth * ZoomSlider.Value;
         }
 
+        private void UpdateThumbnailViewport(object sender, ScrollChangedEventArgs e) {
+            // ExtentWidth/Height が ScrollViewer 内の広さ
+            // ViewportWidth/Height が ScrollViewer で実際に表示されているサイズ
+
+            var xfactor = this.Thumbnail.ActualWidth / e.ExtentWidth;
+            var yfactor = this.Thumbnail.ActualHeight / e.ExtentHeight;
+
+            var left = e.HorizontalOffset * xfactor;
+            var top = e.VerticalOffset * yfactor;
+
+            var width = e.ViewportWidth * xfactor;
+            if (width > this.Thumbnail.ActualWidth) width = this.Thumbnail.ActualWidth;
+
+            var height = e.ViewportHeight * yfactor;
+            if (height > this.Thumbnail.ActualHeight) height = this.Thumbnail.ActualHeight;
+
+            // Canvas (親パネル) 上での Viewport の位置を、Left/Top 添付プロパティで設定
+            // (XAML で言う <Border Canvas.Left="0" ... \> みたいなやつ)
+            Canvas.SetLeft(this.Viewport, left);
+            Canvas.SetTop(this.Viewport, top);
+
+            this.Viewport.Width = width;
+            this.Viewport.Height = height;
+        }
+
+        private void OnDragDelta(object sender, DragDeltaEventArgs e) {
+            this.Scroller.ScrollToHorizontalOffset(
+                this.Scroller.HorizontalOffset + (e.HorizontalChange * this.Scroller.ExtentWidth / this.Thumbnail.ActualWidth));
+
+            this.Scroller.ScrollToVerticalOffset(
+                this.Scroller.VerticalOffset + (e.VerticalChange * this.Scroller.ExtentHeight / this.Thumbnail.ActualHeight));
+        }
     }
 
     public class ImageCheckboxPair {
