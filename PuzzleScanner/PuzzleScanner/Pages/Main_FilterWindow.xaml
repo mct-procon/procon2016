@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -27,16 +28,45 @@
         <Slider x:Name="H_MAX" Grid.Column="1" Maximum="360" Minimum="0" Value="30" ValueChanged="Slider_ValueChanged"/>
         <Slider x:Name="H_MIN" Grid.Column="1" Grid.Row="1" Maximum="360" Minimum="0" Value="0" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="H"/>
-        <Slider x:Name="S_MAX" Grid.Column="1" Grid.Row="2" Maximum="100" Minimum="0" Value="70" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="S_MAX" Grid.Column="1" Grid.Row="2" Maximum="100" Minimum="0" Value="85" ValueChanged="Slider_ValueChanged"/>
         <Slider x:Name="S_MIN" Grid.Column="1" Grid.Row="3" Maximum="100" Minimum="0" Value="20" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="S" Grid.Row="2"/>
-        <Slider x:Name="V_MAX" Grid.Column="1" Grid.Row="4" Maximum="100" Minimum="0" Value="70" ValueChanged="Slider_ValueChanged"/>
-        <Slider x:Name="V_MIN" Grid.Column="1" Grid.Row="5" Maximum="100" Minimum="0" Value="30" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="V_MAX" Grid.Column="1" Grid.Row="4" Maximum="100" Minimum="0" Value="100" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="V_MIN" Grid.Column="1" Grid.Row="5" Maximum="100" Minimum="0" Value="20" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="V" Grid.Row="4"/>
-        <ScrollViewer x:Name="Scroller" Grid.Row="6" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Image x:Name="img"/>
+        <TextBlock Text="Zoom:" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"/>
+        <Slider x:Name="ZoomSlider" Margin="40,0,40,0" Grid.Column="1" Grid.Row="6" LargeChange="0.1" Maximum="100" Value="1" ValueChanged="ZoomSlider_ValueChanged"/>
+        <TextBlock Text="{Binding ElementName=ZoomSlider, Path=Value}" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+        <ScrollViewer x:Name="Scroller" Grid.Row="7" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport">
+            <Image x:Name="img" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Image.RenderTransform>
+                    <ScaleTransform ScaleX="{Binding ElementName=ZoomSlider, Path=Value}" ScaleY="{Binding ElementName=ZoomSlider, Path=Value}"/>
+                </Image.RenderTransform>
+            </Image>
         </ScrollViewer>
-        <Button Content="Update" Grid.Row="7" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,5" Width="60" Height="25" Click="Update_Click"/>
-        <Button Content="Next" Grid.Row="7" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="60" Height="25" Click="Next_Click"/>
+        <Canvas Width="{Binding ElementName=Thumbnail, Path=ActualWidth}"
+                Height="{Binding ElementName=Thumbnail, Path=ActualHeight}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="10"
+                UseLayoutRounding="True"
+                Grid.Row="7"
+                Grid.Column="1">
+            <Image x:Name="Thumbnail"
+                   Width="200"
+                   Stretch="Uniform" Opacity="0.8" />
+            <Thumb x:Name="Viewport"
+           DragDelta="OnDragDelta">
+                <Thumb.Template>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border BorderBrush="Red"
+                        BorderThickness="2"
+                        Background="Transparent" />
+                    </ControlTemplate>
+                </Thumb.Template>
+            </Thumb>
+        </Canvas>
+        <Button Content="Update" Grid.Row="8" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,5" Width="60" Height="25" Click="Update_Click"/>
+        <Button Content="Next" Grid.Row="8" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="60" Height="25" Click="Next_Click"/>
     </Grid>
 </Page>
