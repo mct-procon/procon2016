@@ -13,9 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Emgu.CV;
-using Cudafy;
-using Cudafy.Host;
-using Cudafy.Translator;
 using System.Windows.Controls.Primitives;
 
 namespace PuzzleScanner.Pages {
@@ -71,28 +68,28 @@ namespace PuzzleScanner.Pages {
             return res;
         }
 
-        private UMat FilterMatWithGPU(UMat mm, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
-            UMat res = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
-            byte[] filtercache = res.Bytes;
-            byte[] settingdata = { MIN_H, MAX_H, MIN_S, MAX_S, MIN_V, MAX_V };
-            CudafyModule km = Cudafy.Translator.CudafyTranslator.Cudafy();
-            GPGPU gpu = CudafyHost.GetDevice(CudafyModes.Target, CudafyModes.DeviceId);
-            byte[] dev_filtercache = gpu.Allocate<byte>(filtercache);
-            byte[] dev_cache_in = gpu.CopyToDevice(mm.Bytes);
-            byte[] dev_settingdata = gpu.CopyToDevice(settingdata);
-            gpu.Launch(mm.Bytes.Length, 1).FilterMatGPUKernel(dev_cache_in, dev_filtercache, dev_settingdata);
-            gpu.CopyFromDevice(dev_filtercache, filtercache);
-            gpu.FreeAll();
-            res.Bytes = filtercache;
-            return res;
-        }
+        //private UMat FilterMatWithGPU(UMat mm, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
+        //    UMat res = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
+        //    byte[] filtercache = res.Bytes;
+        //    byte[] settingdata = { MIN_H, MAX_H, MIN_S, MAX_S, MIN_V, MAX_V };
+        //    CudafyModule km = Cudafy.Translator.CudafyTranslator.Cudafy();
+        //    GPGPU gpu = CudafyHost.GetDevice(CudafyModes.Target, CudafyModes.DeviceId);
+        //    byte[] dev_filtercache = gpu.Allocate<byte>(filtercache);
+        //    byte[] dev_cache_in = gpu.CopyToDevice(mm.Bytes);
+        //    byte[] dev_settingdata = gpu.CopyToDevice(settingdata);
+        //    gpu.Launch(mm.Bytes.Length, 1).FilterMatGPUKernel(dev_cache_in, dev_filtercache, dev_settingdata);
+        //    gpu.CopyFromDevice(dev_filtercache, filtercache);
+        //    gpu.FreeAll();
+        //    res.Bytes = filtercache;
+        //    return res;
+        //}
 
-        [Cudafy]
-        private static void FilterMatGPUKernel(GThread gThread, byte[] dataIn, byte[] dataOut, byte[] settingdata) {
-            int n = gThread.blockIdx.x;
-            dataOut[n] = (dataIn[n * 3] >= settingdata[0] && dataIn[n * 3] <= settingdata[1] && dataIn[n * 3 + 1] <= settingdata[3] && dataIn[n * 3 + 1] >= settingdata[2] && dataIn[n * 3 + 2] <= settingdata[5] && dataIn[n * 3 + 2] >= settingdata[4]) ?
-                    (byte)255 : (byte)0;
-        }
+        //[Cudafy]
+        //private static void FilterMatGPUKernel(GThread gThread, byte[] dataIn, byte[] dataOut, byte[] settingdata) {
+        //    int n = gThread.blockIdx.x;
+        //    dataOut[n] = (dataIn[n * 3] >= settingdata[0] && dataIn[n * 3] <= settingdata[1] && dataIn[n * 3 + 1] <= settingdata[3] && dataIn[n * 3 + 1] >= settingdata[2] && dataIn[n * 3 + 2] <= settingdata[5] && dataIn[n * 3 + 2] >= settingdata[4]) ?
+        //            (byte)255 : (byte)0;
+        //}
 
         private void UpdateThumbnailViewport(object sender, ScrollChangedEventArgs e) {
             // ExtentWidth/Height が ScrollViewer 内の広さ

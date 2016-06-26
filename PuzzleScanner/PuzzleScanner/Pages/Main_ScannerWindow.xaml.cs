@@ -16,6 +16,7 @@ using System.Collections;
 using Emgu.CV;
 using System.Windows.Controls.Primitives;
 using System.Diagnostics;
+using System.Numerics;
 using Point = System.Drawing.Point;
 
 namespace PuzzleScanner.Pages {
@@ -413,13 +414,24 @@ namespace PuzzleScanner.Pages {
             double[] Lines = new double[Poly.Length];
             double[] Points = new double[Poly.Length];
             Parallel.For(0, Poly.Length, (count) => {
-                double x1 = Poly[count].X - Poly[count - 1].X;
-                double y1 = Poly[count].Y - Poly[count - 1].Y;
-                double x2 = Poly[count + 1].X - Poly[count].X;
-                double y2 = Poly[count + 1].Y - Poly[count].Y;
-                double theta1 = Math.Atan2(y1, x1) * 180 / 3.1415926358979323;
-                double theta2 = Math.Atan2(y2, x2) * 180 / 3.1415926358979323;
-                Points[count] = (180 + theta1 - theta2 + 360);
+                Vector<double> v1 = new Vector<double>(new double[]{ Poly[count].X, Poly[count].Y , Poly[count + 1].X, Poly[count + 1].Y });
+                Vector<double> v2 = new Vector<double>(new double[] { Poly[count - 1].X, Poly[count - 1].Y, Poly[count].X, Poly[count].Y });
+                v1 -= v2;
+                Debug.Write(v1[0]);
+                Debug.Write(v1[1]);
+                Debug.Write(v1[2]);
+                Debug.Write(v1[3]);
+                Vector<double> v3 = new Vector<double>(new double[] { Math.Atan2(v1[1], v1[0]), Math.Atan2(v1[3], v1[2]),0,0});
+                v3 *= new Vector<double>(new double[] { 180 / 3.1415926358979323, 180 / 3.1415926358979323,0,0 });
+                Points[count] = 180 + v3[0] - v3[1] + 360;
+                // Not SIMD Using Codes
+                //double x1 = Poly[count].X - Poly[count - 1].X;
+                //double y1 = Poly[count].Y - Poly[count - 1].Y;
+                //double x2 = Poly[count + 1].X - Poly[count].X;
+                //double y2 = Poly[count + 1].Y - Poly[count].Y;
+                //double theta1 = Math.Atan2(y1, x1) * 180 / 3.1415926358979323;
+                //double theta2 = Math.Atan2(y2, x2) * 180 / 3.1415926358979323;
+                //Points[count] = (180 + theta1 - theta2 + 360);
                 while (Points[count] > 360) Points[count] -= 360;
                 Points[count] = 360 - Points[count];
                 Lines[count] = Math.Sqrt(Math.Abs(Math.Pow(Poly[count].X - Poly[count + 1].X, 2) + Math.Pow(Poly[count].Y - Poly[count + 1].Y, 2)));
