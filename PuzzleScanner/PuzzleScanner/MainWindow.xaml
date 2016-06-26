@@ -8,18 +8,18 @@
         WindowStyle="None" AllowsTransparency="True" BorderBrush="LimeGreen" BorderThickness="1"
         Title="PuzzleScanner MainWindow" Height="400" Width="640" StateChanged="Window_StateChanged" Loaded="Window_Loaded">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="20" ResizeBorderThickness="4"/>
+        <WindowChrome CaptionHeight="40" ResizeBorderThickness="4"/>
     </WindowChrome.WindowChrome>
     <Grid>
         <Grid VerticalAlignment="Top">
             <Grid.Resources>
                 <ResourceDictionary Source="/Styles/Caption.xaml"/>
             </Grid.Resources>
-            <Button x:Name="BackToImageChooseButton" WindowChrome.IsHitTestVisibleInChrome="True" Width="180" Height="30" Content="Back to ImageChoose Page" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="MeiryoUI" FontWeight="Bold" Style="{StaticResource ResourceKey=CloseButton}" Visibility="Hidden" Click="BackToImageChooseButton_Click"/>
-            <Button WindowChrome.IsHitTestVisibleInChrome="True" Width="30" Height="30" Content="r" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Click="CloseButton_Clicked" Style="{StaticResource ResourceKey=CloseButton}"/>
-            <Button x:Name="WindowNorMaxChangeButton" WindowChrome.IsHitTestVisibleInChrome="True" Width="30" Height="30" Content="1" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,33,0" Click="NorMaxButton_Clicked" Style="{StaticResource ResourceKey=MinMaxButton}"/>
-            <Button WindowChrome.IsHitTestVisibleInChrome="True" Width="30" Height="30" Content="0" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,66,0" Click="MiniButton_Clicked" Style="{StaticResource ResourceKey=MinMaxButton}"/>
+            <Button x:Name="BackToImageChooseButton" WindowChrome.IsHitTestVisibleInChrome="True" Width="200" Height="40" Content="Back to ImageChoose Page" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="MeiryoUI" FontWeight="Bold" Style="{StaticResource ResourceKey=CloseButton}" Visibility="Hidden" Click="BackToImageChooseButton_Click"/>
+            <Button WindowChrome.IsHitTestVisibleInChrome="True" Width="40" Height="40" Content="r" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Click="CloseButton_Clicked" Style="{StaticResource ResourceKey=CloseButton}"/>
+            <Button x:Name="WindowNorMaxChangeButton" WindowChrome.IsHitTestVisibleInChrome="True" Width="30" Height="40" Content="1" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,40,0" Click="NorMaxButton_Clicked" Style="{StaticResource ResourceKey=MinMaxButton}"/>
+            <Button WindowChrome.IsHitTestVisibleInChrome="True" Width="30" Height="40" Content="0" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,70,0" Click="MiniButton_Clicked" Style="{StaticResource ResourceKey=MinMaxButton}"/>
         </Grid>
-        <Frame x:Name="MainFrame" Margin="0,35,0,0" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="MainFrame" Margin="10,45,10,10" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

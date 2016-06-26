@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -165,6 +166,7 @@ namespace PuzzleScanner.Pages {
         //#endregion
 
         private async void UpdateContent_WithoutFilter(UMat FilteredImg, Mat ReadedImg) {
+            //GUI ANIMATION ホワイトさせるほど処理長くないけど…
             Waiter.Opacity = 0;
             Waiter.Visibility = Visibility.Visible;
             var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
@@ -190,9 +192,7 @@ namespace PuzzleScanner.Pages {
             await Task.Run(() => CvInvoke.FindContours(FilteredImg, contours, null, Emgu.CV.CvEnum.RetrType.List, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple));
             var res = contours.ToArrayOfArray().Select(x => new Emgu.CV.Util.VectorOfPoint(x));
             var n = 0;
-            int m = 0;
             ResultPolygonData rpd;
-            Emgu.CV.Util.VectorOfPoint polyStorage = null;
 
             ResultCanvas.Children.Add(BASE_IMG);
             ResultCanvas.Children.Add(TEST_IMG);
@@ -200,7 +200,8 @@ namespace PuzzleScanner.Pages {
             ResultCanvas.Width = ReadedImg.Width;
 
             NormalCircleSize = Math.Min(ReadedImg.Width, ReadedImg.Height) / 256;
-            NormalLineTickness = Math.Min(ReadedImg.Width, ReadedImg.Height) / 640;
+            NormalLineTickness = NormalCircleSize * 0.4;
+            //readable:: NormalLineTickness = NormalChircleSize * 256 / 640;
             Offset = NormalCircleSize / 2;
 
             Canvas.SetTop(BASE_IMG, Offset);
@@ -210,77 +211,59 @@ namespace PuzzleScanner.Pages {
             Canvas.SetLeft(TEST_IMG, Offset);
             Canvas.SetZIndex(TEST_IMG, 1);
 
-            foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 100)) {
+            Queue<Emgu.CV.Util.VectorOfPoint> polyStorage = new Queue<Emgu.CV.Util.VectorOfPoint>(res.Count());
+            await Task.Run(() => {
+                Emgu.CV.Util.VectorOfPoint polyCache = null;
+                foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 1000)) {
+                    polyCache = new Emgu.CV.Util.VectorOfPoint();
+                    CvInvoke.ApproxPolyDP(parray, polyCache, 10, true);
+                    polyStorage.Enqueue(polyCache);
+                }
+            });
+            result = polyStorage.AsParallel().Select((x) => GetPolygonInformation(x.ToArray())).ToList();
+            polyStorage.AsParallel().ForAll((x) => x.Dispose());
+            foreach (var poly in result) {
                 int cacheIndex = ImageList.Items.Count;
-                polyStorage = new Emgu.CV.Util.VectorOfPoint();
-                await Task.Run(() => CvInvoke.ApproxPolyDP(parray, polyStorage, 10, true));
-                System.Drawing.Point? prevPoint = null;
                 CheckBox chbox = new CheckBox() { Content = n.ToString(), IsChecked = true };
-                var cacheArray = polyStorage.ToArray();
-                rpd = GetPolygonInformation(new RingBuffer<System.Drawing.Point>( cacheArray));
-                Stack<UIElement> drawers = new Stack<UIElement>((cacheArray.Length + 1) * 4);
-                foreach (var p in cacheArray) {
+                Stack<UIElement> drawers = new Stack<UIElement>((poly.Points.Length + 1) * 4);
+                for(int m = 0; m < poly.Angles.Length; ++m) {
                     Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
-                    esp.ToolTip = rpd.Angles[m].ToString() + "°";
+                    esp.ToolTip = poly.Angles[m].ToString() + "°";
                     esp.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
                     Canvas.SetZIndex(esp, 3);
-                    Canvas.SetTop(esp, p.Y);
-                    Canvas.SetLeft(esp, p.X);
-                    TextBlock tb = new TextBlock() { FontSize= 24, Foreground = Brushes.DarkRed, Text=rpd.Angles[m].ToString("F") + "°" };
+                    Canvas.SetTop(esp, poly.Points[m].Y);
+                    Canvas.SetLeft(esp, poly.Points[m].X);
+                    TextBlock tb = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkRed, Text = poly.Angles[m].ToString("F") + "°" };
                     Canvas.SetZIndex(tb, 4);
-                    Canvas.SetTop(tb, p.Y);
-                    Canvas.SetLeft(tb, p.X);
+                    Canvas.SetTop(tb, poly.Points[m].Y);
+                    Canvas.SetLeft(tb, poly.Points[m].X);
                     drawers.Push(esp);
                     drawers.Push(tb);
 
                     ResultCanvas.Children.Add(tb);
                     ResultCanvas.Children.Add(esp);
-                    if (prevPoint.HasValue) {
-                        Line l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = prevPoint.Value.X, X2 = p.X, Y1 = prevPoint.Value.Y, Y2 = p.Y };
-                        l.ToolTip = rpd.Lines[m - 1].ToString() + "px";
-                        Canvas.SetZIndex(l, 2);
-                        Canvas.SetTop(l, Offset);
-                        Canvas.SetLeft(l, Offset);
-                        TextBlock tb2 = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkGreen, Text = rpd.Lines[m - 1].ToString("F") + "px" };
-                        Canvas.SetZIndex(tb2, 4);
-                        Canvas.SetTop(tb2, (p.Y + prevPoint.Value.Y) / 2);
-                        Canvas.SetLeft(tb2, (p.X + prevPoint.Value.X) / 2);
-                        ResultCanvas.Children.Add(tb2);
-                        ResultCanvas.Children.Add(l);
-                        drawers.Push(l);
-                        drawers.Push(tb2);
-                    }
-                    prevPoint = p;
-                    ++m;
+                    Line l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = poly.Points[m-1].X, X2 = poly.Points[m].X, Y1 = poly.Points[m-1].Y, Y2 = poly.Points[m].Y };
+                    l.ToolTip = poly.Lines[m - 1].ToString() + "px";
+                    Canvas.SetZIndex(l, 2);
+                    Canvas.SetTop(l, Offset);
+                    Canvas.SetLeft(l, Offset);
+                    TextBlock tb2 = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkGreen, Text = poly.Lines[m - 1].ToString("F") + "px" };
+                    Canvas.SetZIndex(tb2, 4);
+                    Canvas.SetTop(tb2, (poly.Points[m].Y + poly.Points[m-1].Y) / 2);
+                    Canvas.SetLeft(tb2, (poly.Points[m].X + poly.Points[m-1].X) / 2);
+                    ResultCanvas.Children.Add(tb2);
+                    ResultCanvas.Children.Add(l);
+                    drawers.Push(l);
+                    drawers.Push(tb2);
                 }
-
-                //汚い
-                Line _l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = prevPoint.Value.X, X2 = cacheArray[0].X, Y1 = prevPoint.Value.Y, Y2 = cacheArray[0].Y };
-                _l.ToolTip = rpd.Lines[m - 2].ToString() + "px";
-                Canvas.SetZIndex(_l, 2);
-                Canvas.SetTop(_l, Offset);
-                Canvas.SetLeft(_l, Offset);
-                TextBlock tb3 = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkGreen, Text = rpd.Lines[m - 1].ToString("F") + "px" };
-                Canvas.SetZIndex(tb3, 4);
-                Canvas.SetTop(tb3, (cacheArray[0].Y + prevPoint.Value.Y) / 2);
-                Canvas.SetLeft(tb3, (cacheArray[0].X + prevPoint.Value.X) / 2);
-                ResultCanvas.Children.Add(tb3);
-
-                ResultCanvas.Children.Add(_l);
-                drawers.Push(_l);
-                drawers.Push(tb3);
 
                 chbox.Checked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Visible; } };
                 chbox.Unchecked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Hidden; } };
                 ImageList.Items.Add(chbox);
-                result.Add(rpd);
                 n++;
-                m = 0;
             }
             ImageWidth = ReadedImg.Width;
             ImageHeight = ReadedImg.Height;
-
-            polyStorage.Dispose();
             contours.Dispose();
             ReadedImg.Dispose();
             resultImg.Dispose();
@@ -417,10 +400,6 @@ namespace PuzzleScanner.Pages {
                 Vector<double> v1 = new Vector<double>(new double[]{ Poly[count].X, Poly[count].Y , Poly[count + 1].X, Poly[count + 1].Y });
                 Vector<double> v2 = new Vector<double>(new double[] { Poly[count - 1].X, Poly[count - 1].Y, Poly[count].X, Poly[count].Y });
                 v1 -= v2;
-                Debug.Write(v1[0]);
-                Debug.Write(v1[1]);
-                Debug.Write(v1[2]);
-                Debug.Write(v1[3]);
                 Vector<double> v3 = new Vector<double>(new double[] { Math.Atan2(v1[1], v1[0]), Math.Atan2(v1[3], v1[2]),0,0});
                 v3 *= new Vector<double>(new double[] { 180 / 3.1415926358979323, 180 / 3.1415926358979323,0,0 });
                 Points[count] = 180 + v3[0] - v3[1] + 360;
