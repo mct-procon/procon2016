@@ -42,6 +42,8 @@ namespace PuzzleScanner.Pages {
             ImageHeight = readed.Height;
             CvInvoke.CvtColor(readed, mm, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
             filter();
+            imgCanvas.Height = ImageHeight * ZoomSlider.Value;
+            imgCanvas.Width = ImageWidth * ZoomSlider.Value;
         }
 
         private void filter() {
@@ -119,8 +121,8 @@ namespace PuzzleScanner.Pages {
         private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             if (!IsInitialized)
                 return;
-            img.Height = ImageHeight * ZoomSlider.Value;
-            img.Width = ImageWidth * ZoomSlider.Value;
+            imgCanvas.Height = ImageHeight * ZoomSlider.Value;
+            imgCanvas.Width = ImageWidth * ZoomSlider.Value;
         }
 
         private void OnDragDelta(object sender, DragDeltaEventArgs e) {
