@@ -25,6 +25,9 @@ namespace PuzzleScanner.Pages {
     /// Main_ScannerWindow.xaml の相互作用ロジック
     /// </summary>
     public partial class Main_ScannerWindow : Page {
+
+        MainWindow mw;
+
         private double NormalCircleSize = 0;
         private double NormalLineTickness = 0;
         private double Offset = 0;
@@ -45,6 +48,11 @@ namespace PuzzleScanner.Pages {
 
         public Main_ScannerWindow() {
             InitializeComponent();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e) {
+            mw = (MainWindow)(Window.GetWindow(this));
+            ActionTitle.Text = mw.Frames == null ? "Frame" : "Pieces";
         }
 
         //public Main_ScannerWindow(string imagepath) {
@@ -165,6 +173,11 @@ namespace PuzzleScanner.Pages {
         //}
         //#endregion
 
+        /// <summary>
+        /// 処理全容
+        /// </summary>
+        /// <param name="FilteredImg">フィルタしたイメージ</param>
+        /// <param name="ReadedImg">原画像</param>
         private async void UpdateContent_WithoutFilter(UMat FilteredImg, Mat ReadedImg) {
             //GUI ANIMATION ホワイトさせるほど処理長くないけど…
             Waiter.Opacity = 0;
@@ -192,7 +205,6 @@ namespace PuzzleScanner.Pages {
             await Task.Run(() => CvInvoke.FindContours(FilteredImg, contours, null, Emgu.CV.CvEnum.RetrType.List, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple));
             var res = contours.ToArrayOfArray().Select(x => new Emgu.CV.Util.VectorOfPoint(x));
             var n = 0;
-            ResultPolygonData rpd;
 
             ResultCanvas.Children.Add(BASE_IMG);
             ResultCanvas.Children.Add(TEST_IMG);
@@ -275,26 +287,59 @@ namespace PuzzleScanner.Pages {
 
         private void Next_Button_Clicked(object sender, RoutedEventArgs e) => Next();
 
+        /// <summary>
+        /// データを渡すメソッド
+        /// </summary>
         private async void Next() {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Line,,Angle");
-            foreach(var r in result) {
-                if (r.Angles.Length == r.Lines.Length)
-                    for(int n = 0; n < r.Angles.Length; ++n) {
-                        sb.Append(r.Lines[n]);
-                        sb.Append(",,");
-                        sb.Append(r.Angles[n]);
-                        sb.AppendLine();
+            if (mw.Frames == null) {
+                mw.Frames = result;
+                mw.MainFrame.Navigate(new Pages.LoadImageFile());
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(mw.Frames.Count.ToString());
+                StringBuilder sbX = new StringBuilder(), sbY = new StringBuilder();
+                foreach(var f in mw.Frames) {
+                    sb.AppendLine(f.Points.Length.ToString());
+                    foreach(var pts in f.Points.Get_Array) {
+                        sbX.Append(pts.X);
+                        sbY.Append(pts.Y);
+                        sbX.Append(" ");
+                        sbY.Append(" ");
                     }
+                    sb.AppendLine(sbX.ToString());
+                    sb.AppendLine(sbY.ToString());
+                    sb.AppendLine();
+                    sbX.Clear();
+                    sbY.Clear();
+                }
+                sb.AppendLine(result.Count.ToString());
+                foreach (var f in result) {
+                    sb.AppendLine(f.Points.Length.ToString());
+                    foreach (var pts in f.Points.Get_Array) {
+                        sbX.Append(pts.X);
+                        sbY.Append(pts.Y);
+                        sbX.Append(" ");
+                        sbY.Append(" ");
+                    }
+                    sb.AppendLine(sbX.ToString());
+                    sb.AppendLine(sbY.ToString());
+                    sb.AppendLine();
+                    sbX.Clear();
+                    sbY.Clear();
+                }
+                System.IO.StreamWriter sw = new System.IO.StreamWriter("result.txt", false, Encoding.UTF8);
+                await sw.WriteAsync(sb.ToString());
+                sw.Close();
+                sw.Dispose();
             }
-            System.IO.StreamWriter sw = new System.IO.StreamWriter("result.csv", false, Encoding.UTF8);
-            await sw.WriteAsync(sb.ToString());
-            sw.Close();
-            sw.Dispose();
         }
 
         private void Shot_Button_Clicked(object sender, RoutedEventArgs e) => ResultImageShot(ResultCanvas);
 
+        /// <summary>
+        /// 視覚化したデータをPNGファイルに50%のサイズで保存する．サイズは表示倍率も影響する．
+        /// </summary>
+        /// <param name="source">保存するUIエレメント</param>
         private void ResultImageShot(UIElement source) {
             try {
                 double actualHeight = source.RenderSize.Height;
@@ -335,6 +380,11 @@ namespace PuzzleScanner.Pages {
         //    return res;
         //}
 
+            /// <summary>
+            /// BitmapからWPFのBitmapSourceに変換するメソッド
+            /// </summary>
+            /// <param name="bitmap">変換もとBitmap</param>
+            /// <returns>変換したBitmapSource</returns>
         public static BitmapSource ToWPFBitmap(System.Drawing.Bitmap bitmap) {
             var hBitmap = bitmap.GetHbitmap();
 
@@ -393,6 +443,11 @@ namespace PuzzleScanner.Pages {
                 this.Scroller.VerticalOffset + (e.VerticalChange * this.Scroller.ExtentHeight / this.Thumbnail.ActualHeight));
         }
 
+        /// <summary>
+        /// ポリゴン(頂点の集合)に対して角度，長さなどの詳細な情報を取得します．
+        /// </summary>
+        /// <param name="Poly">ポリゴン(頂点の集合)</param>
+        /// <returns>詳細な情報のあるポリゴン</returns>
         private static ResultPolygonData GetPolygonInformation(RingBuffer<System.Drawing.Point> Poly) {
             double[] Lines = new double[Poly.Length];
             double[] Points = new double[Poly.Length];
@@ -420,6 +475,10 @@ namespace PuzzleScanner.Pages {
 
     }
 
+    /// <summary>
+    /// リングバッファ(輪配列)のクラス
+    /// </summary>
+    /// <typeparam name="T">格納する型</typeparam>
     public struct RingBuffer<T> {
         T[] data;
         public T this[int i] {

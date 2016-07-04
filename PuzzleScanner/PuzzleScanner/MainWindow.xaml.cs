@@ -18,6 +18,9 @@ namespace PuzzleScanner {
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
     public partial class MainWindow : Window {
+        internal List<Pages.ResultPolygonData> Frames = null;
+
+
         public MainWindow() {
             InitializeComponent();
         }
@@ -40,6 +43,7 @@ namespace PuzzleScanner {
         }
 
         private void BackToImageChooseButton_Click(object sender, RoutedEventArgs e) {
+            Frames = null;
             MainFrame.Navigate(new Pages.LoadImageFile());
         }
     }

@@ -4,13 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="LoadImageFile">
+      d:DesignHeight="363.898" d:DesignWidth="410.026"
+      Title="LoadImageFile" Loaded="Page_Loaded">
 
     <Grid>
-        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Content="Reference" Click="ReferenceButtonClick"/>
-        <Button x:Name="NextButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Content="Next" Click="NextButtonClick" Visibility="Collapsed"/>
-        <Image x:Name="Previewer" Margin="80,40,10,10"/>
-        <TextBlock Text="Preview (日本語パスは駄目なんだ！)" FontFamily="Segoe UI Light" FontSize="20" Margin="80,10,10,265"/>
+        <TextBlock Text="Choose Honyarara" FontFamily="Segoe UI Light" x:Name="ActionTitle" FontSize="36"/>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,55,0,0" Content="Reference" Width="80" Height="40" Click="ReferenceButtonClick"/>
+        <Button x:Name="NextButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="80" Height="40" Content="Next" Click="NextButtonClick" Visibility="Collapsed"/>
+        <Image x:Name="Previewer" Margin="95,87,10,10"/>
+        <TextBlock Text="Preview (ONLY ASCII PATH!)" FontFamily="Segoe UI Light" FontSize="20" Margin="95,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </Page>

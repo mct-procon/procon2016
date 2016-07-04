@@ -27,6 +27,8 @@ namespace PuzzleScanner.Pages {
         int ImageHeight = 0;
         int ImageWidth = 0;
 
+        MainWindow mw;
+
         public Main_FilterWindow() {
             InitializeComponent();
         }
@@ -34,6 +36,11 @@ namespace PuzzleScanner.Pages {
         public Main_FilterWindow(string ImagePath) {
             InitializeComponent();
             Init2(ImagePath);
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e) {
+            mw = (MainWindow)(Window.GetWindow(this));
+            ActionTitle.Text = mw.Frames == null ? "Set HSV Filtering for Frame's Image" : "Set HSV Filtering for Pieces' Image";
         }
 
         private void Init2(string ImagePath) {
@@ -58,6 +65,17 @@ namespace PuzzleScanner.Pages {
             //filter();
         }
 
+        /// <summary>
+        /// HSVでフィルタします．
+        /// </summary>
+        /// <param name="mm">HSVなイメージ</param>
+        /// <param name="MIN_H">最小H</param>
+        /// <param name="MAX_H">最大H</param>
+        /// <param name="MIN_S">最小S</param>
+        /// <param name="MAX_S">最大S</param>
+        /// <param name="MIN_V">最小V</param>
+        /// <param name="MAX_V">最大V</param>
+        /// <returns></returns>
         private UMat FilterMat(UMat mm, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
             UMat res = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             byte[] cache_in = mm.Bytes;
@@ -137,7 +155,7 @@ namespace PuzzleScanner.Pages {
             filter();
         }
         private void Next_Click(object sender, RoutedEventArgs e) {
-            ((MainWindow)(Window.GetWindow(this))).MainFrame.Navigate(new Pages.Main_ScannerWindow(cc, readed));
+            mw.MainFrame.Navigate(new Pages.Main_ScannerWindow(cc, readed));
         }
     }
 }
