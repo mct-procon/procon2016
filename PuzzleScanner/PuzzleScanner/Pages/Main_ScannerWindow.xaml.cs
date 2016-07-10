@@ -291,8 +291,13 @@ namespace PuzzleScanner.Pages {
         /// データを渡すメソッド
         /// </summary>
         private async void Next() {
+            int cache = result.Count;
+            Queue<ResultPolygonData> q = new Queue<ResultPolygonData>();
+            for (int co = 0; co < cache; ++co)
+                if (((CheckBox)(ImageList.Items[co + 2])).IsChecked == true)
+                    q.Enqueue(result[co]);
             if (mw.Frames == null) {
-                mw.Frames = result;
+                mw.Frames = q.ToList();
                 mw.MainFrame.Navigate(new Pages.LoadImageFile());
             } else {
                 StringBuilder sb = new StringBuilder();
@@ -312,8 +317,8 @@ namespace PuzzleScanner.Pages {
                     sbX.Clear();
                     sbY.Clear();
                 }
-                sb.AppendLine(result.Count.ToString());
-                foreach (var f in result) {
+                sb.AppendLine(q.Count.ToString());
+                foreach (var f in q) {
                     sb.AppendLine(f.Points.Length.ToString());
                     foreach (var pts in f.Points.Get_Array) {
                         sbX.Append(pts.X);
