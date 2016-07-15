@@ -1,4 +1,4 @@
-//‚Ü‚¸‚Í1‚Â‚Ìƒtƒ@ƒCƒ‹‚Åƒ\ƒ‹ƒo[‚ğÀ‘•‚µ‚Ä‚İ‚Ü‚·B
+//ã¾ãšã¯1ã¤ã®ãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚½ãƒ«ãƒãƒ¼ã‚’å®Ÿè£…ã—ã¦ã¿ã¾ã™ã€‚
 #include "DxLib.h"
 #include <iostream>
 #include <vector>
@@ -17,28 +17,30 @@ public:
 	bool operator<(const Point &r) const { return (x != r.x) ? x < r.x : y < r.y; }
 	Point operator-(const Point &r) const { return Point(x - r.x, y - r.y); }
 	Point operator+(const Point &r) const { return Point(x + r.x, y + r.y); }
-	double distance(Point &r) { return sqrt((r.x - x) * (r.x - x) + (r.y - y) * (r.y - y)); }				//“_(x, y)‚©‚ç“_(r.x, r.y)‚Ü‚Å‚Ì‹——£‚ğ•Ô‚·
-	double angle() { double ang = atan2(y, x); /*’lˆæ(-ƒÎ, ƒÎ]*/ if (ang < 0) ang += 2 * PAI; return ang; }	//ˆÊ’uƒxƒNƒgƒ‹(x, y)‚ÌŠp“x (ƒ‰ƒWƒAƒ“)‚ğ•Ô‚·, ’lˆæ‚Í[0, 2ƒÎ)
+	double distance(Point &r) { return sqrt((r.x - x) * (r.x - x) + (r.y - y) * (r.y - y)); }				//ç‚¹(x, y)ã‹ã‚‰ç‚¹(r.x, r.y)ã¾ã§ã®è·é›¢ã‚’è¿”ã™
+	double angle() { double ang = atan2(y, x); /*å€¤åŸŸ(-Ï€, Ï€]*/ if (ang < 0) ang += 2 * PAI; return ang; }	//ä½ç½®ãƒ™ã‚¯ãƒˆãƒ«(x, y)ã®è§’åº¦ (ãƒ©ã‚¸ã‚¢ãƒ³)ã‚’è¿”ã™, å€¤åŸŸã¯[0, 2Ï€)
 };
 
 class Poly {
 private:
-	Point point0;					//point0          = ’¸“_0‚ÌÀ•W
-	vector<Point> points;			//points[i]       = ’¸“_0‚É‘Î‚·‚é’¸“_i‚ÌÀ•W
-	vector<double> edges_length;	//edges_length[i] = •Ói‚Ì’·‚³B•Ói = ’¸“_i‚ğn“_, ’¸“_i+1‚ğI“_‚Æ‚·‚é—LŒüü•ªB
-	vector<double> edges_angle;		//edges_angle[i]  = •Ói‚ÌŠp“xiƒ‰ƒWƒAƒ“jB’lˆæ‚Í[0, 2ƒÎ)
-	vector<double> points_angle;	//points_angle[i] = ’¸“_i‚Ì“àŠpiƒ‰ƒWƒAƒ“jB’lˆæ‚Í[0, 2ƒÎ)
+	Point point0;					//point0          = é ‚ç‚¹0ã®åº§æ¨™
+	vector<Point> points;			//points[i]       = é ‚ç‚¹0ã«å¯¾ã™ã‚‹é ‚ç‚¹iã®åº§æ¨™
+	vector<double> edges_length;	//edges_length[i] = è¾ºiã®é•·ã•ã€‚è¾ºi = é ‚ç‚¹iã‚’å§‹ç‚¹, é ‚ç‚¹i+1ã‚’çµ‚ç‚¹ã¨ã™ã‚‹æœ‰å‘ç·šåˆ†ã€‚
+	vector<double> edges_angle;		//edges_angle[i]  = è¾ºiã®è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰ã€‚å€¤åŸŸã¯[0, 2Ï€)
+	vector<double> points_angle;	//points_angle[i] = é ‚ç‚¹iã®å†…è§’ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰ã€‚å€¤åŸŸã¯[0, 2Ï€)
 
-	bool line_ishit(Point a, Point b, Point c, Point d);	//ü•ªa->b‚Æü•ªc->d‚ÌŒğ·”»’è. TšŒğ·‚Ífalse‚Æ‚İ‚È‚·
+	bool line_ishit(Point a, Point b, Point c, Point d);	//ç·šåˆ†a->bã¨ç·šåˆ†c->dã®äº¤å·®åˆ¤å®š. Tå­—äº¤å·®ã¯falseã¨ã¿ãªã™
 	void translate(Point t);
 	void rotate(double angle);
 
 public:
 	Point get_point(int point_id);
 	int get_point_num();
+	double get_point_angle(int point_id);
 	Poly ();
 	Poly (Point point0, vector<Point> points);
 	void move(int point_id, Point s, Point e);
+	int calc_combi_level(Poly &r, double angle_eps, double position_eps, int start_a, int start_b, int dir);
 	bool ishit(Poly &r);
 	bool iscover(Poly &r);
 	bool isoverlap(Poly &r);
@@ -47,8 +49,8 @@ public:
 class Solver {
 protected:
 	vector<Poly> pieces;
-	vector<Poly> wakus;		//wakus[id] = id(>=0)”Ô‚Ì˜gŒŠ
-	vector<bool> isputted;	//isputted[id] = ƒs[ƒXid‚ğ’u‚¢‚½‚È‚çtrue, ’u‚¢‚Ä‚È‚¢‚È‚çfalse
+	vector<Poly> wakus;		//wakus[id] = id(>=0)ç•ªã®æ ç©´
+	vector<bool> isputted;	//isputted[id] = ãƒ”ãƒ¼ã‚¹idã‚’ç½®ã„ãŸãªã‚‰true, ç½®ã„ã¦ãªã„ãªã‚‰false
 
 	bool canput(Poly &piece);
 
@@ -58,64 +60,71 @@ public:
 	void draw(bool isdraw_didnot_put);
 };
 
-class AllSearch : public Solver {
+class TestSolver : public Solver {
 private:
-	bool dfs(int dep, const int maxdep);
 
 public:
 	void solve();
 };
 
-/*À‘• PolyƒNƒ‰ƒX*/
+/*å®Ÿè£… Polyã‚¯ãƒ©ã‚¹*/
 
-//“_point_id‚Ìâ‘ÎÀ•W‚Ìæ“¾
+//ç‚¹point_idã®çµ¶å¯¾åº§æ¨™ã®å–å¾—
 Point Poly::get_point(int point_id) {
 	return points[point_id] + point0;
 }
 
-//’¸“_”‚ğæ“¾
+//é ‚ç‚¹æ•°ã‚’å–å¾—
 int Poly::get_point_num() {
 	return points.size();
 }
 
+//é ‚ç‚¹è§’ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰ã‚’å–å¾—
+double Poly::get_point_angle(int point_id) {
+	return points_angle[point_id];
+}
+
 //Please read this homepage : http://www5d.biglobe.ne.jp/%7Etomoya03/shtml/algorithm/Intersection.htm
-//ü•ª‚ÌŒğ·”»’èiTšŒğ·‚Ífalsej“_(x1,y1), (x2,y2)‚ğ’Ê‚é’¼ü‚Ì®F(x1-x2)*(y-y1)+(y1-y2)*(x1-x)=0‚ğg—pB
+//ç·šåˆ†ã®äº¤å·®åˆ¤å®šï¼ˆTå­—äº¤å·®ã¯falseï¼‰ç‚¹(x1,y1), (x2,y2)ã‚’é€šã‚‹ç›´ç·šã®å¼ï¼š(x1-x2)*(y-y1)+(y1-y2)*(x1-x)=0ã‚’ä½¿ç”¨ã€‚
 bool Poly::line_ishit(Point a, Point b, Point c, Point d) {
 	double ta = (c.x - d.x) * (a.y - c.y) + (c.y - d.y) * (c.x - a.x);
 	double tb = (c.x - d.x) * (b.y - c.y) + (c.y - d.y) * (c.x - b.x);
 	double tc = (a.x - b.x) * (c.y - a.y) + (a.y - b.y) * (a.x - c.x);
 	double td = (a.x - b.x) * (d.y - a.y) + (a.y - b.y) * (a.x - d.x);
 	double eps = 0.01;
-	return ta * tb < 0 && tc * td < 0;	// ‰E•Ó(0)‚Ì’l‚ğ¬‚³‚­‚·‚é‚Æfalse‚ğ•Ô‚µ‚â‚·‚­‚È‚éB‘å‚«‚­‚·‚é‚Ætrue‚ğ•Ô‚µ‚â‚·‚­‚È‚éB0‚É‚·‚é‚ÆiÚG‚ğfalse‚Æ‚İ‚È‚·jŒµ–§‚ÈŒğ·”»’è‚É‚È‚éB
+	return ta * tb < 0 && tc * td < 0;	// å³è¾º(0)ã®å€¤ã‚’å°ã•ãã™ã‚‹ã¨falseã‚’è¿”ã—ã‚„ã™ããªã‚‹ã€‚å¤§ããã™ã‚‹ã¨trueã‚’è¿”ã—ã‚„ã™ããªã‚‹ã€‚0ã«ã™ã‚‹ã¨ï¼ˆæ¥è§¦ã‚’falseã¨ã¿ãªã™ï¼‰å³å¯†ãªäº¤å·®åˆ¤å®šã«ãªã‚‹ã€‚
 }
 
-//(t.x, t.y)‚¾‚¯•½sˆÚ“®‚·‚é
+//(t.x, t.y)ã ã‘å¹³è¡Œç§»å‹•ã™ã‚‹
 void Poly::translate(Point t) {
 	point0.x += t.x;
 	point0.y += t.y;
 }
 
-//angle[ƒ‰ƒWƒAƒ“]‚¾‚¯‰ñ“]‚·‚éBangle‚Ì’lˆæF[-2ƒÎ, 2ƒÎ]
+//angle[ãƒ©ã‚¸ã‚¢ãƒ³]ã ã‘å›è»¢ã™ã‚‹ã€‚angleã®å€¤åŸŸï¼š[-2Ï€, 2Ï€]
 void Poly::rotate(double angle) {
 	for (int id = 0; id < points.size(); id++) {
 		double nx = cos(angle) * points[id].x - sin(angle) * points[id].y;
 		double ny = sin(angle) * points[id].x + cos(angle) * points[id].y;
 		points[id].x = nx;
 		points[id].y = ny;
+		//edges_angle[id] += angle;
+		//while (edges_angle[id] < 0) edges_angle[id] += 2 * PAI;
+		//while (edges_angle[id] >= 2 * PAI) edges_angle[id] -= 2 * PAI;
 	}
 }
 
-//‰Šú‰»i‰½‚à‚µ‚È‚¢‚â‚Âj
+//åˆæœŸåŒ–ï¼ˆä½•ã‚‚ã—ãªã„ã‚„ã¤ï¼‰
 Poly::Poly () {
 }
 
-//‰Šú‰»i•Ó‚Ì’·‚³, Šp“x‚È‚Ç‚à‹‚ß‚é)
+//åˆæœŸåŒ–ï¼ˆè¾ºã®é•·ã•, è§’åº¦ãªã©ã‚‚æ±‚ã‚ã‚‹)
 Poly::Poly (Point point0, vector<Point> points) {
 	this->point0 = point0;
 	this->points = points;
 
-	//ˆø”‚Ìpoints‚ğg‚¤
-	int n = points.size();		//’¸“_”
+	//å¼•æ•°ã®pointsã‚’ä½¿ã†
+	int n = points.size();		//é ‚ç‚¹æ•°
 	edges_length.resize(n);
 	edges_angle.resize(n);
 	points_angle.resize(n);
@@ -129,16 +138,66 @@ Poly::Poly (Point point0, vector<Point> points) {
 	}
 }
 
-//’¸“_point_id‚Ìâ‘ÎÀ•W‚ªs‚É‚È‚é‚æ‚¤‚É•½sˆÚ“®‚µA’¸“_point_id -> point_id + 1‚ğŒ‹‚Ô—LŒüü•ª‚ªs->e‚Æ“¯‚¶Œü‚«‚É‚È‚é‚æ‚¤‚É‰ñ“]‚·‚é
+//é ‚ç‚¹point_idã®çµ¶å¯¾åº§æ¨™ãŒsã«ãªã‚‹ã‚ˆã†ã«å¹³è¡Œç§»å‹•ã—ã€é ‚ç‚¹point_id -> point_id + 1ã‚’çµã¶æœ‰å‘ç·šåˆ†ãŒs->eã¨åŒã˜å‘ãã«ãªã‚‹ã‚ˆã†ã«å›è»¢ã™ã‚‹
 void Poly::move(int point_id, Point s, Point e) {
 	Point a = get_point(point_id);
 	Point b = get_point((point_id + 1) % get_point_num());
 
-	translate(s - a);
+	//é ‚ç‚¹0å‘¨ã‚Šã®å›è»¢ã‚’ã™ã‚‹
 	rotate((e - s).angle() - (b - a).angle());
+
+	//é ‚ç‚¹point_idã®å›è»¢å¾Œåº§æ¨™ã‚’å–å¾—ã—ã¦ã€å¹³è¡Œç§»å‹•ã™ã‚‹
+	a = get_point(point_id);
+	translate(s - a);
 }
 
-//‘½ŠpŒ`r‚ÆÕ“Ë‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚éBÕ“Ë‚µ‚Ä‚¢‚ê‚Îtrue‚ğ•Ô‚·B(Ú‚µ‚Ä‚¢‚éê‡‚Ífalse)
+//å¤šè§’å½¢rã¨ã®çµåˆåº¦ã‚’è¨ˆç®—ã™ã‚‹ã€‚çµåˆåº¦ãŒå¤§ãã„ç¨‹ã€ãã£ã¤ãå¯èƒ½æ€§ãŒé«˜ã„ã€‚angle_eps, position_epsã‚’å¤§ããã™ã‚‹ã¨ã€Œã‚¢ãƒã‚¦ãƒˆã€ã«ãªã‚‹ï¼ˆçµåˆåº¦ãŒä¸ŠãŒã‚Šã‚„ã™ããªã‚‹ï¼‰ã€‚
+//start_a, start_bâ€¦å¤šè§’å½¢thisã®é ‚ç‚¹start_a, å¤šè§’å½¢rã®é ‚ç‚¹start_bã‹ã‚‰æ¢ç´¢é–‹å§‹ã€‚
+//dirâ€¦ãƒ”ãƒ¼ã‚¹åŒå£«ã®çµåˆåº¦åˆ¤å®šãªã‚‰-1, æ ã¨ãƒ”ãƒ¼ã‚¹ã®çµåˆåº¦åˆ¤å®šãªã‚‰1ã‚’æŒ‡å®šã™ã‚‹ã€‚
+int Poly::calc_combi_level(Poly &r, double angle_eps, double position_eps, int start_a, int start_b, int dir) {
+	int weight_edge = 1;	//è¾ºã®ä¸€è‡´ã«ã‚ˆã£ã¦åŠ ç®—ã•ã‚Œã‚‹ã‚¹ã‚³ã‚¢ï¼ˆã®åŠåˆ†ï¼‰
+	int weight_angle = 2;	//è§’åº¦ã®ä¸€è‡´ï¼ˆè¶³ã—ã¦180Â°, 360Â°ã€‚å¼•ã„ã¦0Â°ãªã©ï¼‰ã«ã‚ˆã£ã¦åŠ ç®—ã•ã‚Œã‚‹ã‚¹ã‚³ã‚¢
+	int score = 0;			//ã‚¹ã‚³ã‚¢, ã™ãªã‚ã¡çµåˆåº¦
+	int n = this->get_point_num();
+	int m = r.get_point_num();
+	int id_as, id_bs;
+
+	id_as = start_a;
+	id_bs = start_b;
+
+	while (this->get_point(id_as).distance(r.get_point(id_bs)) <= position_eps) {
+		int id_ae = (id_as + 1) % n;
+		int id_be = (id_bs + dir + m) % m;
+
+		Point a = this->get_point(id_as);
+		Point b = this->get_point(id_ae);
+		Point c = r.get_point(id_bs);
+		Point d = r.get_point(id_be);
+
+		//é ‚ç‚¹a, cã®å†…è§’ã®çµåˆã‚’è¦‹ã‚‹
+		if (dir == -1) {
+			double deg = this->get_point_angle(id_as) + r.get_point_angle(id_bs); deg *= 180; deg /= PAI;
+			if (180 - angle_eps <= deg && deg <= 180 + angle_eps) score += weight_angle;
+			else if (360 - angle_eps <= deg && deg <= 360 + angle_eps) score += weight_angle;
+		}
+		else {
+			double deg = this->get_point_angle(id_as) - r.get_point_angle(id_bs); deg *= 180; deg /= PAI;
+			if (-angle_eps <= deg && deg <= angle_eps) score += weight_angle;
+		}
+
+		//è¾ºa -> b, c -> dã®çµåˆã‚’è¦‹ã‚‹
+		double deg = (b - a).angle() - (d - c).angle(); deg *= 180; deg /= PAI;
+		if (-angle_eps <= deg && deg <= angle_eps) score += weight_edge;		//ã»ã¼å¹³è¡Œãªã‚‰åŠ ç‚¹
+		if (b.distance(d) <= position_eps) score += weight_edge;				//è¾ºã®çµ‚ç‚¹ãŒï¼ˆã»ã¼ï¼‰ä¸€è‡´ã—ã¦ãŸã‚‰ã•ã‚‰ã«åŠ ç‚¹
+
+		//ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼æ›´æ–°
+		id_as = (id_as + 1) % n;
+		id_bs = (id_bs + dir + m) % m;
+	}
+	return score;
+}
+
+//å¤šè§’å½¢rã¨è¡çªã—ã¦ã„ã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚è¡çªã—ã¦ã„ã‚Œã°trueã‚’è¿”ã™ã€‚(æ¥ã—ã¦ã„ã‚‹å ´åˆã¯false)
 bool Poly::ishit(Poly &r) {
 	int n = points.size();
 	int m = r.points.size();
@@ -153,12 +212,12 @@ bool Poly::ishit(Poly &r) {
 	return false;
 }
 
-//‘½ŠpŒ`r‚ğŠÜ‚Ş‚©‚ğ”»’è‚·‚éB‘½ŠpŒ`r‚Ì‚ ‚é’¸“_‚Æ‘½ŠpŒ`this‚Ì‚ ‚é•Ó‚ª‹ß‚¢ê‡‚Ì“®ì‚Í–¢’è‹`B
+//å¤šè§’å½¢rã‚’å«ã‚€ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚å¤šè§’å½¢rã®ã‚ã‚‹é ‚ç‚¹ã¨å¤šè§’å½¢thisã®ã‚ã‚‹è¾ºãŒè¿‘ã„å ´åˆã®å‹•ä½œã¯æœªå®šç¾©ã€‚
 bool Poly::iscover(Poly &r) {
 	int i, j;
 
 	for (i = 0; i < r.points.size(); i++) {
-		//r.points[i]‚ª‘½ŠpŒ`‚É“à•”‚É‚ ‚é‚©‚ğ”»’èB“à•”‚É‚È‚¯‚ê‚Î, ‚»‚Ì“_‚Åfalse‚ğ•Ô‚·
+		//r.points[i]ãŒå¤šè§’å½¢ã«å†…éƒ¨ã«ã‚ã‚‹ã‹ã‚’åˆ¤å®šã€‚å†…éƒ¨ã«ãªã‘ã‚Œã°, ãã®æ™‚ç‚¹ã§falseã‚’è¿”ã™
 		int cnt = 0;
 		Point a = r.get_point(i);
 		Point b = Point(a.x, 99999);
@@ -176,7 +235,7 @@ bool Poly::iscover(Poly &r) {
 	return true;
 }
 
-//‘½ŠpŒ`r‚Æd‚È‚é‚©‚ğ”»’è‚·‚éBd‚È‚é‚È‚çtrue‚ğ•Ô‚·B‹«ŠEã‚Ífalse
+//å¤šè§’å½¢rã¨é‡ãªã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚é‡ãªã‚‹ãªã‚‰trueã‚’è¿”ã™ã€‚å¢ƒç•Œä¸Šã¯false
 bool Poly::isoverlap(Poly &r) {
 	if (ishit(r)) return true;
 	if (iscover(r)) return true;
@@ -184,9 +243,9 @@ bool Poly::isoverlap(Poly &r) {
 	return false;
 }
 
-/*À‘• SolverƒNƒ‰ƒX (*solve()ŠÖ”‚ÍqƒNƒ‰ƒX‚ÅÀ‘•‚µ‚Ü‚·)*/
+/*å®Ÿè£… Solverã‚¯ãƒ©ã‚¹ (*solve()é–¢æ•°ã¯å­ã‚¯ãƒ©ã‚¹ã§å®Ÿè£…ã—ã¾ã™)*/
 
-//Šù‚É’u‚¢‚½ƒs[ƒX‚Æpiece‚ªd‚È‚ç‚¸A‚©‚ÂA‘S‚Ä‚Ì˜gŒŠ‚ªpiece‚ğ“à•ï‚µ‚Ä‚¢‚ê‚Îtrue‚ğ•Ô‚·B
+//æ—¢ã«ç½®ã„ãŸãƒ”ãƒ¼ã‚¹ã¨pieceãŒé‡ãªã‚‰ãšã€ã‹ã¤ã€å…¨ã¦ã®æ ç©´ãŒpieceã‚’å†…åŒ…ã—ã¦ã„ã‚Œã°trueã‚’è¿”ã™ã€‚
 bool Solver::canput(Poly &piece) {
 	for (int i = 0; i < isputted.size(); i++) {
 		if (piece.isoverlap(pieces[i])) {
@@ -201,7 +260,7 @@ bool Solver::canput(Poly &piece) {
 	return true;
 }
 
-//ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“ü—Í‚µAŠeí•Ï”‚ğ‰Šú‰»‚·‚é
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å…¥åŠ›ã—ã€å„ç¨®å¤‰æ•°ã‚’åˆæœŸåŒ–ã™ã‚‹
 void Solver::input(string filename) {
 	ifstream ifs(filename);
 	if (ifs.fail()) { return; }
@@ -216,20 +275,20 @@ void Solver::input(string filename) {
 
 		ifs >> point_num;
 		points.resize(point_num);
-		//XÀ•W
+		//Xåº§æ¨™
 		for (int j = 0; j < point_num; j++) {
 			ifs >> points[j].x;
 		}
-		//YÀ•W
+		//Yåº§æ¨™
 		for (int j = 0; j < point_num; j++) {
 			ifs >> points[j].y;
 		}
-		//‘Š‘ÎÀ•WŒ`®‚É‚·‚é
+		//ç›¸å¯¾åº§æ¨™å½¢å¼ã«ã™ã‚‹
 		point0 = points[0];
 		for (int j = 0; j < point_num; j++) {
 			points[j] = points[j] - point0;
 		}
-		//˜gŒŠ‚ğ’Ç‰Á
+		//æ ç©´ã‚’è¿½åŠ 
 		wakus.push_back(Poly(point0, points));
 	}
 
@@ -240,24 +299,24 @@ void Solver::input(string filename) {
 
 		ifs >> point_num;
 		points.resize(point_num);
-		//XÀ•W
+		//Xåº§æ¨™
 		for (int j = 0; j < point_num; j++) {
 			ifs >> points[j].x;
 		}
-		//YÀ•W
+		//Yåº§æ¨™
 		for (int j = 0; j < point_num; j++) {
 			ifs >> points[j].y;
 		}
-		//‘Š‘ÎÀ•WŒ`®‚É‚·‚é
+		//ç›¸å¯¾åº§æ¨™å½¢å¼ã«ã™ã‚‹
 		point0 = points[0];
 		for (int j = 0; j < point_num; j++) {
 			points[j] = points[j] - point0;
 		}
-		//ƒs[ƒX‚ğ’Ç‰Á
+		//ãƒ”ãƒ¼ã‚¹ã‚’è¿½åŠ 
 		pieces.push_back(Poly(point0, points));
 	}
 	
-	//ƒtƒ‰ƒO
+	//ãƒ•ãƒ©ã‚°
 	isputted.resize(piece_num);
 	for (int i = 0; i < piece_num; i++) {
 		isputted[i] = false;
@@ -265,54 +324,54 @@ void Solver::input(string filename) {
 	ifs.close();
 }
 
-//ƒtƒ@ƒCƒ‹‚Ö“š‚¦‚ğo—Í‚·‚é
+//ãƒ•ã‚¡ã‚¤ãƒ«ã¸ç­”ãˆã‚’å‡ºåŠ›ã™ã‚‹
 void Solver::print(string filename) {
 	ofstream ofs(filename);
 	
 	ofs << wakus.size() << endl;
 	for (int i = 0; i < wakus.size(); i++) {
 		int n = wakus[i].get_point_num();
-		//’¸“_”
+		//é ‚ç‚¹æ•°
 		ofs << n << endl;
-		//XÀ•W
+		//Xåº§æ¨™
 		ofs << wakus[i].get_point(0).x;
 		for (int j = 1; j < n; j++) {
 			ofs << " " << wakus[i].get_point(j).x;
 		}
 		ofs << endl;
-		//YÀ•W
+		//Yåº§æ¨™
 		ofs << wakus[i].get_point(0).y;
 		for (int j = 1; j < n; j++) {
 			ofs << " " << wakus[i].get_point(j).y;
 		}
 		ofs << endl;
-		//‰üs
+		//æ”¹è¡Œ
 		ofs << endl;
 	}
 
 	ofs << pieces.size() << endl;
 	for (int i = 0; i < pieces.size(); i++) {
 		int n = pieces[i].get_point_num();
-		//’¸“_”
+		//é ‚ç‚¹æ•°
 		ofs << n << endl;
-		//XÀ•W
+		//Xåº§æ¨™
 		ofs << pieces[i].get_point(0).x;
 		for (int j = 1; j < n; j++) {
 			ofs << " " << pieces[i].get_point(j).x;
 		}
 		ofs << endl;
-		//YÀ•W
+		//Yåº§æ¨™
 		ofs << pieces[i].get_point(0).y;
 		for (int j = 1; j < n; j++) {
 			ofs << " " << pieces[i].get_point(j).y;
 		}
 		ofs << endl;
-		//‰üs
+		//æ”¹è¡Œ
 		ofs << endl;
 	}
 }
 
-//˜g‚Æƒs[ƒX‚Ì•`‰æ
+//æ ã¨ãƒ”ãƒ¼ã‚¹ã®æç”»
 void Solver::draw(bool isdraw_didnot_put) {
 	int i, j;
 
@@ -321,6 +380,7 @@ void Solver::draw(bool isdraw_didnot_put) {
 			Point s = wakus[i].get_point(j);
 			Point e = wakus[i].get_point((j + 1) % wakus[i].get_point_num());
 			DrawLine((int)s.x, (int)s.y, (int)e.x, (int)e.y, GetColor(0, 255, 0), 2);
+			DrawFormatString((int)s.x, (int)s.y, GetColor(255, 0, 0), "%d", j);
 		}
 	}
 
@@ -334,18 +394,45 @@ void Solver::draw(bool isdraw_didnot_put) {
 	}
 }
 
-/*À‘• AllSearchƒNƒ‰ƒX*/
-bool AllSearch::dfs(int dep, const int maxdep) {
-	pieces[0].move(0, wakus[0].get_point(0), wakus[0].get_point(1));
-	if (wakus[0].iscover(pieces[0])) isputted[0] = true;	//˜gŒŠ0‚Ì’†‚Éƒs[ƒX0‚ªŠÜ‚Ü‚ê‚Ä‚ê‚Î, if•¶“à‚É“ü‚éBiƒs[ƒX0‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚É‚àŠÖ‚í‚ç‚¸Aif•¶“à‚É“ü‚è‚Ü‚¹‚ñj
-															//iŒ´ˆöFƒs[ƒX0‚Ì’¸“_0‚Æ˜gŒŠ0‚Ì’¸“_0‚ª–w‚Ç“¯‚¶ˆÊ’u‚É‚ ‚é‚Ì‚ÅAƒs[ƒX0‚Ì’¸“_0‚ª˜gŒŠ0‚ÌŠO‚É‚ ‚é‚Æ”»’è‚µ‚Ä‚µ‚Ü‚¤j
-	return true;
-}
-void AllSearch::solve() {
-	dfs(0, pieces.size());
+/*å®Ÿè£… TestSolverã‚¯ãƒ©ã‚¹*/
+
+//çµåˆåº¦Maxã®çµ„ã¿åˆã‚ã›ã§æ ã«ãã£ã¤ã‘ã¦ã„ã (å‹•ã‹ã™â†’è©•ä¾¡, ã§ã¯ãªã, è©•ä¾¡â†’å‹•ã‹ã™, ã«ã—ãŸã»ã†ãŒé€Ÿã„ã‹ã‚‚ï¼‰
+void TestSolver::solve() {
+	int i, j, k;
+
+	for (i = 0; i < wakus[0].get_point_num(); i++) {
+		//æ 0ã®è¾ºiã¨æœ€ã‚‚çµåˆã™ã‚‹ã€Œãƒ”ãƒ¼ã‚¹ç•ªå·j, ãƒ”ãƒ¼ã‚¹ã®è¾ºç•ªå·kã€ã‚’æ¢ã™
+		int max_score = -1;
+		int best_j, best_k;
+		Point s = wakus[0].get_point(i);
+		Point e = wakus[0].get_point((i + 1) % wakus[0].get_point_num());
+
+		for (j = 0; j < pieces.size(); j++) {
+			if (isputted[j]) { continue; }
+			for (k = 0; k < pieces[j].get_point_num(); k++) {
+				//ãƒ”ãƒ¼ã‚¹jã‚’å‹•ã‹ã™
+				pieces[j].move(k, s, e);
+				
+				//ã‚¹ã‚³ã‚¢è¨ˆç®—
+				int score = pieces[j].calc_combi_level(wakus[0], 5, 5, k, i, 1);
+
+				if (max_score < score) {
+					max_score = score;
+					best_j = j;
+					best_k = k;
+				}
+			}
+		}
+		if (max_score == -1) { continue; }
+
+		//æœ€ã‚‚çµåˆã™ã‚‹ãƒ”ãƒ¼ã‚¹ï¼ˆã®è¾ºï¼‰ã‚’æ ï¼ˆã®è¾ºï¼‰ã«ãã£ã¤ã‘ã‚‹
+		pieces[best_j].move(best_k, s, e);
+		printfDx("ãƒ”ãƒ¼ã‚¹ç•ªå· = %d ãƒ”ãƒ¼ã‚¹è¾º = %d ã‚¹ã‚³ã‚¢ = %d\n", best_j, best_k, max_score);
+		isputted[best_j] = true;
+	}
 }
 
-//ƒƒCƒ“
+//ãƒ¡ã‚¤ãƒ³
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	SetGraphMode(800, 600, 32);
 	SetBackgroundColor(255, 255, 255);
@@ -353,15 +440,15 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	//‰ğ‚­
-	static AllSearch solver;
-	solver.input("Problem/TR1.txt");	//•½sˆÚ“®(T)E‰ñ“](R)‚Ì‚İ‚ÌƒP[ƒX
+	//è§£ã
+	static TestSolver solver;
+	solver.input("Problem/TR1.txt");	//å¹³è¡Œç§»å‹•(T)ãƒ»å›è»¢(R)ã®ã¿ã®ã‚±ãƒ¼ã‚¹
 	solver.solve();
 	solver.print("Answer/TR1.txt");
 
-	// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ESC‚ÅI—¹)
+	// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, ESCã§çµ‚äº†)
 	while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && CheckHitKey(KEY_INPUT_ESCAPE)==0) {
-		solver.draw(false);	//isputted[i] = false‚Æ‚È‚Á‚Ä‚¢‚é‚Æ‚«Aƒs[ƒXi‚Í•`‰æ‚µ‚È‚¢ƒ‚[ƒhB
+		solver.draw(true);	//isputted[i] = falseã¨ãªã£ã¦ã„ã‚‹ã¨ãã€ãƒ”ãƒ¼ã‚¹iã¯æç”»ã—ãªã„ãƒ¢ãƒ¼ãƒ‰ã€‚
 	}
 	DxLib_End();
 	return 0;
