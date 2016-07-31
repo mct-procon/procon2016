@@ -1,5 +1,6 @@
-//é ‚ç‚¹ã‚¯ãƒ©ã‚¹ã®å®£è¨€
+//’¸“_ƒNƒ‰ƒX‚ÌÀ‘•.
 #include "Vertex.h"
+#include "Point.h"
 
 Vertex::Vertex() {
 }
