@@ -5,10 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="363.898" d:DesignWidth="410.026"
-      Title="LoadImageFile" Loaded="Page_Loaded">
+      Title="LoadImageFile">
 
     <Grid>
-        <TextBlock Text="Choose Honyarara" FontFamily="Segoe UI Light" x:Name="ActionTitle" FontSize="36"/>
+        <TextBlock Text="Choose Image" FontFamily="Segoe UI Light" x:Name="ActionTitle" FontSize="36"/>
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,55,0,0" Content="Reference" Width="80" Height="40" Click="ReferenceButtonClick"/>
         <Button x:Name="NextButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="80" Height="40" Content="Next" Click="NextButtonClick" Visibility="Collapsed"/>
         <Image x:Name="Previewer" Margin="95,87,10,10"/>

@@ -20,7 +20,6 @@ namespace PuzzleScanner.Pages {
     /// LoadImageFile.xaml の相互作用ロジック
     /// </summary>
     public partial class LoadImageFile : Page {
-        MainWindow mw;
         string ReferencedImageFilePath = "";
         public LoadImageFile() {
             InitializeComponent();
@@ -43,13 +42,9 @@ namespace PuzzleScanner.Pages {
         }
 
         private void NextButtonClick(object sender, RoutedEventArgs e) {
+            MainWindow mw = (MainWindow)Window.GetWindow(this);
             mw.BackToImageChooseButton.Visibility = Visibility.Visible;
             mw.MainFrame.Navigate(new Pages.Main_FilterWindow(ReferencedImageFilePath));
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e) {
-            mw = (MainWindow)(Window.GetWindow(this));
-            ActionTitle.Text = mw.Frames == null ? "Choose the Frame's Image" : "Choose the Pieces' Image";
         }
     }
 }

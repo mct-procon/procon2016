@@ -27,8 +27,6 @@ namespace PuzzleScanner.Pages {
         int ImageHeight = 0;
         int ImageWidth = 0;
 
-        MainWindow mw;
-
         public Main_FilterWindow() {
             InitializeComponent();
         }
@@ -36,11 +34,6 @@ namespace PuzzleScanner.Pages {
         public Main_FilterWindow(string ImagePath) {
             InitializeComponent();
             Init2(ImagePath);
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e) {
-            mw = (MainWindow)(Window.GetWindow(this));
-            ActionTitle.Text = mw.Frames == null ? "Set HSV Filtering for Frame's Image" : "Set HSV Filtering for Pieces' Image";
         }
 
         private void Init2(string ImagePath) {
@@ -155,7 +148,7 @@ namespace PuzzleScanner.Pages {
             filter();
         }
         private void Next_Click(object sender, RoutedEventArgs e) {
-            mw.MainFrame.Navigate(new Pages.Main_ScannerWindow(cc, readed));
+            ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Main_ScannerWindow(cc, readed));
         }
     }
 }

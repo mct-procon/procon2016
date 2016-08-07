@@ -26,8 +26,6 @@ namespace PuzzleScanner.Pages {
     /// </summary>
     public partial class Main_ScannerWindow : Page {
 
-        MainWindow mw;
-
         private double NormalCircleSize = 0;
         private double NormalLineTickness = 0;
         private double Offset = 0;
@@ -50,11 +48,6 @@ namespace PuzzleScanner.Pages {
             InitializeComponent();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e) {
-            mw = (MainWindow)(Window.GetWindow(this));
-            ActionTitle.Text = mw.Frames == null ? "Frame" : "Pieces";
-        }
-
         //public Main_ScannerWindow(string imagepath) {
         //    ImagePath = imagepath;
         //    InitializeComponent();
@@ -65,113 +58,6 @@ namespace PuzzleScanner.Pages {
             InitializeComponent();
             UpdateContent_WithoutFilter(filteredImg, ReadedImg);
         }
-        //#region old
-        //private async void UpdateContent() {
-        //    throw new Exception("Don't use!!!!");
-        //    Waiter.Opacity = 0;
-        //    Waiter.Visibility = Visibility.Visible;
-        //    var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
-        //    Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
-
-        //    ImageList.Items.Clear();
-        //    ResultCanvas.Children.Clear();
-        //    result.Clear();
-        //    Mat readedImg = null;
-        //    Emgu.CV.Util.VectorOfVectorOfPoint contours = new Emgu.CV.Util.VectorOfVectorOfPoint();
-        //    UMat resultImg = new UMat();
-        //    UMat filteredImg = new UMat();
-        //    await Task.Run(() => {
-        //        readedImg = CvInvoke.Imread(ImagePath, Emgu.CV.CvEnum.LoadImageType.Color);
-        //        UMat hsv = new UMat();
-        //        CvInvoke.CvtColor(readedImg, hsv, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
-        //        filteredImg = FilterMat(hsv);
-        //        filteredImg.CopyTo(hsv);
-        //        CvInvoke.FindContours(hsv, contours, null, Emgu.CV.CvEnum.RetrType.List, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
-        //        hsv.Dispose();
-        //    });
-        //    var res = contours.ToArrayOfArray().Select(x => new Emgu.CV.Util.VectorOfPoint(x));
-        //    var n = 0;
-        //    Emgu.CV.Util.VectorOfPoint polyStorage = null;
-        //    Image BASE_IMG = new Image() { Source = ToWPFBitmap(readedImg.Bitmap) };
-        //    CheckBox BASE_CHECKBOX = new CheckBox { Content = "Base", IsChecked = true };
-        //    BASE_CHECKBOX.Checked += (ss, ee) => BASE_IMG.Visibility = Visibility.Visible;
-        //    BASE_CHECKBOX.Unchecked += (ss, ee) => BASE_IMG.Visibility = Visibility.Hidden;
-        //    ImageList.Items.Add(BASE_CHECKBOX);
-
-        //    Image TEST_IMG = new Image() { Source = ToWPFBitmap(filteredImg.Bitmap) };
-        //    CheckBox TEST_CHECKBOX = new CheckBox { Content = "Filtered", IsChecked = true };
-        //    TEST_CHECKBOX.Checked += (ss, ee) => TEST_IMG.Visibility = Visibility.Visible;
-        //    TEST_CHECKBOX.Unchecked += (ss, ee) => TEST_IMG.Visibility = Visibility.Hidden;
-        //    ImageList.Items.Add(TEST_CHECKBOX);
-
-
-        //    ResultCanvas.Children.Add(BASE_IMG);
-        //    ResultCanvas.Children.Add(TEST_IMG);
-        //    ResultCanvas.Height = readedImg.Height;
-        //    ResultCanvas.Width = readedImg.Width;
-
-        //    NormalCircleSize = Math.Min(readedImg.Width, readedImg.Height) / 128;
-        //    NormalLineTickness = Math.Min(readedImg.Width, readedImg.Height) / 320;
-        //    Offset = NormalCircleSize / 2;
-
-        //    Canvas.SetTop(BASE_IMG, Offset);
-        //    Canvas.SetLeft(BASE_IMG, Offset);
-        //    Canvas.SetZIndex(BASE_IMG, 0);
-        //    Canvas.SetTop(TEST_IMG, Offset);
-        //    Canvas.SetLeft(TEST_IMG, Offset);
-        //    Canvas.SetZIndex(TEST_IMG, 1);
-
-        //    foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 100)) {
-        //        polyStorage = new Emgu.CV.Util.VectorOfPoint();
-        //        await Task.Run(() => CvInvoke.ApproxPolyDP(parray, polyStorage, 10, true));
-        //        System.Drawing.Point? prevPoint = null;
-        //        Stack<UIElement> drawers = new Stack<UIElement>(polyStorage.Size * 2);
-        //        CheckBox chbox = new CheckBox() { Content = n.ToString(), IsChecked = true };
-        //        var cacheArray = polyStorage.ToArray();
-        //        foreach (var p in cacheArray) {
-        //            Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
-        //            Canvas.SetZIndex(esp, 3);
-        //            Canvas.SetTop(esp, p.Y);
-        //            Canvas.SetLeft(esp, p.X);
-        //            ResultCanvas.Children.Add(esp);
-        //            drawers.Push(esp);
-        //            if (prevPoint.HasValue) {
-        //                Line l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = prevPoint.Value.X, X2 = p.X, Y1 = prevPoint.Value.Y, Y2 = p.Y };
-        //                Canvas.SetZIndex(l, 2);
-        //                Canvas.SetTop(l, Offset);
-        //                Canvas.SetLeft(l, Offset);
-        //                drawers.Push(l);
-        //                ResultCanvas.Children.Add(l);
-        //            }
-        //            prevPoint = p;
-        //        }
-
-        //        //汚い
-        //        Line _l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = prevPoint.Value.X, X2 = cacheArray[0].X, Y1 = prevPoint.Value.Y, Y2 = cacheArray[0].Y };
-        //        Canvas.SetZIndex(_l, 2);
-        //        Canvas.SetTop(_l, Offset);
-        //        Canvas.SetLeft(_l, Offset);
-        //        drawers.Push(_l);
-        //        ResultCanvas.Children.Add(_l);
-
-        //        chbox.Checked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Visible; } };
-        //        chbox.Unchecked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Hidden; } };
-        //        ImageList.Items.Add(chbox);
-        //        n++;
-        //    }
-        //    ImageWidth = readedImg.Width;
-        //    ImageHeight = readedImg.Height;
-
-        //    polyStorage.Dispose();
-        //    contours.Dispose();
-        //    readedImg.Dispose();
-        //    resultImg.Dispose();
-
-        //    anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
-        //    Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
-        //    Waiter.Visibility = Visibility.Hidden;
-        //}
-        //#endregion
 
         /// <summary>
         /// 処理全容
@@ -234,9 +120,10 @@ namespace PuzzleScanner.Pages {
             });
             result = polyStorage.AsParallel().Select((x) => GetPolygonInformation(x.ToArray())).ToList();
             polyStorage.AsParallel().ForAll((x) => x.Dispose());
+            Stack<UIElement> chardrawers = new Stack<UIElement>();
             foreach (var poly in result) {
                 int cacheIndex = ImageList.Items.Count;
-                CheckBox chbox = new CheckBox() { Content = n.ToString(), IsChecked = true };
+                CustomControll.PolygonListedItem chbox = new CustomControll.PolygonListedItem(n.ToString());
                 Stack<UIElement> drawers = new Stack<UIElement>((poly.Points.Length + 1) * 4);
                 for(int m = 0; m < poly.Angles.Length; ++m) {
                     Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
@@ -246,6 +133,7 @@ namespace PuzzleScanner.Pages {
                     Canvas.SetTop(esp, poly.Points[m].Y);
                     Canvas.SetLeft(esp, poly.Points[m].X);
                     TextBlock tb = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkRed, Text = poly.Angles[m].ToString("F") + "°" };
+                    chardrawers.Push(tb);
                     Canvas.SetZIndex(tb, 4);
                     Canvas.SetTop(tb, poly.Points[m].Y);
                     Canvas.SetLeft(tb, poly.Points[m].X);
@@ -260,6 +148,7 @@ namespace PuzzleScanner.Pages {
                     Canvas.SetTop(l, Offset);
                     Canvas.SetLeft(l, Offset);
                     TextBlock tb2 = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkGreen, Text = poly.Lines[m - 1].ToString("F") + "px" };
+                    chardrawers.Push(tb2);
                     Canvas.SetZIndex(tb2, 4);
                     Canvas.SetTop(tb2, (poly.Points[m].Y + poly.Points[m-1].Y) / 2);
                     Canvas.SetLeft(tb2, (poly.Points[m].X + poly.Points[m-1].X) / 2);
@@ -269,8 +158,10 @@ namespace PuzzleScanner.Pages {
                     drawers.Push(tb2);
                 }
 
-                chbox.Checked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Visible; } };
-                chbox.Unchecked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Hidden; } };
+                chbox.EnableButton.Checked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Visible; } };
+                chbox.EnableButton.Unchecked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Hidden; } };
+                ShowSizesButton.Checked += (ee, ss) => { foreach (var uu in chardrawers) { uu.Visibility = Visibility.Visible; } };
+                ShowSizesButton.Unchecked += (ee, ss) => { foreach (var uu in chardrawers) { uu.Visibility = Visibility.Hidden; } };
                 ImageList.Items.Add(chbox);
                 n++;
             }
@@ -293,50 +184,53 @@ namespace PuzzleScanner.Pages {
         private async void Next() {
             int cache = result.Count;
             Queue<ResultPolygonData> q = new Queue<ResultPolygonData>();
-            for (int co = 0; co < cache; ++co)
-                if (((CheckBox)(ImageList.Items[co + 2])).IsChecked == true)
-                    q.Enqueue(result[co]);
-            if (mw.Frames == null) {
-                mw.Frames = q.ToList();
-                mw.MainFrame.Navigate(new Pages.LoadImageFile());
-            } else {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine(mw.Frames.Count.ToString());
-                StringBuilder sbX = new StringBuilder(), sbY = new StringBuilder();
-                foreach(var f in mw.Frames) {
-                    sb.AppendLine(f.Points.Length.ToString());
-                    foreach(var pts in f.Points.Get_Array) {
-                        sbX.Append(pts.X);
-                        sbY.Append(pts.Y);
-                        sbX.Append(" ");
-                        sbY.Append(" ");
-                    }
-                    sb.AppendLine(sbX.ToString());
-                    sb.AppendLine(sbY.ToString());
-                    sb.AppendLine();
-                    sbX.Clear();
-                    sbY.Clear();
-                }
-                sb.AppendLine(q.Count.ToString());
-                foreach (var f in q) {
-                    sb.AppendLine(f.Points.Length.ToString());
-                    foreach (var pts in f.Points.Get_Array) {
-                        sbX.Append(pts.X);
-                        sbY.Append(pts.Y);
-                        sbX.Append(" ");
-                        sbY.Append(" ");
-                    }
-                    sb.AppendLine(sbX.ToString());
-                    sb.AppendLine(sbY.ToString());
-                    sb.AppendLine();
-                    sbX.Clear();
-                    sbY.Clear();
-                }
-                System.IO.StreamWriter sw = new System.IO.StreamWriter("result.txt", false, Encoding.UTF8);
-                await sw.WriteAsync(sb.ToString());
-                sw.Close();
-                sw.Dispose();
+            Queue<ResultPolygonData> q_frm = new Queue<ResultPolygonData>();
+            CustomControll.PolygonListedItem pli = null;
+            for (int co = 0; co < cache; ++co) {
+                pli = ((CustomControll.PolygonListedItem)(ImageList.Items[co + 2]));
+                if (pli.IsChosen == true)
+                    if (pli.IsFrame == true)
+                        q_frm.Enqueue(result[co]);
+                    else
+                        q.Enqueue(result[co]);
             }
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(q_frm.Count.ToString());
+            StringBuilder sbX = new StringBuilder(), sbY = new StringBuilder();
+            foreach(var f in q_frm) {
+                sb.AppendLine(f.Points.Length.ToString());
+                foreach(var pts in f.Points.Get_Array) {
+                    sbX.Append(pts.X);
+                    sbY.Append(pts.Y);
+                    sbX.Append(" ");
+                    sbY.Append(" ");
+                }
+                sb.AppendLine(sbX.ToString());
+                sb.AppendLine(sbY.ToString());
+                sb.AppendLine();
+                sbX.Clear();
+                sbY.Clear();
+            }
+            sb.AppendLine(q.Count.ToString());
+            foreach (var f in q) {
+                sb.AppendLine(f.Points.Length.ToString());
+                foreach (var pts in f.Points.Get_Array) {
+                    sbX.Append(pts.X);
+                    sbY.Append(pts.Y);
+                    sbX.Append(" ");
+                    sbY.Append(" ");
+                }
+                sb.AppendLine(sbX.ToString());
+                sb.AppendLine(sbY.ToString());
+                sb.AppendLine();
+                sbX.Clear();
+                sbY.Clear();
+            }
+            System.IO.StreamWriter sw = new System.IO.StreamWriter("result.txt", false, Encoding.UTF8);
+            await sw.WriteAsync(sb.ToString());
+            sw.Close();
+            sw.Dispose();
         }
 
         private void Shot_Button_Clicked(object sender, RoutedEventArgs e) => ResultImageShot(ResultCanvas);
@@ -526,15 +420,4 @@ namespace PuzzleScanner.Pages {
         }
     }
 
-    public class ImageCheckboxPair {
-        public CheckBox cb;
-        public int index;
-        
-        public ImageCheckboxPair(CheckBox ch, int ind, Grid gg) {
-            cb = ch;
-            index = ind;
-            ch.Checked += (ss, ee) => gg.Children[index + 1].Visibility = Visibility.Visible;
-            ch.Unchecked += (ss, ee) => gg.Children[index + 1].Visibility = Visibility.Hidden;
-        }
-    }
 }

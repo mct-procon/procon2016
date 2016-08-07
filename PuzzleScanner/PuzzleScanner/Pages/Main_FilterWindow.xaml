@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PuzzleScanner.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300" Loaded="Page_Loaded"
+      d:DesignHeight="300" d:DesignWidth="300"
       
       Title="Main_FilterWindow">
 
@@ -27,7 +27,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="ActionTitle" Grid.ColumnSpan="2" Text="Choose Honyarara" FontFamily="Segoe UI Light" FontSize="36"/>
+        <TextBlock x:Name="ActionTitle" Grid.ColumnSpan="2" Text="Choose HSV Filtering" FontFamily="Segoe UI Light" FontSize="36"/>
         <Slider x:Name="H_MAX" Grid.Column="1" Grid.Row="1" Maximum="360" Minimum="0" Value="30" ValueChanged="Slider_ValueChanged"/>
         <Slider x:Name="H_MIN" Grid.Column="1" Grid.Row="2" Maximum="360" Minimum="0" Value="0" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="H" Grid.Row="1"/>
