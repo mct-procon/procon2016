@@ -58,7 +58,6 @@ private:
 	//枠に使われている線分を読み込む。整数値を読み込む。
 	//デフォルト線分の個数defaultNumもここで設定する。
 	void inputWaku() {
-		defaultNum = 0;
 
 		ifstream ifs("wakudata.txt");
 		if (ifs.fail()) { return; }
@@ -90,6 +89,7 @@ private:
 	//グローバル変数の初期化
 	void init() {
 		mouse = 0;
+		lines.clear();
 	}
 
 	//マウス・キーボード情報の更新
@@ -151,8 +151,8 @@ private:
 public:
 	//メイン
 	int Main() {
-		inputWaku();
 		init();
+		inputWaku();
 
 		// while(裏画面を表画面に反映,メッセージ処理,画面クリア, ←→で終了)
 		while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && !keyboard.isClick(KEY_INPUT_LEFT) && !keyboard.isClick(KEY_INPUT_RIGHT)) {
@@ -655,7 +655,7 @@ public:
 	}
 };
 
-//工程5. ピースの生成
+//工程5. ピースの生成 (頂点列は時計回り, 表示は(y軸が下向きなので)反時計回りになる）
 class GenePiece : public Project {
 private:
 	struct Point {
@@ -681,6 +681,10 @@ private:
 		for (int i = 0; i < n; i++) {
 			ifs >> pos[i].x >> pos[i].y;
 		}
+		for (int i = 0; i < n; i++) {
+			et[i].clear();
+			eang[i].clear();
+		}
 		ifs >> m;
 		for (int i = 0; i < m; i++) {
 			int src, dst;
@@ -694,41 +698,52 @@ private:
 	//ret[i][j]には多角形iの頂点jにあたる頂点の番号を入れる。retを返す。
 	vector<vector<int>> search() {
 		vector<vector<int>> ret;
-		bool used[1000] = {false};
-		bool used2[1000];
+		bool used[1000][1000];		//辺の使用フラグ
+		bool used2[1000];			//頂点の使用フラグ (一時保管用)
 		int i, j;
 
-		for (i = 0; i < n; i++) {
-			if (used[i]) { continue; }
-
+		for (i = 0; i < n; i++) { for (j = 0; j < n; j++) { used[i][j] = false; } }
+		
+		while (true) {
 			//最初の辺を探索する
-			for (j = 0; j < et[i].size(); j++) {
-				vector<int> cycle;
-				for (int k = 0; k < n; k++) {
-					used2[k] = false;
-				}
-				used2[i] = true;
-				cycle.push_back(i);
+			for (i = 0; i < n; i++) {
+				for (j = 0; j < et[i].size(); j++) {
+					if (used[i][et[i][j]]) continue;
+					
+					//未使用辺を見つけたので、ピースを作ってみる
+					vector<int> cycle;
+					int v = et[i][j];
+					double ang = eang[i][j];
+					for (int k = 0; k < n; k++) { used2[k] = false; }
+					
+					used2[i] = true;
+					cycle.push_back(i);
+					while (!used2[v]) {
+						used2[v] = true;
+						cycle.push_back(v);
+						int id = selectId(ang, v);
+						ang = eang[v][id];
+						v = et[v][id];
+					}
+					if (v != i) { continue; }
+					if (getArea(toPoints(cycle)) >= 0) { continue; }
+					//頂点iを使う多角形を登録
+					ret.push_back(cycle);
+					//cycleに使った辺 (有向辺) のフラグをtrueにする
+					for (int k = 0; k < cycle.size(); k++) {
+						if (k + 1 == cycle.size()) {
+							used[cycle[k]][cycle[0]] = true;
+						}
+						else {
+							used[cycle[k]][cycle[k+1]] = true;
+						}
+					}
+					break;
 
-				int v = et[i][j];			//頂点番号はv
-				double ang = eang[i][j];	//辺の角度はeang[i][j]
-				while (!used2[v]) {
-					used2[v] = true;
-					cycle.push_back(v);
-					int id = selectId(ang, v);
-					ang = eang[v][id];
-					v = et[v][id];
 				}
-				if (v != i) { continue; }
-				if (getArea(toPoints(cycle)) >= 0) { continue; }
-				//頂点iを使う多角形を登録
-				ret.push_back(cycle);
-				break;
+				if (j < et[i].size()) break;
 			}
-			//cycleに使った頂点のフラグをtrueにする
-			for (j = 0; j < n; j++) {
-				used[j] |= used2[j];
-			}
+			if (i == n) break;
 		}
 		return ret;
 	}
@@ -864,7 +879,7 @@ public:
 	}
 };
 
-//工程6. 問題（ピースのみ）の生成
+//工程6. 問題（ピースのみ）の生成, 頂点列は反時計回り（表示としては時計回り）
 class GeneProb : public Project {
 private:
 	struct Point {
@@ -922,6 +937,7 @@ private:
 			rot[i] = 0.0;
 			opFlag[i] = false;
 			trans[i] = Point(0, 0);
+			poly[i].clear();
 		}
 	}
 
