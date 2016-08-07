@@ -1,5 +1,5 @@
-//å…¨éƒ¨ä¸€ã¤ã«ã¾ã¨ã‚ãŸã€‚â†’ã§æ¬¡ã®å·¥ç¨‹ã«é€²ã¿ã€â†ã§1ã¤å‰ã«æˆ»ã‚‹ã€‚
-//ã‚³ãƒ¼ãƒ‰ï¼šã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®æ›´æ–°ï¼ˆkeyboard.update())ãŒã‚ã‚‰ã‚†ã‚‹ä½ç½®ã«æ›¸ã‹ã‚Œã¦ã„ã¦å®³æ‚ªã§ã‚ã‚‹ã€‚ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚„ãƒã‚¦ã‚¹ã®ã‚¯ãƒªãƒƒã‚¯åˆ¤å®šã‚’ã‚‚ã£ã¨ãã‚Œã„ã«æ›¸ã‘ãªã„ã‚‚ã®ã ã‚ã†ã‹â€¦
+//‘S•”ˆê‚Â‚É‚Ü‚Æ‚ß‚½B¨‚ÅŸ‚ÌH’ö‚Éi‚İA©‚Å1‚Â‘O‚É–ß‚éB
+//ƒR[ƒhFƒL[ƒ{[ƒhî•ñ‚ÌXVikeyboard.update())‚ª‚ ‚ç‚ä‚éˆÊ’u‚É‘‚©‚ê‚Ä‚¢‚ÄŠQˆ«‚Å‚ ‚éBƒL[ƒ{[ƒh‚âƒ}ƒEƒX‚ÌƒNƒŠƒbƒN”»’è‚ğ‚à‚Á‚Æ‚«‚ê‚¢‚É‘‚¯‚È‚¢‚à‚Ì‚¾‚ë‚¤‚©c
 
 #include "DxLib.h"
 #include <iostream>
@@ -14,7 +14,7 @@ using namespace std;
 const int INF = 876765346;
 const double PAI = 3.14159265358979;
 
-//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ (å…¨ã‚¯ãƒ©ã‚¹å…±é€šã§ç”¨ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ, keyboardã‚’ç”¨æ„ã™ã‚‹ï¼‰
+//ƒL[ƒ{[ƒh (‘SƒNƒ‰ƒX‹¤’Ê‚Å—p‚¢‚éƒIƒuƒWƒFƒNƒg, keyboard‚ğ—pˆÓ‚·‚éj
 class Keyboard {
 	char bkey[256], key[256];
 public:
@@ -30,16 +30,16 @@ public:
 	}
 }keyboard;
 
-//ç©ºã®MainãŒã‚ã‚‹ã€åŸºåº•ã‚¯ãƒ©ã‚¹
+//‹ó‚ÌMain‚ª‚ ‚éAŠî’êƒNƒ‰ƒX
 class Project {
 public:
 	virtual int Main() = 0;
 };
 
-//å·¥ç¨‹1. ãƒšã‚¤ãƒ³ãƒˆ
+//H’ö1. ƒyƒCƒ“ƒg
 class MyPaint : public Project {
 private:
-	typedef tuple<int, int, int, int> T;	//(å§‹ç‚¹x, å§‹ç‚¹y) -> (çµ‚ç‚¹x, çµ‚ç‚¹y)ã®é †ã§æ ¼ç´
+	typedef tuple<int, int, int, int> T;	//(n“_x, n“_y) -> (I“_x, I“_y)‚Ì‡‚ÅŠi”[
 
 	struct Point {
 		int x, y;
@@ -47,16 +47,16 @@ private:
 		Point () { }
 	};
 
-	//æ“ä½œç”¨
-	int bmouse, mouse;		//å·¦ã‚¯ãƒªãƒƒã‚¯ã®ã¿ã€‚bmouseã¯1ãƒ•ãƒ¬ãƒ¼ãƒ å‰, mouseã¯ä»Šã®æƒ…å ±(1ã‚ã‚Š, 0ãªã—)
-	Point s;				//å§‹ç‚¹ã‚’è¦šãˆã¦ãŠã
+	//‘€ì—p
+	int bmouse, mouse;		//¶ƒNƒŠƒbƒN‚Ì‚İBbmouse‚Í1ƒtƒŒ[ƒ€‘O, mouse‚Í¡‚Ìî•ñ(1‚ ‚è, 0‚È‚µ)
+	Point s;				//n“_‚ğŠo‚¦‚Ä‚¨‚­
 
-	//ãƒ‡ãƒ¼ã‚¿ç”¨
-	int defaultNum;		//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ç·šåˆ†(æ ã«ä½¿ã‚ã‚Œã¦ã„ã‚‹ç·šåˆ†ï¼‰ã®å€‹æ•°
+	//ƒf[ƒ^—p
+	int defaultNum;		//ƒfƒtƒHƒ‹ƒg‚Ìü•ª(˜g‚Ég‚í‚ê‚Ä‚¢‚éü•ªj‚ÌŒÂ”
 	vector<T> lines;
 
-	//æ ã«ä½¿ã‚ã‚Œã¦ã„ã‚‹ç·šåˆ†ã‚’èª­ã¿è¾¼ã‚€ã€‚æ•´æ•°å€¤ã‚’èª­ã¿è¾¼ã‚€ã€‚
-	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆç·šåˆ†ã®å€‹æ•°defaultNumã‚‚ã“ã“ã§è¨­å®šã™ã‚‹ã€‚
+	//˜g‚Ég‚í‚ê‚Ä‚¢‚éü•ª‚ğ“Ç‚İ‚ŞB®”’l‚ğ“Ç‚İ‚ŞB
+	//ƒfƒtƒHƒ‹ƒgü•ª‚ÌŒÂ”defaultNum‚à‚±‚±‚Åİ’è‚·‚éB
 	void inputWaku() {
 
 		ifstream ifs("wakudata.txt");
@@ -86,25 +86,25 @@ private:
 		ifs.close();
 	}
 
-	//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã®åˆæœŸåŒ–
+	//ƒOƒ[ƒoƒ‹•Ï”‚Ì‰Šú‰»
 	void init() {
 		mouse = 0;
 		lines.clear();
 	}
 
-	//ãƒã‚¦ã‚¹ãƒ»ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®æ›´æ–°
+	//ƒ}ƒEƒXEƒL[ƒ{[ƒhî•ñ‚ÌXV
 	void update() {
 		bmouse = mouse;
 		mouse = GetMouseInput() & MOUSE_INPUT_LEFT;
 		keyboard.update();
 	}
 
-	//ãƒã‚¦ã‚¹ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸã¨ãã«å‘¼ã°ã‚Œã‚‹é–¢æ•°
+	//ƒ}ƒEƒX‚ğƒNƒŠƒbƒN‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éŠÖ”
 	void clicked() {
 		GetMousePoint(&s.x, &s.y);
 	}
 
-	//ãƒã‚¦ã‚¹ã‚’é›¢ã—ãŸã¨ãã«å‘¼ã°ã‚Œã‚‹é–¢æ•°
+	//ƒ}ƒEƒX‚ğ—£‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éŠÖ”
 	void released() {
 		Point g;
 		GetMousePoint(&g.x, &g.y);
@@ -113,12 +113,12 @@ private:
 		lines.push_back(T(s.x, s.y, g.x, g.y));
 	}
 
-	//æœ€å¾Œã«æ›¸ã„ãŸç·šåˆ†ã‚’æ¶ˆã™ã‚¤ãƒ™ãƒ³ãƒˆ(ç·šåˆ†ãŒç„¡ã‘ã‚Œã°ä½•ã‚‚ã—ãªã„)
+	//ÅŒã‚É‘‚¢‚½ü•ª‚ğÁ‚·ƒCƒxƒ“ƒg(ü•ª‚ª–³‚¯‚ê‚Î‰½‚à‚µ‚È‚¢)
 	void restore() {
 		if (lines.size() > defaultNum) { lines.pop_back(); }
 	}
 
-	//ç·šåˆ†ã®é›†åˆã‚’æç”»ã™ã‚‹é–¢æ•°
+	//ü•ª‚ÌW‡‚ğ•`‰æ‚·‚éŠÖ”
 	void draw() {
 		for (int i = 0; i < lines.size(); i++) {
 			int x1 = get<0>(lines[i]);
@@ -134,7 +134,7 @@ private:
 		}
 	}
 
-	//ç·šåˆ†ã®é›†åˆã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã™ã‚‹é–¢æ•°
+	//ü•ª‚ÌW‡‚ğƒtƒ@ƒCƒ‹‚Éo—Í‚·‚éŠÖ”
 	void print(char *filename) {
 		ofstream ofs(filename);
 
@@ -149,12 +149,12 @@ private:
 	}
 
 public:
-	//ãƒ¡ã‚¤ãƒ³
+	//ƒƒCƒ“
 	int Main() {
 		init();
 		inputWaku();
 
-		// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, â†â†’ã§çµ‚äº†)
+		// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ©¨‚ÅI—¹)
 		while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && !keyboard.isClick(KEY_INPUT_LEFT) && !keyboard.isClick(KEY_INPUT_RIGHT)) {
 			update();
 			if (bmouse == 0 && mouse == 1) { clicked(); }
@@ -167,7 +167,7 @@ public:
 	}
 };
 
-//å·¥ç¨‹2. ç·šåˆ†ã‚«ãƒƒãƒˆ
+//H’ö2. ü•ªƒJƒbƒg
 class Cut : public Project {
 private:
 	struct Point {
@@ -176,15 +176,15 @@ private:
 		Point () { }
 		bool operator<(const Point &r) const { return (x != r.x) ? x < r.x : y < r.y; }
 	};
-	typedef pair<Point, Point> L;	//å§‹ç‚¹ -> çµ‚ç‚¹ã®é †ã§æ ¼ç´
+	typedef pair<Point, Point> L;	//n“_ -> I“_‚Ì‡‚ÅŠi”[
 
-	//ãƒ‡ãƒ¼ã‚¿ç”¨
+	//ƒf[ƒ^—p
 	int n;
 	L lines[1000];
 	bool isExist[1000];
-	vector<Point> iPointLists[1000];	//iPointLists[i] = ç·šåˆ†iã¨å®Ÿåœ¨ã™ã‚‹ç·šåˆ†ã®äº¤ç‚¹, ã®é›†åˆ
+	vector<Point> iPointLists[1000];	//iPointLists[i] = ü•ªi‚ÆÀİ‚·‚éü•ª‚ÌŒğ“_, ‚ÌW‡
 
-	//èª­ã¿è¾¼ã¿ï¼ˆã¨åˆæœŸåŒ–ï¼‰, æˆåŠŸæ™‚true, å¤±æ•—æ™‚falseã‚’è¿”ã™
+	//“Ç‚İ‚İi‚Æ‰Šú‰»j, ¬Œ÷true, ¸”sfalse‚ğ•Ô‚·
 	bool input() {
 		ifstream ifs("lines.txt");
 		if (ifs.fail()) { return false; }
@@ -202,7 +202,7 @@ private:
 		return true;
 	}
 
-	//å¹³è¡Œãªç·šåˆ†ã‚’ãƒãƒ¼ã‚¸ã™ã‚‹
+	//•½s‚Èü•ª‚ğƒ}[ƒW‚·‚é
 	void margeParallelLine() {
 		int i, j;
 
@@ -211,7 +211,7 @@ private:
 			for (j = 0; j < n; j++) {
 				if (i == j || !isExist[j]) { continue; }
 				if (!isParallel(lines[i].first, lines[i].second, lines[j].first, lines[j].second)) { continue; }
-				//ç·šåˆ†i + ç·šåˆ†jã‚’ç·šåˆ†iã«ä»£å…¥ã—ã€ç·šåˆ†jã‚’æ¶ˆã™
+				//ü•ªi + ü•ªj‚ğü•ªi‚É‘ã“ü‚µAü•ªj‚ğÁ‚·
 				Point p[4] = {lines[i].first, lines[i].second, lines[j].first, lines[j].second};
 				sort(p, p + 4);
 				lines[i] = L(p[0], p[3]);
@@ -220,7 +220,7 @@ private:
 		}
 	}
 
-	//ç·šåˆ†ã®äº¤ç‚¹ãƒªã‚¹ãƒˆiPointLists[]ã‚’ä½œæˆã™ã‚‹
+	//ü•ª‚ÌŒğ“_ƒŠƒXƒgiPointLists[]‚ğì¬‚·‚é
 	void set_iPointLists() {
 		int i, j;
 
@@ -232,21 +232,21 @@ private:
 			if (!isExist[i]) { continue; }
 			for (j = 0; j < n; j++) {
 				if (i == j || !isExist[j]) { continue; }
-				Point p = getIPoint(lines[i].first, lines[i].second, lines[j].first, lines[j].second);	//äº¤ç‚¹p
-				if (p.x == INF && p.y == INF) { continue; }	//äº¤ç‚¹ãŒå­˜åœ¨ã—ãªã„
-				iPointLists[i].push_back(p);	//ç·šåˆ†iã®äº¤ç‚¹ãƒªã‚¹ãƒˆã‚’æ›´æ–°
+				Point p = getIPoint(lines[i].first, lines[i].second, lines[j].first, lines[j].second);	//Œğ“_p
+				if (p.x == INF && p.y == INF) { continue; }	//Œğ“_‚ª‘¶İ‚µ‚È‚¢
+				iPointLists[i].push_back(p);	//ü•ªi‚ÌŒğ“_ƒŠƒXƒg‚ğXV
 			}
 		}
 	}
 
-	//å„ç·šåˆ†ã®äº¤ç‚¹ãƒªã‚¹ãƒˆã®ç‚¹ã‚’(xæ˜‡é † -> yæ˜‡é †)ã§ã‚½ãƒ¼ãƒˆã™ã‚‹
+	//Šeü•ª‚ÌŒğ“_ƒŠƒXƒg‚Ì“_‚ğ(x¸‡ -> y¸‡)‚Åƒ\[ƒg‚·‚é
 	void sort_iPointLists() {
 		for (int i = 0; i < n; i++) {
 			sort(iPointLists[i].begin(), iPointLists[i].end());
 		}
 	}
 
-	//äº¤ç‚¹ãŒ1å€‹ä»¥ä¸‹ã®ç·šåˆ†ã‚’æ¶ˆã™ã€‚æ¶ˆã™ç·šåˆ†ãŒç„¡ã‘ã‚Œã°falseã‚’è¿”ã™ã€‚
+	//Œğ“_‚ª1ŒÂˆÈ‰º‚Ìü•ª‚ğÁ‚·BÁ‚·ü•ª‚ª–³‚¯‚ê‚Îfalse‚ğ•Ô‚·B
 	bool eraseLines() {
 		bool ret = false;
 		for (int i = 0; i < n; i++) {
@@ -256,13 +256,13 @@ private:
 		return ret;
 	}
 
-	//äº¤ç‚¹ãŒ2å€‹ä»¥ä¸Šã®ç·šåˆ†ã«ã¤ã„ã¦ã€ã¯ã¿å‡ºã™éƒ¨åˆ†(ã©ã®2ã¤ã®äº¤ç‚¹é–“ã«ã‚‚å­˜åœ¨ã—ãªã„éƒ¨åˆ†)ã‚’ã‚«ãƒƒãƒˆã™ã‚‹ã€‚ã‚«ãƒƒãƒˆã™ã‚‹ç·šåˆ†ãŒç„¡ã‘ã‚Œã°falseã‚’è¿”ã™ã€‚
-	//sort_iPointLists()ã‚’å‘¼ã‚“ã§ã‹ã‚‰å‘¼ã³å‡ºã™ã“ã¨ã€‚
+	//Œğ“_‚ª2ŒÂˆÈã‚Ìü•ª‚É‚Â‚¢‚ÄA‚Í‚İo‚·•”•ª(‚Ç‚Ì2‚Â‚ÌŒğ“_ŠÔ‚É‚à‘¶İ‚µ‚È‚¢•”•ª)‚ğƒJƒbƒg‚·‚éBƒJƒbƒg‚·‚éü•ª‚ª–³‚¯‚ê‚Îfalse‚ğ•Ô‚·B
+	//sort_iPointLists()‚ğŒÄ‚ñ‚Å‚©‚çŒÄ‚Ño‚·‚±‚ÆB
 	bool cutLines() {
 		bool ret = false;
 		for (int i = 0; i < n; i++) {
 			if (!isExist[i]) { continue; }
-			if (iPointLists[i].size() <= 1) { continue; }	//eraseLines()ã‚’å‘¼ã‚“ã§ãªãã¦ã‚‚èª¤å‹•ä½œã•ã›ãªã„ã€ŒãŠã¾ã˜ãªã„â˜†ã€
+			if (iPointLists[i].size() <= 1) { continue; }	//eraseLines()‚ğŒÄ‚ñ‚Å‚È‚­‚Ä‚àŒë“®ì‚³‚¹‚È‚¢u‚¨‚Ü‚¶‚È‚¢™v
 
 			Point p[2] = {lines[i].first, lines[i].second};
 			sort(p, p + 2);
@@ -271,7 +271,7 @@ private:
 				ret = true;
 				lines[i].first = iPointLists[i][0];
 				lines[i].second = iPointLists[i][iPointLists[i].size() - 1];
-				//ãƒ­ãƒ³ã‚°ãƒ˜ã‚¢ãƒ¼å‡¦ç†ï¼ˆç«¯ç‚¹ã‚’å°‘ã—ã ã‘ä¼¸ã°ã™ï¼‰(å‹æ‰‹ã«å‘½å)
+				//ƒƒ“ƒOƒwƒA[ˆ—i’[“_‚ğ­‚µ‚¾‚¯L‚Î‚·j(Ÿè‚É–½–¼)
 				if (lines[i].first.x == lines[i].second.x) {
 					lines[i].first.y -= 1e-4;
 					lines[i].second.y += 1e-4;
@@ -289,29 +289,29 @@ private:
 		return ret;
 	}
 
-	//ç›´ç·ša -> b, c -> dã®å¹³è¡Œåˆ¤å®š
+	//’¼üa -> b, c -> d‚Ì•½s”»’è
 	bool isParallel(Point a, Point b, Point c, Point d) {
 		return (a.x - b.x) * (c.y - d.y) == (a.y - b.y) * (c.x - d.x);
 	}
 
-	//ç·šåˆ†a -> b, c -> dã®äº¤å·®åˆ¤å®š (Tå­—ã‚‚äº¤å·®ã¨ã¿ãªã™)
+	//ü•ªa -> b, c -> d‚ÌŒğ·”»’è (Tš‚àŒğ·‚Æ‚İ‚È‚·)
 	bool isHit(Point a, Point b, Point c, Point d) {
 		long double u, v;
-		//0 = (a.y - b.y)(x - a.x) + (a.x - b.x)(a.y - y)ã®ä¸¡å´ã«c, dãŒã‚ã‚‹ã‹
+		//0 = (a.y - b.y)(x - a.x) + (a.x - b.x)(a.y - y)‚Ì—¼‘¤‚Éc, d‚ª‚ ‚é‚©
 		u = (a.y - b.y) * (c.x - a.x) + (a.x - b.x) * (a.y - c.y);
 		v = (a.y - b.y) * (d.x - a.x) + (a.x - b.x) * (a.y - d.y);
 		if (u * v > 0) { return false; }
-		//0 = (c.y - d.y)(x - c.x) + (c.x - d.x)(c.y - y)ã®ä¸¡å´ã«a, bãŒã‚ã‚‹ã‹
+		//0 = (c.y - d.y)(x - c.x) + (c.x - d.x)(c.y - y)‚Ì—¼‘¤‚Éa, b‚ª‚ ‚é‚©
 		u = (c.y - d.y) * (a.x - c.x) + (c.x - d.x) * (c.y - a.y);
 		v = (c.y - d.y) * (b.x - c.x) + (c.x - d.x) * (c.y - b.y);
 		if (u * v > 0) { return false; }
 		return true;
 	}
 
-	//ç·šåˆ†a -> b, c -> dã®äº¤ç‚¹ã‚’è¿”ã™ï¼ˆç„¡ã„å ´åˆã¯ã€(INF, INF)ã‚’è¿”ã™ï¼‰
+	//ü•ªa -> b, c -> d‚ÌŒğ“_‚ğ•Ô‚·i–³‚¢ê‡‚ÍA(INF, INF)‚ğ•Ô‚·j
 	Point getIPoint(Point a, Point b, Point c, Point d) {
 		if (isParallel(a, b, c, d) || !isHit(a, b, c, d)) return Point(INF, INF);
-		//ä¸‰è§’å½¢a -> c -> bã®é¢ç© * 2ã‚’s1, ä¸‰è§’å½¢a -> d -> bã®é¢ç© * 2ã‚’s2ã¨ãŠã
+		//OŠpŒ`a -> c -> b‚Ì–ÊÏ * 2‚ğs1, OŠpŒ`a -> d -> b‚Ì–ÊÏ * 2‚ğs2‚Æ‚¨‚­
 		long double s1 = abs((a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x));
 		long double s2 = abs((a.x - d.x) * (b.y - d.y) - (a.y - d.y) * (b.x - d.x));
 		if (s1 == 0) { return Point(c.x, c.y); }
@@ -321,7 +321,7 @@ private:
 		return Point((double)x, (double)y);
 	}
 
-	//æç”»
+	//•`‰æ
 	void draw() {
 		for (int i = 0; i < n; i++) {
 			if (!isExist[i]) { continue; }
@@ -335,7 +335,7 @@ private:
 		}
 	}
 
-	//å‡ºåŠ›
+	//o—Í
 	void print() {
 		int cnt = 0;
 
@@ -354,7 +354,7 @@ private:
 	}
 
 public:
-	//ãƒ¡ã‚¤ãƒ³
+	//ƒƒCƒ“
 	int Main() {
 		input();
 		margeParallelLine();
@@ -367,7 +367,7 @@ public:
 			isContinue = isContinue || cutLines();
 		}
 
-		// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, â†â†’ã§çµ‚äº†)
+		// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ©¨‚ÅI—¹)
 		while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && !keyboard.isClick(KEY_INPUT_LEFT) && !keyboard.isClick(KEY_INPUT_RIGHT)) {
 			keyboard.update();
 			draw();
@@ -377,7 +377,7 @@ public:
 	}
 };
 
-//å·¥ç¨‹3. ç·šåˆ†ã‚¹ãƒ—ãƒªãƒƒãƒˆ
+//H’ö3. ü•ªƒXƒvƒŠƒbƒg
 class Split : public Project {
 private:
 	struct Point {
@@ -386,17 +386,17 @@ private:
 		Point () { }
 		bool operator<(const Point &r) const { return (x != r.x) ? x < r.x : y < r.y; }
 	};
-	typedef pair<Point, Point> L;	//å§‹ç‚¹ -> çµ‚ç‚¹ã®é †ã§æ ¼ç´
+	typedef pair<Point, Point> L;	//n“_ -> I“_‚Ì‡‚ÅŠi”[
 
-	//ãƒ‡ãƒ¼ã‚¿ç”¨
+	//ƒf[ƒ^—p
 	int n;
 	L lines[1000];
-	vector<Point> iPointLists[1000];	//iPointLists[i] = ç·šåˆ†iã¨å®Ÿåœ¨ã™ã‚‹ç·šåˆ†ã®äº¤ç‚¹, ã®é›†åˆ
+	vector<Point> iPointLists[1000];	//iPointLists[i] = ü•ªi‚ÆÀİ‚·‚éü•ª‚ÌŒğ“_, ‚ÌW‡
 
-	//åˆ¶å¾¡ç”¨
+	//§Œä—p
 	int t;
 
-	//èª­ã¿è¾¼ã¿ï¼ˆã¨åˆæœŸåŒ–ï¼‰, æˆåŠŸæ™‚true, å¤±æ•—æ™‚falseã‚’è¿”ã™
+	//“Ç‚İ‚İi‚Æ‰Šú‰»j, ¬Œ÷true, ¸”sfalse‚ğ•Ô‚·
 	bool input() {
 		ifstream ifs("lines_cuted.txt");
 		if (ifs.fail()) { return false; }
@@ -409,7 +409,7 @@ private:
 		return true;
 	}
 
-	//ç·šåˆ†ã®äº¤ç‚¹ãƒªã‚¹ãƒˆiPointLists[]ã‚’ä½œæˆã™ã‚‹
+	//ü•ª‚ÌŒğ“_ƒŠƒXƒgiPointLists[]‚ğì¬‚·‚é
 	void set_iPointLists() {
 		int i, j;
 
@@ -420,21 +420,21 @@ private:
 		for (i = 0; i < n; i++) {
 			for (j = 0; j < n; j++) {
 				if (i == j) { continue; }
-				Point p = getIPoint(lines[i].first, lines[i].second, lines[j].first, lines[j].second);	//äº¤ç‚¹p
-				if (p.x == INF && p.y == INF) { continue; }	//äº¤ç‚¹ãŒå­˜åœ¨ã—ãªã„
-				iPointLists[i].push_back(p);	//ç·šåˆ†iã®äº¤ç‚¹ãƒªã‚¹ãƒˆã‚’æ›´æ–°
+				Point p = getIPoint(lines[i].first, lines[i].second, lines[j].first, lines[j].second);	//Œğ“_p
+				if (p.x == INF && p.y == INF) { continue; }	//Œğ“_‚ª‘¶İ‚µ‚È‚¢
+				iPointLists[i].push_back(p);	//ü•ªi‚ÌŒğ“_ƒŠƒXƒg‚ğXV
 			}
 		}
 	}
 
-	//å„ç·šåˆ†ã®äº¤ç‚¹ãƒªã‚¹ãƒˆã®ç‚¹ã‚’(xæ˜‡é † -> yæ˜‡é †)ã§ã‚½ãƒ¼ãƒˆã™ã‚‹
+	//Šeü•ª‚ÌŒğ“_ƒŠƒXƒg‚Ì“_‚ğ(x¸‡ -> y¸‡)‚Åƒ\[ƒg‚·‚é
 	void sort_iPointLists() {
 		for (int i = 0; i < n; i++) {
 			sort(iPointLists[i].begin(), iPointLists[i].end());
 		}
 	}
 
-	//ã‚½ãƒ¼ãƒˆå¾Œã®äº¤ç‚¹ãƒªã‚¹ãƒˆã‚’ç”¨ã„ã¦ã€ç·šåˆ†ã‚’åˆ†å‰²ã™ã‚‹ã€‚åˆ†å‰²å¾Œã®ç·šåˆ†é›†åˆã‚’è¿”ã™ã€‚
+	//ƒ\[ƒgŒã‚ÌŒğ“_ƒŠƒXƒg‚ğ—p‚¢‚ÄAü•ª‚ğ•ªŠ„‚·‚éB•ªŠ„Œã‚Ìü•ªW‡‚ğ•Ô‚·B
 	vector<L> split_lines() {
 		vector<L> spLines;
 
@@ -446,7 +446,7 @@ private:
 		return spLines;
 	}
 
-	//æç”»
+	//•`‰æ
 	void draw() {
 		for (int i = 0; i < n; i++) {
 			int x1 = lines[i].first.x;
@@ -462,7 +462,7 @@ private:
 		}
 	}
 
-	//å‡ºåŠ›
+	//o—Í
 	void print() {
 		ofstream ofs("lines_splited.txt");
 
@@ -472,24 +472,24 @@ private:
 		}
 	}
 
-	//ç·šåˆ†a -> b, c -> dã®äº¤å·®åˆ¤å®š (Tå­—ã‚‚äº¤å·®ã¨ã¿ãªã™)
+	//ü•ªa -> b, c -> d‚ÌŒğ·”»’è (Tš‚àŒğ·‚Æ‚İ‚È‚·)
 	bool isHit(Point a, Point b, Point c, Point d) {
 		long double u, v;
-		//0 = (a.y - b.y)(x - a.x) + (a.x - b.x)(a.y - y)ã®ä¸¡å´ã«c, dãŒã‚ã‚‹ã‹
+		//0 = (a.y - b.y)(x - a.x) + (a.x - b.x)(a.y - y)‚Ì—¼‘¤‚Éc, d‚ª‚ ‚é‚©
 		u = (a.y - b.y) * (c.x - a.x) + (a.x - b.x) * (a.y - c.y);
 		v = (a.y - b.y) * (d.x - a.x) + (a.x - b.x) * (a.y - d.y);
 		if (u * v > 0) { return false; }
-		//0 = (c.y - d.y)(x - c.x) + (c.x - d.x)(c.y - y)ã®ä¸¡å´ã«a, bãŒã‚ã‚‹ã‹
+		//0 = (c.y - d.y)(x - c.x) + (c.x - d.x)(c.y - y)‚Ì—¼‘¤‚Éa, b‚ª‚ ‚é‚©
 		u = (c.y - d.y) * (a.x - c.x) + (c.x - d.x) * (c.y - a.y);
 		v = (c.y - d.y) * (b.x - c.x) + (c.x - d.x) * (c.y - b.y);
 		if (u * v > 0) { return false; }
 		return true;
 	}
 
-	//ç·šåˆ†a -> b, c -> dã®äº¤ç‚¹ã‚’è¿”ã™ï¼ˆç„¡ã„å ´åˆã¯ã€(INF, INF)ã‚’è¿”ã™ï¼‰
+	//ü•ªa -> b, c -> d‚ÌŒğ“_‚ğ•Ô‚·i–³‚¢ê‡‚ÍA(INF, INF)‚ğ•Ô‚·j
 	Point getIPoint(Point a, Point b, Point c, Point d) {
 		if (!isHit(a, b, c, d)) return Point(INF, INF);
-		//ä¸‰è§’å½¢a -> c -> bã®é¢ç© * 2ã‚’s1, ä¸‰è§’å½¢a -> d -> bã®é¢ç© * 2ã‚’s2ã¨ãŠã
+		//OŠpŒ`a -> c -> b‚Ì–ÊÏ * 2‚ğs1, OŠpŒ`a -> d -> b‚Ì–ÊÏ * 2‚ğs2‚Æ‚¨‚­
 		long double s1 = abs((a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x));
 		long double s2 = abs((a.x - d.x) * (b.y - d.y) - (a.y - d.y) * (b.x - d.x));
 		if (s1 == 0) { return Point(c.x, c.y); }
@@ -500,7 +500,7 @@ private:
 	}
 
 public:
-	//ãƒ¡ã‚¤ãƒ³
+	//ƒƒCƒ“
 	int Main() {
 		input();
 		set_iPointLists();
@@ -512,7 +512,7 @@ public:
 		}
 		//sort(lines, lines + n);
 
-		// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, â†â†’ã§çµ‚äº†)
+		// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ©¨‚ÅI—¹)
 		t = 0;
 		while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && !keyboard.isClick(KEY_INPUT_LEFT) && !keyboard.isClick(KEY_INPUT_RIGHT)) {
 			keyboard.update();
@@ -524,7 +524,7 @@ public:
 	}
 };
 
-//å·¥ç¨‹4. ã‚°ãƒ©ãƒ•åŒ–
+//H’ö4. ƒOƒ‰ƒt‰»
 class GeneGraph : public Project {
 private:
 	struct Point {
@@ -533,16 +533,16 @@ private:
 		Point () { }
 		bool operator<(const Point &r) const { return (x != r.x) ? x < r.x : y < r.y; }
 	};
-	typedef pair<Point, Point> L;	//å§‹ç‚¹ -> çµ‚ç‚¹ã®é †ã§æ ¼ç´
+	typedef pair<Point, Point> L;	//n“_ -> I“_‚Ì‡‚ÅŠi”[
 
-	//ãƒ‡ãƒ¼ã‚¿ç”¨
+	//ƒf[ƒ^—p
 	int n;
 	L lines[1000];
 
-	int gNum;		//ã‚°ãƒ«ãƒ¼ãƒ—ã®æ•°
-	int gid[2000];	//lines[i].firstã®ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·ãŒgid[2*i]ã«ã€lines[i].secondã®ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·ãŒgid[2*i + 1]ã«å…¥ã‚‹ã€‚
+	int gNum;		//ƒOƒ‹[ƒv‚Ì”
+	int gid[2000];	//lines[i].first‚ÌƒOƒ‹[ƒv”Ô†‚ªgid[2*i]‚ÉAlines[i].second‚ÌƒOƒ‹[ƒv”Ô†‚ªgid[2*i + 1]‚É“ü‚éB
 
-	//èª­ã¿è¾¼ã¿ï¼ˆã¨åˆæœŸåŒ–ï¼‰, æˆåŠŸæ™‚true, å¤±æ•—æ™‚falseã‚’è¿”ã™
+	//“Ç‚İ‚İi‚Æ‰Šú‰»j, ¬Œ÷true, ¸”sfalse‚ğ•Ô‚·
 	bool input() {
 		ifstream ifs("lines_splited.txt");
 		if (ifs.fail()) { return false; }
@@ -555,8 +555,8 @@ private:
 		return true;
 	}
 
-	//linesã®å„é ‚ç‚¹ã«ç•ªå·ã‚’å‰²ã‚ŠæŒ¯ã‚‹ã€‚è¿‘ã„ä½ç½®ã«ã‚ã‚‹é ‚ç‚¹ã«åŒã˜ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·ã‚’å‰²ã‚ŠæŒ¯ã‚‹ã€‚
-	//å„ã‚°ãƒ«ãƒ¼ãƒ—ã®ä»£è¡¨å…ƒã¯é ‚ç‚¹ç•ªå·ï¼ˆlines[i].firstãªã‚‰i * 2, lines[i].secondãªã‚‰i * 2 + 1)ãŒæœ€ã‚‚å°ã•ã„ã‚‚ã®ï¼
+	//lines‚ÌŠe’¸“_‚É”Ô†‚ğŠ„‚èU‚éB‹ß‚¢ˆÊ’u‚É‚ ‚é’¸“_‚É“¯‚¶ƒOƒ‹[ƒv”Ô†‚ğŠ„‚èU‚éB
+	//ŠeƒOƒ‹[ƒv‚Ì‘ã•\Œ³‚Í’¸“_”Ô†ilines[i].first‚È‚çi * 2, lines[i].second‚È‚çi * 2 + 1)‚ªÅ‚à¬‚³‚¢‚à‚ÌI
 	void makeGroup() {
 		int i, j;
 
@@ -579,8 +579,8 @@ private:
 		gNum = id;
 	}
 
-	//ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·iã®é ‚ç‚¹ã®ï¼ˆä»£è¡¨å…ƒã®ï¼‰ä½ç½®ã‚’ret[i]ã«å…¥ã‚Œã¦ã€retã‚’è¿”ã™
-	//å„ã‚°ãƒ«ãƒ¼ãƒ—ã®ä»£è¡¨å…ƒã¯é ‚ç‚¹ç•ªå·ï¼ˆlines[i].firstãªã‚‰i * 2, lines[i].secondãªã‚‰i * 2 + 1)ãŒæœ€ã‚‚å°ã•ã„ã‚‚ã®ï¼
+	//ƒOƒ‹[ƒv”Ô†i‚Ì’¸“_‚Ìi‘ã•\Œ³‚ÌjˆÊ’u‚ğret[i]‚É“ü‚ê‚ÄAret‚ğ•Ô‚·
+	//ŠeƒOƒ‹[ƒv‚Ì‘ã•\Œ³‚Í’¸“_”Ô†ilines[i].first‚È‚çi * 2, lines[i].second‚È‚çi * 2 + 1)‚ªÅ‚à¬‚³‚¢‚à‚ÌI
 	vector<Point> makeTyoten() {
 		vector<Point> ret;
 
@@ -591,20 +591,20 @@ private:
 		return ret;
 	}
 
-	//ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·ã§ã¾ã¨ã‚ãŸé ‚ç‚¹ã«ã¤ã„ã¦ã‚°ãƒ©ãƒ•ã‚’æ§‹ç¯‰ã™ã‚‹ã€‚(srcã‚°ãƒ«ãƒ¼ãƒ—ç•ªå· -> dstã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·ã¨ã„ã†æ„Ÿã˜ã§ï¼ï¼‰
+	//ƒOƒ‹[ƒv”Ô†‚Å‚Ü‚Æ‚ß‚½’¸“_‚É‚Â‚¢‚ÄƒOƒ‰ƒt‚ğ\’z‚·‚éB(srcƒOƒ‹[ƒv”Ô† -> dstƒOƒ‹[ƒv”Ô†‚Æ‚¢‚¤Š´‚¶‚ÅIj
 	vector<pair<int, int>> makeGraph() {
 		vector<pair<int, int>> ret;
 
 		for (int i = 0; i < n; i++) {
-			//lines[i].first ã¨ lines[i].secondã‚’åŒæ–¹å‘ã§ã¤ãªãã®ã§â€¦
-			//lines[i].firstã®ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·(gid[2 * i])ã¨lines[i].secondã®ã‚°ãƒ«ãƒ¼ãƒ—ç•ªå·(gid[2 * i + 1])ã‚’åŒæ–¹å‘ã«ã¤ãªã’ã°ã‚ˆã„
+			//lines[i].first ‚Æ lines[i].second‚ğ‘o•ûŒü‚Å‚Â‚È‚®‚Ì‚Åc
+			//lines[i].first‚ÌƒOƒ‹[ƒv”Ô†(gid[2 * i])‚Ælines[i].second‚ÌƒOƒ‹[ƒv”Ô†(gid[2 * i + 1])‚ğ‘o•ûŒü‚É‚Â‚È‚°‚Î‚æ‚¢
 			ret.push_back(pair<int, int>(gid[2 * i], gid[2 * i + 1]));
 			ret.push_back(pair<int, int>(gid[2 * i + 1], gid[2 * i]));
 		}
 		return ret;
 	}
 
-	//ã‚°ãƒ©ãƒ•ã®å‡ºåŠ›
+	//ƒOƒ‰ƒt‚Ìo—Í
 	void print(vector<Point> v, vector<pair<int, int>> e) {
 		ofstream ofs("lines_graph.txt");
 
@@ -618,7 +618,7 @@ private:
 		}
 	}
 
-	//ã‚°ãƒ©ãƒ•ã®æç”»
+	//ƒOƒ‰ƒt‚Ì•`‰æ
 	void draw(vector<Point> v, vector<pair<int, int>> e) {
 
 		for (int i = 0; i < e.size(); i++) {
@@ -637,7 +637,7 @@ private:
 	}
 
 public:
-	//ãƒ¡ã‚¤ãƒ³
+	//ƒƒCƒ“
 	int Main() {
 		input();
 		makeGroup();
@@ -646,7 +646,7 @@ public:
 		vector<pair<int, int> > e = makeGraph();
 		print(v, e);
 
-		// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, â†â†’ã§çµ‚äº†)
+		// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ©¨‚ÅI—¹)
 		while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && !keyboard.isClick(KEY_INPUT_LEFT) && !keyboard.isClick(KEY_INPUT_RIGHT)) {
 			keyboard.update();
 			draw(v, e);
@@ -655,7 +655,7 @@ public:
 	}
 };
 
-//å·¥ç¨‹5. ãƒ”ãƒ¼ã‚¹ã®ç”Ÿæˆ (é ‚ç‚¹åˆ—ã¯æ™‚è¨ˆå›ã‚Š, è¡¨ç¤ºã¯(yè»¸ãŒä¸‹å‘ããªã®ã§)åæ™‚è¨ˆå›ã‚Šã«ãªã‚‹ï¼‰
+//H’ö5. ƒs[ƒX‚Ì¶¬ (’¸“_—ñ‚ÍŒv‰ñ‚è, •\¦‚Í(y²‚ª‰ºŒü‚«‚È‚Ì‚Å)”½Œv‰ñ‚è‚É‚È‚éj
 class GenePiece : public Project {
 private:
 	struct Point {
@@ -665,14 +665,14 @@ private:
 		bool operator<(const Point &r) const { return (x != r.x) ? x < r.x : y < r.y; }
 	};
 
-	//ãƒ‡ãƒ¼ã‚¿ç”¨
-	int n;						//ã‚°ãƒ©ãƒ•ã®é ‚ç‚¹ã®æ•°
-	Point pos[1000];			//pos[i] = é ‚ç‚¹iã®åº§æ¨™
-	int m;						//ã‚°ãƒ©ãƒ•ã®è¾ºã®æ•°
-	vector<int> et[1000];		//et[i][j] = é ‚ç‚¹iã®jç•ªç›®ã®æ¥ç¶šå…ˆãŒé ‚ç‚¹et[i][j]
-	vector<double> eang[1000];	//eang[i][j] = è¾º(é ‚ç‚¹iâ†’é ‚ç‚¹et[i][j])ã®è§’åº¦ã‚’ãƒ©ã‚¸ã‚¢ãƒ³è¡¨è¨˜ã—ãŸã‚‚ã®
+	//ƒf[ƒ^—p
+	int n;						//ƒOƒ‰ƒt‚Ì’¸“_‚Ì”
+	Point pos[1000];			//pos[i] = ’¸“_i‚ÌÀ•W
+	int m;						//ƒOƒ‰ƒt‚Ì•Ó‚Ì”
+	vector<int> et[1000];		//et[i][j] = ’¸“_i‚Ìj”Ô–Ú‚ÌÚ‘±æ‚ª’¸“_et[i][j]
+	vector<double> eang[1000];	//eang[i][j] = •Ó(’¸“_i¨’¸“_et[i][j])‚ÌŠp“x‚ğƒ‰ƒWƒAƒ“•\‹L‚µ‚½‚à‚Ì
 
-	//èª­ã¿è¾¼ã¿ï¼ˆã¨åˆæœŸåŒ–ï¼‰, æˆåŠŸæ™‚true, å¤±æ•—æ™‚falseã‚’è¿”ã™
+	//“Ç‚İ‚İi‚Æ‰Šú‰»j, ¬Œ÷true, ¸”sfalse‚ğ•Ô‚·
 	bool input() {
 		ifstream ifs("lines_graph.txt");
 		if (ifs.fail()) { return false; }
@@ -695,22 +695,22 @@ private:
 		return true;
 	}
 
-	//ret[i][j]ã«ã¯å¤šè§’å½¢iã®é ‚ç‚¹jã«ã‚ãŸã‚‹é ‚ç‚¹ã®ç•ªå·ã‚’å…¥ã‚Œã‚‹ã€‚retã‚’è¿”ã™ã€‚
+	//ret[i][j]‚É‚Í‘½ŠpŒ`i‚Ì’¸“_j‚É‚ ‚½‚é’¸“_‚Ì”Ô†‚ğ“ü‚ê‚éBret‚ğ•Ô‚·B
+	bool used[1000][1000];		//•Ó‚Ìg—pƒtƒ‰ƒO
+	bool used2[1000];			//’¸“_‚Ìg—pƒtƒ‰ƒO (ˆê•ÛŠÇ—p)
 	vector<vector<int>> search() {
 		vector<vector<int>> ret;
-		bool used[1000][1000];		//è¾ºã®ä½¿ç”¨ãƒ•ãƒ©ã‚°
-		bool used2[1000];			//é ‚ç‚¹ã®ä½¿ç”¨ãƒ•ãƒ©ã‚° (ä¸€æ™‚ä¿ç®¡ç”¨)
 		int i, j;
 
 		for (i = 0; i < n; i++) { for (j = 0; j < n; j++) { used[i][j] = false; } }
 		
 		while (true) {
-			//æœ€åˆã®è¾ºã‚’æ¢ç´¢ã™ã‚‹
+			//Å‰‚Ì•Ó‚ğ’Tõ‚·‚é
 			for (i = 0; i < n; i++) {
 				for (j = 0; j < et[i].size(); j++) {
 					if (used[i][et[i][j]]) continue;
 					
-					//æœªä½¿ç”¨è¾ºã‚’è¦‹ã¤ã‘ãŸã®ã§ã€ãƒ”ãƒ¼ã‚¹ã‚’ä½œã£ã¦ã¿ã‚‹
+					//–¢g—p•Ó‚ğŒ©‚Â‚¯‚½‚Ì‚ÅAƒs[ƒX‚ğì‚Á‚Ä‚İ‚é
 					vector<int> cycle;
 					int v = et[i][j];
 					double ang = eang[i][j];
@@ -727,9 +727,9 @@ private:
 					}
 					if (v != i) { continue; }
 					if (getArea(toPoints(cycle)) >= 0) { continue; }
-					//é ‚ç‚¹iã‚’ä½¿ã†å¤šè§’å½¢ã‚’ç™»éŒ²
+					//’¸“_i‚ğg‚¤‘½ŠpŒ`‚ğ“o˜^
 					ret.push_back(cycle);
-					//cycleã«ä½¿ã£ãŸè¾º (æœ‰å‘è¾º) ã®ãƒ•ãƒ©ã‚°ã‚’trueã«ã™ã‚‹
+					//cycle‚Ég‚Á‚½•Ó (—LŒü•Ó) ‚Ìƒtƒ‰ƒO‚ğtrue‚É‚·‚é
 					for (int k = 0; k < cycle.size(); k++) {
 						if (k + 1 == cycle.size()) {
 							used[cycle[k]][cycle[0]] = true;
@@ -748,18 +748,18 @@ private:
 		return ret;
 	}
 
-	//ç›´å‰ã®ç§»å‹•æ–¹å‘ãŒangã§ã€ä»Šé ‚ç‚¹vã«ã„ã‚‹ã¨ãã€ã©ã®è¾ºã§ç§»å‹•ã™ã‚‹ã‹ã‚’è¿”ã™ã€‚
+	//’¼‘O‚ÌˆÚ“®•ûŒü‚ªang‚ÅA¡’¸“_v‚É‚¢‚é‚Æ‚«A‚Ç‚Ì•Ó‚ÅˆÚ“®‚·‚é‚©‚ğ•Ô‚·B
 	int selectId(double ang, int v) {
 		int i;
 		double minEval = INF;
 		int selectId = -1;
 
-		//angã‚’åè»¢ã—ã¾ã™
+		//ang‚ğ”½“]‚µ‚Ü‚·
 		ang = ang + PAI;
 		if (ang > PAI) { ang -= 2 * PAI; }
 
-		//angã¨ã€vã‹ã‚‰å‡ºã‚‹è¾ºã®æ–¹å‘eang[v][i]ã‚’æ¯”è¼ƒã—ã¾ã™ã€‚
-		//angã‹ã‚‰åæ™‚è¨ˆã¾ã‚ã‚Šã«è¦‹ã¦ã„ã£ã¦ã‚‚ã£ã¨ã‚‚æœ€åˆã«ã‚ãŸã‚‹æ–¹å‘ã‚’æ¢ã™. ãŸã ã—angã¨åŒã˜å‘ãã¯ç„¡è¦–ã—ãŸã„.
+		//ang‚ÆAv‚©‚ço‚é•Ó‚Ì•ûŒüeang[v][i]‚ğ”äŠr‚µ‚Ü‚·B
+		//ang‚©‚ç”½Œv‚Ü‚í‚è‚ÉŒ©‚Ä‚¢‚Á‚Ä‚à‚Á‚Æ‚àÅ‰‚É‚ ‚½‚é•ûŒü‚ğ’T‚·. ‚½‚¾‚µang‚Æ“¯‚¶Œü‚«‚Í–³‹‚µ‚½‚¢.
 		for (i = 0; i < eang[v].size(); i++) {
 			if (fabs(ang -eang[v][i]) <= 1e-5) {
 				continue;
@@ -774,7 +774,7 @@ private:
 		return selectId;
 	}
 
-	//é ‚ç‚¹åº§æ¨™ã‚’è¿”ã™
+	//’¸“_À•W‚ğ•Ô‚·
 	vector<Point> toPoints(vector<int> pointId) {
 		vector<Point> ret;
 
@@ -784,7 +784,7 @@ private:
 		return ret;
 	}
 
-	//é ‚ç‚¹points[0] -> points[1]â€¦ã®é †ã§ã¤ãªã’ãŸå¤šè§’å½¢ã®ç¬¦å·ä»˜ãé¢ç©ã‚’è¿”ã™ï¼ˆ<0ãªã‚‰æ™‚è¨ˆå›ã‚Šï¼‰
+	//’¸“_points[0] -> points[1]c‚Ì‡‚Å‚Â‚È‚°‚½‘½ŠpŒ`‚Ì•„†•t‚«–ÊÏ‚ğ•Ô‚·i<0‚È‚çŒv‰ñ‚èj
 	double getArea(vector<Point> points) {
 		double area = 0;
 
@@ -796,13 +796,13 @@ private:
 		return area;
 	}
 
-	//æç”»
+	//•`‰æ
 	void draw(vector<vector<int>> polyList) {
 		static int t = 0;
 
-		//æ™®é€šã®è¡¨ç¤º
-		for (int i = 0; i < polyList.size(); i++) {	//iå€‹ç›®ã®å¤šè§’å½¢
-			for (int j = 0; j < polyList[i].size(); j++) {	//jå€‹ç›®ã®é ‚ç‚¹
+		//•’Ê‚Ì•\¦
+		for (int i = 0; i < polyList.size(); i++) {	//iŒÂ–Ú‚Ì‘½ŠpŒ`
+			for (int j = 0; j < polyList[i].size(); j++) {	//jŒÂ–Ú‚Ì’¸“_
 				int src = polyList[i][j];
 				int dst = polyList[i][(j + 1) % polyList[i].size()];
 
@@ -810,54 +810,54 @@ private:
 			}
 		}
 
-		//å¤šè§’å½¢ã®è¡¨ç¤º
+		//‘½ŠpŒ`‚Ì•\¦
 		int id = (t / 90) % polyList.size();
-		for (int j = 0; j < polyList[id].size(); j++) {	//jå€‹ç›®ã®é ‚ç‚¹
+		for (int j = 0; j < polyList[id].size(); j++) {	//jŒÂ–Ú‚Ì’¸“_
 			int src = polyList[id][j];
 			int dst = polyList[id][(j + 1) % polyList[id].size()];
 
 			DrawLine(pos[src].x, pos[src].y, pos[dst].x, pos[dst].y, GetColor(0, 255, 0), 2);
 		}
 
-		//é ‚ç‚¹ç•ªå·ã®è¡¨ç¤º
-		for (int j = 0; j < polyList[id].size(); j++) {	//jå€‹ç›®ã®é ‚ç‚¹
+		//’¸“_”Ô†‚Ì•\¦
+		for (int j = 0; j < polyList[id].size(); j++) {	//jŒÂ–Ú‚Ì’¸“_
 			int src = polyList[id][j];
 			DrawFormatString(pos[src].x, pos[src].y, GetColor(255, 0, 0), "%d", j);
 		}
 		t++;
 	}
 
-	//ãƒ”ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’piecedata.txtã«å‡ºåŠ›ã™ã‚‹
-	//æ•´æ•°ã§ã€å°æ•°ç‚¹ã¯å››æ¨äº”å…¥ã€‚
+	//ƒs[ƒXƒf[ƒ^‚ğpiecedata.txt‚Éo—Í‚·‚é
+	//®”‚ÅA¬”“_‚ÍlÌŒÜ“üB
 	void print(vector<vector<int>> polyList) {
 		ofstream ofs("piecedata.txt");
 
 		ofs << polyList.size() << endl;
 		for (int i = 0; i < polyList.size(); i++) {
-			//ãƒ”ãƒ¼ã‚¹ã®é ‚ç‚¹æ•°
+			//ƒs[ƒX‚Ì’¸“_”
 			ofs << polyList[i].size() << endl;
-			//xåº§æ¨™
+			//xÀ•W
 			ofs << fixed << setprecision(4) << pos[polyList[i][0]].x;
 			for (int j = 1; j < polyList[i].size(); j++) {
 				int src = polyList[i][j];
 				ofs << " " << fixed << setprecision(4) << pos[src].x;
 			}
 			ofs << endl;
-			//yåº§æ¨™
+			//yÀ•W
 			ofs << fixed << setprecision(4) << pos[polyList[i][0]].y;
 			for (int j = 1; j < polyList[i].size(); j++) {
 				int src = polyList[i][j];
 				ofs << " " << fixed << setprecision(4) << pos[src].y;
 			}
 			ofs << endl;
-			//æ”¹è¡Œ
+			//‰üs
 			ofs << endl;
 		}
 		ofs.close();
 	}
 
 public:
-	//ãƒ¡ã‚¤ãƒ³
+	//ƒƒCƒ“
 	int Main() {
 		input();
 		vector<vector<int>> res = search();
@@ -869,7 +869,7 @@ public:
 		printfDx("\n");
 		}*/
 
-		// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, â†â†’ã§çµ‚äº†)
+		// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ©¨‚ÅI—¹)
 		while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && !keyboard.isClick(KEY_INPUT_LEFT) && !keyboard.isClick(KEY_INPUT_RIGHT)) {
 			keyboard.update();
 			draw(res);
@@ -879,7 +879,7 @@ public:
 	}
 };
 
-//å·¥ç¨‹6. å•é¡Œï¼ˆãƒ”ãƒ¼ã‚¹ã®ã¿ï¼‰ã®ç”Ÿæˆ, é ‚ç‚¹åˆ—ã¯åæ™‚è¨ˆå›ã‚Šï¼ˆè¡¨ç¤ºã¨ã—ã¦ã¯æ™‚è¨ˆå›ã‚Šï¼‰
+//H’ö6. –â‘èiƒs[ƒX‚Ì‚İj‚Ì¶¬, ’¸“_—ñ‚Í”½Œv‰ñ‚èi•\¦‚Æ‚µ‚Ä‚ÍŒv‰ñ‚èj
 class GeneProb : public Project {
 private:
 	struct Point {
@@ -889,40 +889,40 @@ private:
 		bool operator<(const Point &r) const { return (x != r.x) ? x < r.x : y < r.y; }
 	};
 
-	//ãƒ‡ãƒ¼ã‚¿ç”¨
+	//ƒf[ƒ^—p
 	int n;
-	vector<Point> polyIni[100];	//åŠ å·¥å‰ã®ãƒ”ãƒ¼ã‚¹
-	Point base[100];	//é‡å¿ƒ
+	vector<Point> polyIni[1000];	//‰ÁH‘O‚Ìƒs[ƒX
+	Point base[1000];	//dS
 
-	vector<Point> poly[100];	//åŠ å·¥å¾Œã®ãƒ”ãƒ¼ã‚¹
+	vector<Point> poly[1000];	//‰ÁHŒã‚Ìƒs[ƒX
 
-	//åŠ å·¥ç”¨
-	double rot[100];	//é‡å¿ƒã‚’ä¸­å¿ƒã«å›è»¢
-	bool opFlag[100];	//é‡å¿ƒXã‚’ä¸­å¿ƒã«å¯¾ç§°ç§»å‹•
-	Point trans[100];	//å¹³è¡Œç§»å‹•
+	//‰ÁH—p
+	double rot[1000];	//dS‚ğ’†S‚É‰ñ“]
+	bool opFlag[1000];	//dSX‚ğ’†S‚É‘ÎÌˆÚ“®
+	Point trans[1000];	//•½sˆÚ“®
 
-	//å…¥åŠ›
+	//“ü—Í
 	void input() {
 		ifstream ifs("piecedata.txt");
 
 		ifs >> n;
 		for (int i = 0; i < n; i++) {
 			int tyotenNum;
-			//é ‚ç‚¹æ•°
+			//’¸“_”
 			ifs >> tyotenNum;
 			polyIni[i].resize(tyotenNum);
-			//xåº§æ¨™
+			//xÀ•W
 			for (int j = 0; j < tyotenNum; j++) {
 				ifs >> polyIni[i][j].x;
 			}
-			//yåº§æ¨™
+			//yÀ•W
 			for (int j = 0; j < tyotenNum; j++) {
 				ifs >> polyIni[i][j].y;
 			}
 		}
 	}
 
-	//åˆæœŸåŒ–
+	//‰Šú‰»
 	void init() {
 		for (int i = 0; i < n; i++) {
 			int tyotenNum = polyIni[i].size();
@@ -941,7 +941,7 @@ private:
 		}
 	}
 
-	//åŠ å·¥ç”¨å¤‰æ•°ã‚’å¼„ã‚‹é–¢æ•°
+	//‰ÁH—p•Ï”‚ğ˜M‚éŠÖ”
 	void convert() {
 		for (int i = 0; i < n; i++) {
 			//rot[i] = GetRand(628) / 100.0 - 3.1415926;
@@ -951,31 +951,31 @@ private:
 		}
 	}
 
-	//åŠ å·¥å¾Œã®ãƒ”ãƒ¼ã‚¹poly[i]ã‚’ä½œã‚‹é–¢æ•°
+	//‰ÁHŒã‚Ìƒs[ƒXpoly[i]‚ğì‚éŠÖ”
 	void makePoly() {
 
 		for (int i = 0; i < n; i++) {
-			//ã‚³ãƒ”ãƒ¼
+			//ƒRƒs[
 			poly[i] = polyIni[i];
-			//å›è»¢ (é‡å¿ƒã‚’ä¸­å¿ƒã¨ã—ãŸå›è»¢ï¼‰
+			//‰ñ“] (dS‚ğ’†S‚Æ‚µ‚½‰ñ“]j
 			for (int j = 0; j < poly[i].size(); j++) {
 				double x = base[i].x + cos(rot[i]) * (poly[i][j].x - base[i].x) - sin(rot[i]) * (poly[i][j].y - base[i].y);
 				double y = base[i].y + sin(rot[i]) * (poly[i][j].x - base[i].x) + cos(rot[i]) * (poly[i][j].y - base[i].y);
 				poly[i][j].x = x;
 				poly[i][j].y = y;
 			}
-			//åè»¢ï¼ˆé‡å¿ƒXã‚’è»¸ã¨ã—ãŸåè»¢ï¼‰
+			//”½“]idSX‚ğ²‚Æ‚µ‚½”½“]j
 			if (opFlag[i]) {
 				for (int j = 0; j < poly[i].size(); j++) {
 					poly[i][j].x = 2 * base[i].x - poly[i][j].x;
 				}
 			}
-			//å¹³è¡Œç§»å‹•ï¼ˆè¶³ã™ã ã‘ï¼‰
+			//•½sˆÚ“®i‘«‚·‚¾‚¯j
 			for (int j = 0; j < poly[i].size(); j++) {
 				poly[i][j].x += trans[i].x;
 				poly[i][j].y += trans[i].y;
 			}
-			//é ‚ç‚¹ç•ªå·ã‚’æ™‚è¨ˆå›ã‚Šã‹ã‚‰åæ™‚è¨ˆå›ã‚Šã«å¤‰æ› (é ‚ç‚¹0ã®ä½ç½®ãŒå¤‰ã‚ã‚‹ã®ã§æ³¨æ„ï¼‰, ãŸã ã—åè»¢å‡¦ç†ã‚’ã—ã¦ã„ã‚‹å ´åˆã¯æ—¢ã«åæ™‚è¨ˆã«ãªã£ã¦ã„ã‚‹ã®ã§ã€ã“ã®å‡¦ç†ã‚’ã—ãªã„ã€‚
+			//’¸“_”Ô†‚ğŒv‰ñ‚è‚©‚ç”½Œv‰ñ‚è‚É•ÏŠ· (’¸“_0‚ÌˆÊ’u‚ª•Ï‚í‚é‚Ì‚Å’ˆÓj, ‚½‚¾‚µ”½“]ˆ—‚ğ‚µ‚Ä‚¢‚éê‡‚ÍŠù‚É”½Œv‚É‚È‚Á‚Ä‚¢‚é‚Ì‚ÅA‚±‚Ìˆ—‚ğ‚µ‚È‚¢B
 			if (!opFlag[i]) {
 				vector<Point> tmp;
 				for (int j = poly[i].size() - 1; j >= 0; j--) {
@@ -988,12 +988,12 @@ private:
 		}
 	}
 
-	//æç”»
+	//•`‰æ
 	void draw() {
 		static int t = 0;
 		int id = (t / 60) % n;
 
-		//é»’ç·š
+		//•ü
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < poly[i].size(); j++) {
 				int x1 = poly[i][j].x;
@@ -1003,7 +1003,7 @@ private:
 				DrawLine(x1, y1, x2, y2, 0, 2);
 			}
 		}
-		//ç·‘ç·š
+		//—Îü
 		for (int j = 0; j < poly[id].size(); j++) {
 			int x1 = poly[id][j].x;
 			int y1 = poly[id][j].y;
@@ -1011,7 +1011,7 @@ private:
 			int y2 = poly[id][(j + 1) % poly[id].size()].y;
 			DrawLine(x1, y1, x2, y2, GetColor(0, 255, 0), 2);
 		}
-		//é ‚ç‚¹ç•ªå·
+		//’¸“_”Ô†
 		for (int j = 0; j < poly[id].size(); j++) {
 			int x = poly[id][j].x;
 			int y = poly[id][j].y;
@@ -1020,44 +1020,44 @@ private:
 		t++;
 	}
 
-	//å‡ºåŠ›
+	//o—Í
 	void print() {
 		ofstream ofs("probdata.txt");
 
-		//ãƒ”ãƒ¼ã‚¹æ•°
+		//ƒs[ƒX”
 		ofs << n << endl;
 		for (int i = 0; i < n; i++) {
 			int tyotenNum = poly[i].size();
 
-			//é ‚ç‚¹æ•°
+			//’¸“_”
 			ofs << tyotenNum << endl;
-			//xåº§æ¨™
+			//xÀ•W
 			ofs << (int)poly[i][0].x;
 			for (int j = 1; j < poly[i].size(); j++) {
 				ofs << " " << (int)poly[i][j].x;
 			}
 			ofs << endl;
-			//yåº§æ¨™
+			//yÀ•W
 			ofs << (int)poly[i][0].y;
 			for (int j = 1; j < poly[i].size(); j++) {
 				ofs << " " << (int)poly[i][j].y;
 			}
 			ofs << endl;
-			//æ”¹è¡Œ
+			//‰üs
 			ofs << endl;
 		}
 		ofs.close();
 	}
 
 public:
-	//ãƒ¡ã‚¤ãƒ³
+	//ƒƒCƒ“
 	int Main() {
 		input();
 		init();
 		convert();
 		makePoly();
 
-		// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, â†â†’ã§çµ‚äº†)
+		// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ©¨‚ÅI—¹)
 		while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && !keyboard.isClick(KEY_INPUT_LEFT) && !keyboard.isClick(KEY_INPUT_RIGHT)) {
 			keyboard.update();
 			draw();
@@ -1067,7 +1067,7 @@ public:
 	}
 };
 
-//C++ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯å‚ç…§ã§ã¯ãªãå®Ÿä½“ï¼ï¼ ãƒãƒªãƒ¢ãƒ¼ãƒ•ã‚£ã‚ºãƒ ã‚’ã—ãŸã‘ã‚Œã°ã€ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’ä½¿ãˆï¼ï¼
+//C++‚ÌƒIƒuƒWƒFƒNƒg‚ÍQÆ‚Å‚Í‚È‚­À‘ÌII ƒ|ƒŠƒ‚[ƒtƒBƒYƒ€‚ğ‚µ‚½‚¯‚ê‚ÎAƒ|ƒCƒ“ƒ^[‚ğg‚¦II
 MyPaint paint;
 Cut cut;
 Split split;
@@ -1075,10 +1075,10 @@ GeneGraph gene_graph;
 GenePiece gene_piece;
 GeneProb gene_prob;
 
-int stage = 0;	//ä»Šã®ã€å·¥ç¨‹ã‚’è¡¨ã™ç•ªå·
-Project *p[6] = {&paint, &cut, &split, &gene_graph, &gene_piece, &gene_prob};	//ã€ŒProjectã‚¯ãƒ©ã‚¹ã®å­ã‚¯ãƒ©ã‚¹ã®å®Ÿä½“ã€ã®å ´æ‰€ã‚’é…åˆ—ã«å…¥ã‚Œã¦ãŠãã€‚
+int stage = 0;	//¡‚ÌAH’ö‚ğ•\‚·”Ô†
+Project *p[6] = {&paint, &cut, &split, &gene_graph, &gene_piece, &gene_prob};	//uProjectƒNƒ‰ƒX‚ÌqƒNƒ‰ƒX‚ÌÀ‘Ìv‚ÌêŠ‚ğ”z—ñ‚É“ü‚ê‚Ä‚¨‚­B
 
-//å…¨ä½“ãƒ¡ã‚¤ãƒ³
+//‘S‘ÌƒƒCƒ“
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	SetGraphMode(800, 600, 32);
 	SetBackgroundColor(255, 255, 255);
@@ -1086,7 +1086,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, ESCã§çµ‚äº†)
+	// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ESC‚ÅI—¹)
 	while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && CheckHitKey(KEY_INPUT_ESCAPE)==0) {
 		keyboard.update();
 		if (p[stage]->Main() != 0) break;
