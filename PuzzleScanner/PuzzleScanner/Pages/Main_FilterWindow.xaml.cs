@@ -44,6 +44,7 @@ namespace PuzzleScanner.Pages {
             filter();
             imgCanvas.Height = ImageHeight * ZoomSlider.Value;
             imgCanvas.Width = ImageWidth * ZoomSlider.Value;
+            BaseImg.Source = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
         }
 
         private void filter() {

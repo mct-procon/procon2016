@@ -45,7 +45,8 @@
                 <Canvas.RenderTransform>
                     <ScaleTransform ScaleX="{Binding ElementName=ZoomSlider, Path=Value}" ScaleY="{Binding ElementName=ZoomSlider, Path=Value}"/>
                 </Canvas.RenderTransform>
-                <Image x:Name="img"/>
+                <Image x:Name="BaseImg" Stretch="UniformToFill" Height="{Binding ElementName=img, Path=ActualHeight}" Width="{Binding ElementName=img, Path=ActualWidth}"/>
+                <Image x:Name="img" Opacity="0.6"/>
             </Canvas>
         </ScrollViewer>
         <Canvas Width="{Binding ElementName=Thumbnail, Path=ActualWidth}"
