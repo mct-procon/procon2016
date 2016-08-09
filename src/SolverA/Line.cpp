@@ -1,44 +1,44 @@
-//Lineã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
-//å‚è€ƒæ–‡çŒ®ï¼šhttp://www.prefield.com/algorithm/
+//LineƒNƒ‰ƒX‚ÌÀ‘•
+//Ql•¶Œ£Fhttp://www.prefield.com/algorithm/
 
 #include "Line.h"
 #include "STL.h"
 
-//ãƒ™ã‚¯ãƒˆãƒ«uã¨ãƒ™ã‚¯ãƒˆãƒ«vã®å¤–ç©ã®ç¬¦å·ä»˜ãã‚µã‚¤ã‚º = u.real * v.imag - u.imag * v.realã‚’è¿”ã™. ã¡ãªã¿ã«ã€cross(u, v) = -cross(v, u)ãŒæˆã‚Šç«‹ã¤ã€‚
-//conj(u)ã¯uã®å…±å½¹è¤‡ç´ æ•°u.real() - u.imag(), imag(x)ã¯x.imag()ã¨åŒã˜ã€‚
+//ƒxƒNƒgƒ‹u‚ÆƒxƒNƒgƒ‹v‚ÌŠOÏ‚Ì•„†•t‚«ƒTƒCƒY = u.real * v.imag - u.imag * v.real‚ğ•Ô‚·. ‚¿‚È‚İ‚ÉAcross(u, v) = -cross(v, u)‚ª¬‚è—§‚ÂB
+//conj(u)‚Íu‚Ì‹¤–ğ•¡‘f”u.real() - u.imag(), imag(x)‚Íx.imag()‚Æ“¯‚¶B
 double Line::cross(Point &u, Point &v) {
 	return imag(conj(u) * v);
 }
 
-//äº¤ç‚¹è¨ˆç®—
+//Œğ“_ŒvZ
 Point Line::get_cross_point(Line &line) {
-	double A = cross(e - s, line.e - line.s);	//ç·šåˆ†ã®ç«¯ç‚¹ã‚’é ‚ç‚¹ã¨ã™ã‚‹å¹³è¡Œå››è¾ºå½¢ã®é¢ç©(>=0)
-	double B = cross(e - s, e - line.s);		//s, e, line.sã‚’é ‚ç‚¹ã¨ã™ã‚‹ä¸‰è§’å½¢ã®é¢ç©(>=0)
+	double A = cross(e - s, line.e - line.s);	//ü•ª‚Ì’[“_‚ğ’¸“_‚Æ‚·‚é•½sl•ÓŒ`‚Ì–ÊÏ(>=0)
+	double B = cross(e - s, e - line.s);		//s, e, line.s‚ğ’¸“_‚Æ‚·‚éOŠpŒ`‚Ì–ÊÏ(>=0)
 	double eps = 1e-8;
 	
-	if (abs(A) < eps && abs(B) < eps) return line.s;	//åŒã˜ç›´ç·šãªã®ã§ã€é©å½“ãªç‚¹ã‚’è¿”ã™
-	if (abs(A) < eps) assert(false);					//å®Ÿè¡Œã‚¨ãƒ©ãƒ¼
-	return line.s + B / A * (line.e - line.s);			//äº¤ç‚¹ã‚’è¿”ã™
+	if (abs(A) < eps && abs(B) < eps) return line.s;	//“¯‚¶’¼ü‚È‚Ì‚ÅA“K“–‚È“_‚ğ•Ô‚·
+	if (abs(A) < eps) assert(false);					//ÀsƒGƒ‰[
+	return line.s + B / A * (line.e - line.s);			//Œğ“_‚ğ•Ô‚·
 }
 
-//s -> eãŒåæ™‚è¨ˆå›ã‚Šã®å¤šè§’å½¢ã®é ‚ç‚¹åˆ—i, i + 1ã§ã‚ã‚‹ã¨ãã€å¤šè§’å½¢ã«ã¤ã„ã¦ã€Œå¤–å‘ããªå˜ä½æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã€ã‚’è¿”ã™ã€‚
-//ã™ãªã‚ã¡ã€Reè»¸ã‚’â†’, Imè»¸ã‚’â†‘ã«å–ã£ãŸã¨ãã€s -> eã‚’æ™‚è¨ˆå›ã‚Šã«90Â°å›è»¢ã—ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’å¤§ãã•1ã«ã—ã¦è¿”ã™ã€‚
+//s -> e‚ª”½Œv‰ñ‚è‚Ì‘½ŠpŒ`‚Ì’¸“_—ñi, i + 1‚Å‚ ‚é‚Æ‚«A‘½ŠpŒ`‚É‚Â‚¢‚ÄuŠOŒü‚«‚È’PˆÊ–@üƒxƒNƒgƒ‹v‚ğ•Ô‚·B
+//‚·‚È‚í‚¿ARe²‚ğ¨, Im²‚ğª‚Éæ‚Á‚½‚Æ‚«As -> e‚ğŒv‰ñ‚è‚É90‹‰ñ“]‚µ‚½ƒxƒNƒgƒ‹‚ğ‘å‚«‚³1‚É‚µ‚Ä•Ô‚·B
 Point Line::get_unit_norm() {
 	Point norm = complex<double>(0, 1) * (s - e);
 	return norm / abs(norm);
 }
 
-//ç©ºã®åˆæœŸåŒ–
+//‹ó‚Ì‰Šú‰»
 Line::Line() {
 }
 
-//ã¾ã¨ã‚‚ãªåˆæœŸåŒ–
+//‚Ü‚Æ‚à‚È‰Šú‰»
 Line::Line(Point s, Point e) {
 	this->s = s;
 	this->e = e;
 }
 
-//å½“ãŸã‚Šåˆ¤å®š (Tå­—ã‚‚å½“ãŸã£ã¦ã„ã‚‹ã¨ã¿ãªã™)
+//“–‚½‚è”»’è (Tš‚à“–‚½‚Á‚Ä‚¢‚é‚Æ‚İ‚È‚·)
 bool Line::ishit(Line &line) {
 	double u, v;
 
@@ -51,13 +51,13 @@ bool Line::ishit(Line &line) {
 	return true;
 }
 
-//line1, line2ã¨ã®äº¤ç‚¹P, Qã‚’æ±‚ã‚ã€ç·šåˆ†ã®ç¯„å›²ã‚’[P, Q]ã«ã™ã‚‹ã€‚
+//line1, line2‚Æ‚ÌŒğ“_P, Q‚ğ‹‚ßAü•ª‚Ì”ÍˆÍ‚ğ[P, Q]‚É‚·‚éB
 void Line::cut_line(Line &line1, Line &line2) {
 	s = get_cross_point(line1);
 	e = get_cross_point(line2);
 }
 
-//ç·šåˆ†ã‚’ã€Œå¤–å‘ããªå˜ä½æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã€ã®æ–¹å‘ã«distã ã‘å‹•ã‹ã™ã€‚distãŒè² ã®å ´åˆã¯é€†æ–¹å‘ã«å‹•ãã€‚
+//ü•ª‚ğuŠOŒü‚«‚È’PˆÊ–@üƒxƒNƒgƒ‹v‚Ì•ûŒü‚Édist‚¾‚¯“®‚©‚·Bdist‚ª•‰‚Ìê‡‚Í‹t•ûŒü‚É“®‚­B
 void Line::move_line(double dist) {
 	Point trans = get_unit_norm();
 	trans *= dist;

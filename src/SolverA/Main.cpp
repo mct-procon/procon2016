@@ -1,7 +1,13 @@
-//7æœˆ13æ—¥ã«å®Ÿè£…é–‹å§‹ã—ãŸã‚½ãƒ«ãƒãƒ¼ã§ã™ã€‚æ ã®å¤–å´ã‹ã‚‰ã€Œé ‚ç‚¹ã€ã«æ³¨ç›®ã—ã¦ãƒ”ãƒ¼ã‚¹ã‚’ãã£ã¤ã‘ã¦ã„ãã¾ã™ã€‚
+//7Œ13“ú‚ÉÀ‘•ŠJn‚µ‚½ƒ\ƒ‹ƒo[‚Å‚·B˜g‚ÌŠO‘¤‚©‚çu’¸“_v‚É’–Ú‚µ‚Äƒs[ƒX‚ğ‚­‚Á‚Â‚¯‚Ä‚¢‚«‚Ü‚·B
 
 #include "DxLib.h"
-#include "Solver.h"
+#include "MySolver.h"
+
+vector<MySolver> solver_anime;
+
+void capture(MySolver backup) {
+	solver_anime.push_back(backup);
+}
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	SetGraphMode(800, 600, 32);
@@ -10,15 +16,39 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	//è§£ã
-	static Solver solver;
-	solver.input("Problem/sample.txt");
+	//‰ğ‚­
+	static MySolver solver;
+	solver.input("Problem/TR3.txt");
 	solver.solve();
-	solver.print("Answer/sample.txt");
+	solver.print("Answer/TR3.txt");
 
-	// while(è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ ,ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†,ç”»é¢ã‚¯ãƒªã‚¢, ESCã§çµ‚äº†)
+	// while(— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f,ƒƒbƒZ[ƒWˆ—,‰æ–ÊƒNƒŠƒA, ESC‚ÅI—¹)
+	int t = 0;
+	int play_mode = 1;	//3c‚‘¬Ä¶, 1cÄ¶, 0cƒXƒgƒbƒv
+	bool is_draw_didnot_put = false;
+
+	char key[256] = {0};
+	char bkey[256];
+
 	while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && CheckHitKey(KEY_INPUT_ESCAPE)==0) {
-		solver.draw(false);
+		//ƒpƒYƒ‹‚Ì•\¦
+		int id = (t / 60) % (solver_anime.size() + 4);
+		if (id >= solver_anime.size()) { id = (int)solver_anime.size() - 1; }
+		solver_anime[id].draw(is_draw_didnot_put);
+		//ƒL[ƒ{[ƒh‚ÌXV
+		for (int i = 0; i < 256; i++) bkey[i] = key[i];
+		GetHitKeyStateAll(key);
+		//‚è[‚Ç‚İ[
+		DrawFormatString(150, 25, GetColor(255, 65, 154), "Ä¶ƒ‚[ƒh(A, S, D, F)`(‹tÄ¶, ’â~, ’Êí, ‚‘¬)");
+		DrawFormatString(150, 55, GetColor(0, 155, 155), "•\¦Ø‘Ö‚¦(SPACE)");
+		//Ä¶‚Æ‚©•\¦‚ÌØ‚è‘Ö‚¦
+		if (key[KEY_INPUT_A]) { play_mode = -1; }
+		if (key[KEY_INPUT_S]) { play_mode = 0; }
+		if (key[KEY_INPUT_D]) { play_mode = 1; }
+		if (key[KEY_INPUT_F]) { play_mode = 3; }
+		if (!bkey[KEY_INPUT_SPACE] && key[KEY_INPUT_SPACE]) { is_draw_didnot_put = !is_draw_didnot_put; }
+		
+		t += play_mode;
 	}
 	DxLib_End();
 	return 0;

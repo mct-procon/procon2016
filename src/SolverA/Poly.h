@@ -1,4 +1,4 @@
-//å¤šè§’å½¢ã‚¯ãƒ©ã‚¹ã®å®£è¨€
+//‘½ŠpŒ`ƒNƒ‰ƒX‚ÌéŒ¾
 
 #pragma once
 #include "Point.h"
@@ -7,9 +7,10 @@ class Poly {
 private:
 	Point point0;
 	vector<Point> point;
+	Poly *left_child, *right_child;
 
 public:
-	//åˆæœŸåŒ–
+	//‰Šú‰»
 	Poly(Point point0, vector<Point> point);
 	Poly();
 

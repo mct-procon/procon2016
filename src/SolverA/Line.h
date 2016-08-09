@@ -1,20 +1,20 @@
-//ç·šåˆ†ã‚¯ãƒ©ã‚¹
+//ü•ªƒNƒ‰ƒX
  
 #pragma once
 #include "Point.h"
 
 class Line {
 private:
-	double cross(Point &u, Point &v);			//ãƒ™ã‚¯ãƒˆãƒ«u, vã®å¤–ç©ã®å¤§ãã•ã‚’è¿”ã™
-	Point get_cross_point(Line &line);			//äº¤ç‚¹è¨ˆç®—
-	Point get_unit_norm();						//s -> eãŒåæ™‚è¨ˆå›ã‚Šã®å¤šè§’å½¢ã®é ‚ç‚¹åˆ—i, i + 1ã§ã‚ã‚‹ã¨ãã€å¤šè§’å½¢ã«ã¤ã„ã¦ã€Œå¤–å‘ããªå˜ä½æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã€ã‚’è¿”ã™ã€‚
+	double cross(Point &u, Point &v);			//ƒxƒNƒgƒ‹u, v‚ÌŠOÏ‚Ì‘å‚«‚³‚ğ•Ô‚·
+	Point get_cross_point(Line &line);			//Œğ“_ŒvZ
+	Point get_unit_norm();						//s -> e‚ª”½Œv‰ñ‚è‚Ì‘½ŠpŒ`‚Ì’¸“_—ñi, i + 1‚Å‚ ‚é‚Æ‚«A‘½ŠpŒ`‚É‚Â‚¢‚ÄuŠOŒü‚«‚È’PˆÊ–@üƒxƒNƒgƒ‹v‚ğ•Ô‚·B
 
 public:
-	Point s, e;									//å§‹ç‚¹, çµ‚ç‚¹ã€‚ä»¥ä¸‹ã®é–¢æ•°ç¾¤ã¯ã€å§‹ç‚¹ã¨çµ‚ç‚¹ã®åº§æ¨™ã‚’äº¤æ›ã—ã¦ã‚‚ã€æ­£ã—ãå‹•ä½œã™ã‚‹ã€‚
+	Point s, e;									//n“_, I“_BˆÈ‰º‚ÌŠÖ”ŒQ‚ÍAn“_‚ÆI“_‚ÌÀ•W‚ğŒğŠ·‚µ‚Ä‚àA³‚µ‚­“®ì‚·‚éB
 
 	Line ();
 	Line (Point s, Point e);
-	bool ishit(Line &line);						//ä»–ã®ç·šåˆ†ã¨ã®äº¤å·®åˆ¤å®š. å¢ƒç•Œä¸Šã¯å½“ãŸã£ã¦ã„ã‚‹(true)ã¨ã¿ãªã™ã€‚
-	void cut_line(Line &line1, Line &line2);	//line1, line2ã¨ã®äº¤ç‚¹P, Qã‚’æ±‚ã‚ã€ç·šåˆ†ã®ç¯„å›²ã‚’[P, Q]ã«ã™ã‚‹ã€‚
-	void move_line(double dist);				//ç·šåˆ†ã‚’ã€Œå¤–å‘ãã®å˜ä½æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã€ã®æ–¹å‘ã«distã ã‘å‹•ã‹ã™ã€‚distãŒè² ã®å ´åˆã¯é€†æ–¹å‘ã«å‹•ãã€‚
+	bool ishit(Line &line);						//‘¼‚Ìü•ª‚Æ‚ÌŒğ·”»’è. ‹«ŠEã‚Í“–‚½‚Á‚Ä‚¢‚é(true)‚Æ‚İ‚È‚·B
+	void cut_line(Line &line1, Line &line2);	//line1, line2‚Æ‚ÌŒğ“_P, Q‚ğ‹‚ßAü•ª‚Ì”ÍˆÍ‚ğ[P, Q]‚É‚·‚éB
+	void move_line(double dist);				//ü•ª‚ğuŠOŒü‚«‚Ì’PˆÊ–@üƒxƒNƒgƒ‹v‚Ì•ûŒü‚Édist‚¾‚¯“®‚©‚·Bdist‚ª•‰‚Ìê‡‚Í‹t•ûŒü‚É“®‚­B
 };
