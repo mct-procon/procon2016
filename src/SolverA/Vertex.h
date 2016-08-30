@@ -1,4 +1,4 @@
-//é ‚ç‚¹ã‚¯ãƒ©ã‚¹, tupleã§ã‚‚è‰¯ã‹ã£ãŸãŒã€ä¿å®ˆæ€§ãŒæ‚ªããªã‚Šãã†ãªã®ã§è¿½åŠ ã—ãŸã€‚å˜ã«ã€ã©ã®å¤šè§’å½¢ã®ã©ã®é ‚ç‚¹ã‹ã‚’è¨˜éŒ²ã—ã¦ã„ã‚‹ã€‚
+//’¸“_ƒNƒ‰ƒX, tuple‚Å‚à—Ç‚©‚Á‚½‚ªA•Ûç«‚ªˆ«‚­‚È‚è‚»‚¤‚È‚Ì‚Å’Ç‰Á‚µ‚½B’P‚ÉA‚Ç‚Ì‘½ŠpŒ`‚Ì‚Ç‚Ì’¸“_‚©‚ğ‹L˜^‚µ‚Ä‚¢‚éB
 #pragma once
 #include "STL.h"
 
@@ -10,4 +10,5 @@ public:
 
 	Vertex();
 	Vertex(bool is_piece, int poly_id, int vertex_id);
+	bool operator<(const Vertex &r) const { return is_piece < r.is_piece; }
 };

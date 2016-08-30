@@ -1,8 +1,8 @@
-//å¤šè§’å½¢ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
+//‘½ŠpŒ`ƒNƒ‰ƒX‚ÌÀ‘•
 
 #include "Poly.h"
 
-//åˆæœŸåŒ–
+//‰Šú‰»
 Poly::Poly() {
 }
 
@@ -11,17 +11,17 @@ Poly::Poly(Point point0, vector<Point> point) {
 	this->point = point;
 }
 
-//é ‚ç‚¹æ•°ã‚’è¿”ã™
+//’¸“_”‚ğ•Ô‚·
 int Poly::size() {
 	return point.size();
 }
 
-//é ‚ç‚¹idã®çµ¶å¯¾åº§æ¨™ã‚’è¿”ã™
+//’¸“_id‚Ìâ‘ÎÀ•W‚ğ•Ô‚·
 Point Poly::get_point(int id) {
 	return point0 + point[(id + size()) % size()];
 }
 
-//é ‚ç‚¹idã®è§’åº¦[Â°]ã‚’è¿”ã™. å€¤åŸŸã¯[0, 360)
+//’¸“_id‚ÌŠp“x[‹]‚ğ•Ô‚·. ’lˆæ‚Í[0, 360)
 double Poly::get_angle_deg(int id) {
 	Point a = get_point(id - 1) - get_point(id);
 	Point b = get_point(id + 1) - get_point(id);
@@ -33,18 +33,18 @@ double Poly::get_angle_deg(int id) {
 	return deg;
 }
 
-//é ‚ç‚¹idãŒç‚¹sã¨ãã£ã¤ãã€é ‚ç‚¹id -> id + 1ã‚’ã¤ãªãæœ‰å‘ç·šåˆ†ã¨ç‚¹s -> eã‚’ã¤ãªãæœ‰å‘ç·šåˆ†ãŒåŒã˜å‘ãã«ãªã‚‹ã‚ˆã†ã«ã€å¤šè§’å½¢ã‚’ç§»å‹•ã™ã‚‹ã€‚
+//’¸“_id‚ª“_s‚Æ‚­‚Á‚Â‚«A’¸“_id -> id + 1‚ğ‚Â‚È‚®—LŒüü•ª‚Æ“_s -> e‚ğ‚Â‚È‚®—LŒüü•ª‚ª“¯‚¶Œü‚«‚É‚È‚é‚æ‚¤‚ÉA‘½ŠpŒ`‚ğˆÚ“®‚·‚éB
 void Poly::move(int id, Point s, Point e) {
 	Point a = get_point(id);
 	Point b = get_point(id + 1);
 
-	//é ‚ç‚¹0ã‚’ä¸­å¿ƒã«å›è»¢. ãƒ™ã‚¯ãƒˆãƒ«a -> bãŒãƒ™ã‚¯ãƒˆãƒ«s -> eã¨åŒã˜å‘ãã«ãªã‚‹ã‚ˆã†ã«ã€Œå…¨é ‚ç‚¹ã‚’ã€å›è»¢ã™ã‚‹ã€‚
+	//’¸“_0‚ğ’†S‚É‰ñ“]. ƒxƒNƒgƒ‹a -> b‚ªƒxƒNƒgƒ‹s -> e‚Æ“¯‚¶Œü‚«‚É‚È‚é‚æ‚¤‚Éu‘S’¸“_‚ğv‰ñ“]‚·‚éB
 	Point mul = (e - s) / (b - a);
 	mul /= abs(mul);
 	for (int i = 0; i < size(); i++) {
 		point[i] *= mul;
 	}
 
-	//å¹³è¡Œç§»å‹•
+	//•½sˆÚ“®
 	point0 += s - get_point(id);
 }

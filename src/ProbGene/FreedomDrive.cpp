@@ -696,10 +696,10 @@ private:
 	}
 
 	//ret[i][j]には多角形iの頂点jにあたる頂点の番号を入れる。retを返す。
+	bool used[1000][1000];		//辺の使用フラグ
+	bool used2[1000];			//頂点の使用フラグ (一時保管用)
 	vector<vector<int>> search() {
 		vector<vector<int>> ret;
-		bool used[1000][1000];		//辺の使用フラグ
-		bool used2[1000];			//頂点の使用フラグ (一時保管用)
 		int i, j;
 
 		for (i = 0; i < n; i++) { for (j = 0; j < n; j++) { used[i][j] = false; } }
@@ -891,15 +891,15 @@ private:
 
 	//データ用
 	int n;
-	vector<Point> polyIni[100];	//加工前のピース
-	Point base[100];	//重心
+	vector<Point> polyIni[1000];	//加工前のピース
+	Point base[1000];	//重心
 
-	vector<Point> poly[100];	//加工後のピース
+	vector<Point> poly[1000];	//加工後のピース
 
 	//加工用
-	double rot[100];	//重心を中心に回転
-	bool opFlag[100];	//重心Xを中心に対称移動
-	Point trans[100];	//平行移動
+	double rot[1000];	//重心を中心に回転
+	bool opFlag[1000];	//重心Xを中心に対称移動
+	Point trans[1000];	//平行移動
 
 	//入力
 	void input() {

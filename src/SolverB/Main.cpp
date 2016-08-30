@@ -1,12 +1,12 @@
 //7月13日に実装開始したソルバーです。枠の外側から「頂点」に注目してピースをくっつけていきます。
 
 #include "DxLib.h"
-#include "MySolver.h"
+#include "Solver.h"
 
-vector<MySolver> solver_anime;
+vector<Solver> solver_anime;
 
-void capture(MySolver backup) {
-	solver_anime.push_back(backup);
+void capture(Solver shot) {
+	solver_anime.push_back(shot);
 }
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
@@ -17,10 +17,10 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	//解く
-	static MySolver solver;
-	solver.input("Problem/TR3.txt");
+	static Solver solver;
+	solver.input("Problem/TR2.txt", 5);
 	solver.solve();
-	solver.print("Answer/TR3.txt");
+	solver.print("Answer/TR2.txt");
 
 	// while(裏画面を表画面に反映,メッセージ処理,画面クリア, ESCで終了)
 	int t = 0;
