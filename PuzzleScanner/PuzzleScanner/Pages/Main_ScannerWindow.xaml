@@ -18,14 +18,11 @@
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Zoom:" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18" FontFamily="Segoe UI Light" Height="24" Margin="0,3" Width="49"/>
-        <Slider x:Name="ZoomSlider" Margin="54,6,80,6" Grid.Column="1" LargeChange="0.1" Maximum="100" Value="1" ValueChanged="ZoomSlider_ValueChanged" VerticalAlignment="Center" Height="18"/>
-        <TextBlock Text="{Binding ElementName=ZoomSlider, Path=Value}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,7,10,7" VerticalAlignment="Center" Height="16" Width="6"/>
         <ListBox x:Name="ImageList" Grid.Row="1" Grid.RowSpan="2" FontSize="18"/>
-        <ScrollViewer x:Name="Scroller"  Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport">
+        <ScrollViewer x:Name="Scroller"  Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">
             <Canvas x:Name="ResultCanvas" HorizontalAlignment="Left" VerticalAlignment="Top" >
                 <Canvas.RenderTransform>
-                    <ScaleTransform ScaleX="{Binding ElementName=ZoomSlider, Path=Value}" ScaleY="{Binding ElementName=ZoomSlider, Path=Value}"/>
+                    <ScaleTransform x:Name="CanvasScale"/>
                 </Canvas.RenderTransform>
             </Canvas>
         </ScrollViewer>

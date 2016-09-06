@@ -46,5 +46,16 @@ namespace PuzzleScanner.Pages {
             mw.BackToImageChooseButton.Visibility = Visibility.Visible;
             mw.MainFrame.Navigate(new Pages.Main_FilterWindow(ReferencedImageFilePath));
         }
+
+        private void CalibButton_Click(object sender, RoutedEventArgs e) {
+            //CvInvoke.NamedWindow("debugwindow");
+            //int HorizonalCrossCount = 39;
+            //int VerticalCrossCount = 29;
+            //Mat frame = CvInvoke.Imread(ReferencedImageFilePath);
+            //Mat gray;
+            //CvInvoke.Flip(frame, frame, Emgu.CV.CvEnum.FlipType.None);
+            //CvInvoke.CvtColor(frame, gray, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
+
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace PuzzleScanner.Pages {
         int ImageHeight = 0;
         int ImageWidth = 0;
 
+        double Scale = 1;
+
         public Main_FilterWindow() {
             InitializeComponent();
         }
@@ -42,9 +44,10 @@ namespace PuzzleScanner.Pages {
             ImageHeight = readed.Height;
             CvInvoke.CvtColor(readed, mm, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
             filter();
-            imgCanvas.Height = ImageHeight * ZoomSlider.Value;
-            imgCanvas.Width = ImageWidth * ZoomSlider.Value;
+            Scale = 1;
             BaseImg.Source = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
+            imgCanvas.Width = ImageWidth;
+            imgCanvas.Height = ImageHeight;
         }
 
         private void filter() {
@@ -74,10 +77,10 @@ namespace PuzzleScanner.Pages {
             UMat res = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             byte[] cache_in = mm.Bytes;
             byte[] filtercache = res.Bytes;
-            Parallel.For(0, filtercache.Length, (n) => {
+            for (int n = 0; n < filtercache.Length; ++n) {
                 filtercache[n] = (cache_in[n * 3] >= MIN_H && cache_in[n * 3] <= MAX_H && cache_in[n * 3 + 1] <= MAX_S && cache_in[n * 3 + 1] >= MIN_S && cache_in[n * 3 + 2] <= MAX_V && cache_in[n * 3 + 2] >= MIN_V) ?
                     (byte)255 : (byte)0;
-            });
+            }
             res.Bytes = filtercache;
             return res;
         }
@@ -130,13 +133,6 @@ namespace PuzzleScanner.Pages {
             this.Viewport.Height = height;
         }
 
-        private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-            if (!IsInitialized)
-                return;
-            imgCanvas.Height = ImageHeight * ZoomSlider.Value;
-            imgCanvas.Width = ImageWidth * ZoomSlider.Value;
-        }
-
         private void OnDragDelta(object sender, DragDeltaEventArgs e) {
             this.Scroller.ScrollToHorizontalOffset(
                 this.Scroller.HorizontalOffset + (e.HorizontalChange * this.Scroller.ExtentWidth / this.Thumbnail.ActualWidth));
@@ -150,6 +146,33 @@ namespace PuzzleScanner.Pages {
         }
         private void Next_Click(object sender, RoutedEventArgs e) {
             ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Main_ScannerWindow(cc, readed));
+        }
+
+        private void Scroller_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
+            if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None) {
+                ChangeCanvasScale(e.Delta);
+                e.Handled = true;
+            }
+        }
+
+        private void ChangeCanvasScale(int delta) {
+            double centerX = (Scroller.HorizontalOffset + Scroller.ViewportWidth / 2);
+            double centerY = (Scroller.VerticalOffset + Scroller.ViewportHeight / 2);
+            double prev = Scale;
+            Scale += delta * 0.001;
+            if (Scale < 0) {
+                Scale = prev;
+                return;
+            }
+
+            imgCanvas.Height = ImageHeight * Scale;
+            imgCanvas.Width = ImageWidth * Scale;
+
+            CanvasScale.ScaleX = Scale;
+            CanvasScale.ScaleY = Scale;
+
+            Scroller.ScrollToHorizontalOffset((centerX / prev * Scale) - (Scroller.ViewportWidth / 2));
+            Scroller.ScrollToVerticalOffset((centerY / prev * Scale) - (Scroller.ViewportHeight / 2));
         }
     }
 }

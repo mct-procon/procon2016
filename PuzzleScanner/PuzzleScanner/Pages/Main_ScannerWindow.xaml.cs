@@ -30,6 +30,8 @@ namespace PuzzleScanner.Pages {
         private double NormalLineTickness = 0;
         private double Offset = 0;
 
+        private double Scale = 1;
+
         //private int MAX_S = 220;
         //private int MIN_S = 70;
 
@@ -114,7 +116,7 @@ namespace PuzzleScanner.Pages {
                 Emgu.CV.Util.VectorOfPoint polyCache = null;
                 foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 1000)) {
                     polyCache = new Emgu.CV.Util.VectorOfPoint();
-                    CvInvoke.ApproxPolyDP(parray, polyCache, 20, true);
+                    CvInvoke.ApproxPolyDP(parray, polyCache, 10, true);
                     polyStorage.Enqueue(polyCache);
                 }
             });
@@ -127,7 +129,6 @@ namespace PuzzleScanner.Pages {
                 Stack<UIElement> drawers = new Stack<UIElement>((poly.Points.Length + 1) * 4);
                 for(int m = 0; m < poly.Angles.Length; ++m) {
                     Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
-                    esp.ToolTip = poly.Angles[m].ToString() + "°";
                     esp.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
                     Canvas.SetZIndex(esp, 3);
                     Canvas.SetTop(esp, poly.Points[m].Y);
@@ -143,7 +144,8 @@ namespace PuzzleScanner.Pages {
                     ResultCanvas.Children.Add(tb);
                     ResultCanvas.Children.Add(esp);
                     Line l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = poly.Points[m-1].X, X2 = poly.Points[m].X, Y1 = poly.Points[m-1].Y, Y2 = poly.Points[m].Y };
-                    l.ToolTip = poly.Lines[m - 1].ToString() + "px";
+                    l.MouseLeftButtonUp += (ss, ee) => chbox.EnableButton.IsChecked = chbox.EnableButton.IsChecked == true ? false : true;
+                    l.MouseRightButtonUp += (ss, ee) => chbox.FrameButton.IsChecked = chbox.FrameButton.IsChecked == true ? false : true;
                     Canvas.SetZIndex(l, 2);
                     Canvas.SetTop(l, Offset);
                     Canvas.SetLeft(l, Offset);
@@ -301,14 +303,6 @@ namespace PuzzleScanner.Pages {
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr hObject);
 
-        private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-            if (!IsInitialized)
-                return;
-            ResultCanvas.Height = ImageHeight * ZoomSlider.Value;
-            ResultCanvas.Width = ImageWidth * ZoomSlider.Value;
-            
-        }
-
         private void UpdateThumbnailViewport(object sender, ScrollChangedEventArgs e) {
             // ExtentWidth/Height が ScrollViewer 内の広さ
             // ViewportWidth/Height が ScrollViewer で実際に表示されているサイズ
@@ -375,6 +369,32 @@ namespace PuzzleScanner.Pages {
             return new ResultPolygonData(Points, Lines, Poly.Get_Array);
         }
 
+        private void Scroller_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
+            if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None) {
+                ChangeCanvasScale(e.Delta);
+                e.Handled = true;
+            }
+        }
+
+        private void ChangeCanvasScale(int delta) {
+            double centerX = (Scroller.HorizontalOffset + Scroller.ViewportWidth / 2);
+            double centerY = (Scroller.VerticalOffset + Scroller.ViewportHeight / 2);
+            double prev = Scale;
+            Scale += delta * 0.001;
+            if (Scale < 0) {
+                Scale = prev;
+                return;
+            }
+
+            ResultCanvas.Height = ImageHeight * Scale;
+            ResultCanvas.Width = ImageWidth * Scale;
+
+            CanvasScale.ScaleX = Scale;
+            CanvasScale.ScaleY = Scale;
+
+            Scroller.ScrollToHorizontalOffset((centerX / prev * Scale) - (Scroller.ViewportWidth / 2));
+            Scroller.ScrollToVerticalOffset((centerY / prev * Scale) - (Scroller.ViewportHeight / 2));
+        }
     }
 
     /// <summary>
@@ -385,7 +405,7 @@ namespace PuzzleScanner.Pages {
         T[] data;
         public T this[int i] {
             get {
-                return i < 0 ? Math.Abs(i) % data.Length == 0 ? data[0] : data[data.Length - (Math.Abs(i) % data.Length)] : data[i % data.Length];
+                return i == -1 ? data[Length - 1] :( i < 0 ? Math.Abs(i) % data.Length == 0 ? data[0] : data[data.Length - (Math.Abs(i) % data.Length)] : data[i % data.Length]);
             }
             set{
                 data[i % data.Length] = value;
