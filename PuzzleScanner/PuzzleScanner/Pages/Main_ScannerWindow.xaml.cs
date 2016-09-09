@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Collections;
 using Emgu.CV;
 using System.Windows.Controls.Primitives;
-using System.Diagnostics;
 using System.Numerics;
 using Point = System.Drawing.Point;
 
@@ -342,11 +336,50 @@ namespace PuzzleScanner.Pages {
         /// <param name="Poly">ポリゴン(頂点の集合)</param>
         /// <returns>詳細な情報のあるポリゴン</returns>
         private static ResultPolygonData GetPolygonInformation(RingBuffer<System.Drawing.Point> Poly) {
+            //double[] Lines = new double[Poly.Length];
+            //double[] Points = new double[Poly.Length];
+            switch(Vector<double>.Count) {
+                case 1: case 0:
+                    return GetPolygonInformation_NoSIMD(Poly);
+                case 2: case 3:
+                    return GetPolygonInformation_SSE_AVX(Poly);
+                case 4:
+                    return GetPolygonInformation_AVX2(Poly);
+                default:
+                    throw new NotImplementedException();
+            }
+            /*
+             * Old Code;
+             */
+//            Parallel.For(0, Poly.Length, (count) => {
+//#if NotSIMD
+//                // Not SIMD Using Codes
+//                double x1 = Poly[count].X - Poly[count - 1].X;
+//                double y1 = Poly[count].Y - Poly[count - 1].Y;
+//                double x2 = Poly[count + 1].X - Poly[count].X;
+//                double y2 = Poly[count + 1].Y - Poly[count].Y;
+//                double theta1 = Math.Atan2(y1, x1) * 180 / 3.1415926358979323;
+//                double theta2 = Math.Atan2(y2, x2) * 180 / 3.1415926358979323;
+//                Points[count] = (180 + theta1 - theta2 + 360);
+//#else
+//                Vector<double> v1 = new Vector<double>(new double[]{ Poly[count].X, Poly[count].Y , Poly[count + 1].X, Poly[count + 1].Y });
+//                Vector<double> v2 = new Vector<double>(new double[] { Poly[count - 1].X, Poly[count - 1].Y, Poly[count].X, Poly[count].Y });
+//                v1 -= v2;
+//                Vector<double> v3 = new Vector<double>(new double[] { Math.Atan2(v1[1], v1[0]), Math.Atan2(v1[3], v1[2]),0,0});
+//                v3 *= new Vector<double>(new double[] { 180 / 3.1415926358979323, 180 / 3.1415926358979323,0,0 });
+//                Points[count] = 180 + v3[0] - v3[1] + 360;
+//#endif
+//                while (Points[count] > 360) Points[count] -= 360;
+//                Points[count] = 360 - Points[count];
+//                Lines[count] = Math.Sqrt(Math.Abs(Math.Pow(Poly[count].X - Poly[count + 1].X, 2) + Math.Pow(Poly[count].Y - Poly[count + 1].Y, 2)));
+//            });
+//            return new ResultPolygonData(Points, Lines, Poly.Get_Array);
+        }
+
+        private static ResultPolygonData GetPolygonInformation_NoSIMD(RingBuffer<Point> Poly) {
             double[] Lines = new double[Poly.Length];
             double[] Points = new double[Poly.Length];
             Parallel.For(0, Poly.Length, (count) => {
-#if NotSIMD
-                // Not SIMD Using Codes
                 double x1 = Poly[count].X - Poly[count - 1].X;
                 double y1 = Poly[count].Y - Poly[count - 1].Y;
                 double x2 = Poly[count + 1].X - Poly[count].X;
@@ -354,20 +387,50 @@ namespace PuzzleScanner.Pages {
                 double theta1 = Math.Atan2(y1, x1) * 180 / 3.1415926358979323;
                 double theta2 = Math.Atan2(y2, x2) * 180 / 3.1415926358979323;
                 Points[count] = (180 + theta1 - theta2 + 360);
-#else
-                Vector<double> v1 = new Vector<double>(new double[]{ Poly[count].X, Poly[count].Y , Poly[count + 1].X, Poly[count + 1].Y });
-                Vector<double> v2 = new Vector<double>(new double[] { Poly[count - 1].X, Poly[count - 1].Y, Poly[count].X, Poly[count].Y });
-                v1 -= v2;
-                Vector<double> v3 = new Vector<double>(new double[] { Math.Atan2(v1[1], v1[0]), Math.Atan2(v1[3], v1[2]),0,0});
-                v3 *= new Vector<double>(new double[] { 180 / 3.1415926358979323, 180 / 3.1415926358979323,0,0 });
-                Points[count] = 180 + v3[0] - v3[1] + 360;
-#endif
                 while (Points[count] > 360) Points[count] -= 360;
                 Points[count] = 360 - Points[count];
                 Lines[count] = Math.Sqrt(Math.Abs(Math.Pow(Poly[count].X - Poly[count + 1].X, 2) + Math.Pow(Poly[count].Y - Poly[count + 1].Y, 2)));
             });
             return new ResultPolygonData(Points, Lines, Poly.Get_Array);
         }
+
+        private static ResultPolygonData GetPolygonInformation_SSE_AVX(RingBuffer<Point> Poly) {
+            double[] Lines = new double[Poly.Length];
+            double[] Points = new double[Poly.Length];
+            Parallel.For(0, Poly.Length, (count) => {
+                Vector<double> v1 = new Vector<double>(new double[] { Poly[count].X, Poly[count].Y });
+                Vector<double> v1_2 = new Vector<double>(new double[] { Poly[count + 1].X, Poly[count + 1].Y });
+                Vector<double> v2 = new Vector<double>(new double[] { Poly[count - 1].X, Poly[count - 1].Y });
+                Vector<double> v2_2 = new Vector<double>(new double[] { Poly[count].X, Poly[count].Y });
+                v1 -= v2;
+                v1_2 -= v2_2;
+                Vector<double> v3 = new Vector<double>(new double[] { Math.Atan2(v1[1], v1[0]), Math.Atan2(v1_2[1], v1_2[0]) });
+                v3 *= new Vector<double>(new double[] { 180 / 3.1415926358979323, 180 / 3.1415926358979323 });
+                Points[count] = 180 + v3[0] - v3[1] + 360;
+                while (Points[count] > 360) Points[count] -= 360;
+                Points[count] = 360 - Points[count];
+                Lines[count] = Math.Sqrt(Math.Abs(Math.Pow(Poly[count].X - Poly[count + 1].X, 2) + Math.Pow(Poly[count].Y - Poly[count + 1].Y, 2)));
+            });
+            return new ResultPolygonData(Points, Lines, Poly.Get_Array);
+        }
+
+        private static ResultPolygonData GetPolygonInformation_AVX2(RingBuffer<Point> Poly) {
+            double[] Lines = new double[Poly.Length];
+            double[] Points = new double[Poly.Length];
+            Parallel.For(0, Poly.Length, (count) => {
+                Vector<double> v1 = new Vector<double>(new double[] { Poly[count].X, Poly[count].Y, Poly[count + 1].X, Poly[count + 1].Y });
+                Vector<double> v2 = new Vector<double>(new double[] { Poly[count - 1].X, Poly[count - 1].Y, Poly[count].X, Poly[count].Y });
+                v1 -= v2;
+                Vector<double> v3 = new Vector<double>(new double[] { Math.Atan2(v1[1], v1[0]), Math.Atan2(v1[3], v1[2]), 0, 0 });
+                v3 *= new Vector<double>(new double[] { 180 / 3.1415926358979323, 180 / 3.1415926358979323, 0, 0 });
+                Points[count] = 180 + v3[0] - v3[1] + 360;
+                while (Points[count] > 360) Points[count] -= 360;
+                Points[count] = 360 - Points[count];
+                Lines[count] = Math.Sqrt(Math.Abs(Math.Pow(Poly[count].X - Poly[count + 1].X, 2) + Math.Pow(Poly[count].Y - Poly[count + 1].Y, 2)));
+            });
+            return new ResultPolygonData(Points, Lines, Poly.Get_Array);
+        }
+
 
         private void Scroller_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
             if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None) {
