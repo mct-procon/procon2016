@@ -14,12 +14,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="ImageList" Grid.Row="1" Grid.RowSpan="2" FontSize="18"/>
-        <ScrollViewer x:Name="Scroller"  Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">
+        <ListBox x:Name="ImageList" Grid.Row="0" Grid.RowSpan="2" FontSize="18"/>
+        <ScrollViewer x:Name="Scroller"  Grid.Row="0" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">
             <Canvas x:Name="ResultCanvas" HorizontalAlignment="Left" VerticalAlignment="Top" >
                 <Canvas.RenderTransform>
                     <ScaleTransform x:Name="CanvasScale"/>
@@ -32,7 +31,7 @@
                 VerticalAlignment="Top"
                 Margin="0,10,10,0"
                 UseLayoutRounding="True"
-                Grid.Row="1"
+                Grid.Row="0"
                 Grid.Column="1">
             <Image x:Name="Thumbnail"
                    Width="200"
@@ -50,8 +49,8 @@
         </Canvas>
 
         <Rectangle x:Name="Waiter" Visibility="Hidden" Fill="White" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-        <ToggleButton x:Name="ShowSizesButton" Grid.Row="2" Grid.Column="1" Content="IsShowSizes" IsChecked="True" Margin="0,0,180,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Shot_Button_Clicked"/>
-        <Button Grid.Row="2" Grid.Column="1" Content="Shot" Margin="0,0,90,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Shot_Button_Clicked"/>
-        <Button Grid.Row="2" Grid.Column="1" Content="Next" Margin="0,0,5,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Next_Button_Clicked"/>
+        <ToggleButton x:Name="ShowSizesButton" Grid.Row="1" Grid.Column="1" Content="IsShowSizes" IsChecked="True" Margin="0,0,180,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Shot_Button_Clicked"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="Shot" Margin="0,0,90,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Shot_Button_Clicked"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="Next" Margin="0,0,5,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Next_Button_Clicked"/>
     </Grid>
 </Page>

@@ -145,6 +145,7 @@ namespace PuzzleScanner.Pages {
             filter();
         }
         private void Next_Click(object sender, RoutedEventArgs e) {
+            filter();
             ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Main_ScannerWindow(cc, readed));
         }
 

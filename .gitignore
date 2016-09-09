@@ -1,8 +1,4 @@
 PuzzleScanner/PuzzleScanner/bin/
 PuzzleScanner/PuzzleScanner/obj/
 PuzzleScanner/.vs
-/PuzzleScanner/packages/EmguCV.3.1.0.1
-/PuzzleScanner/packages/OpenTK.1.1.2225.0
-/PuzzleScanner/packages/OpenTK.GLControl.1.1.2225.0
-/PuzzleScanner/packages/ZedGraph.5.1.5/lib
-/PuzzleScanner/packages/ZedGraph.5.1.5
+PuzzleScanner/packages/
