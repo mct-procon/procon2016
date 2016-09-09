@@ -1,0 +1,47 @@
+﻿<Window x:Class="SolverVisualizer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SolverVisualizer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+    <Grid>
+        <ScrollViewer x:Name="ScrollViewer"
+                      Grid.Column="1"
+                      HorizontalScrollBarVisibility="Visible"
+                      VerticalScrollBarVisibility="Visible"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+                      ScrollChanged="UpdateThumbnailViewport">
+            <Border x:Name="CanvasParent">
+                <Canvas Height="60" Width="60" x:Name="PolygonCanvas">
+                    <Canvas.RenderTransform>
+                        <ScaleTransform x:Name="CanvasScale" ScaleX="1" ScaleY="1"/>
+                    </Canvas.RenderTransform>
+                </Canvas>
+            </Border>
+        </ScrollViewer>
+        <Canvas Width="{Binding ElementName=Thumbnail, Path=ActualWidth}"
+                Height="{Binding ElementName=Thumbnail, Path=ActualHeight}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="10"
+                UseLayoutRounding="True" Background="#66FFFFFF">
+            <Rectangle x:Name="Thumbnail"  Width="400">
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{Binding ElementName=CanvasParent}"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Thumb x:Name="Viewport"
+           DragDelta="OnDragDelta">
+                <Thumb.Template>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border BorderBrush="Red"
+                        BorderThickness="2"
+                        Background="Transparent" />
+                    </ControlTemplate>
+                </Thumb.Template>
+            </Thumb>
+        </Canvas>
+    </Grid>
+</Window>
