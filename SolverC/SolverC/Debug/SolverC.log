@@ -1,0 +1,98 @@
+﻿2016/09/10 22:18:04 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\Users\Kawakami\Documents\Visual Studio 2010\Projects\GUI\procon2016\SolverC\SolverC\SolverC.vcxproj" (build ターゲット)。
+     1>InitializeBuildStatus:
+         "AlwaysCreate" が指定されたため "Debug\SolverC.unsuccessfulbuild" を作成しています。
+       ClCompile:
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\Kawakami\Documents\Visual Studio 2010\Projects\GUI\DxLib_VC\プロジェクトに追加すべきファイル_VC用" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src3\Line.cpp src3\Poly.cpp src3\Solver.cpp src3\SolverBase.cpp
+         SolverBase.cpp
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(71): error C2039: 'move_line' : 'Line' のメンバーではありません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(76): error C2039: 'cut_line' : 'Line' のメンバーではありません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(80): error C2248: 'Line::s' : private メンバー (クラス 'Line' で宣言されている) にアクセスできません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(9) : 'Line::s' の宣言を確認してください。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(82): error C2248: 'Line::s' : private メンバー (クラス 'Line' で宣言されている) にアクセスできません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(9) : 'Line::s' の宣言を確認してください。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(94): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(120): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(121): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(123): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(124): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(127): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(131): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(141): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(159): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(177): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(182): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(189): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(208): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(213): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(236): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(243): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(250): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(260): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solverbase.cpp(263): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+         Solver.cpp
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(44): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(49): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(72): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(85): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(90): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(97): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(114): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(120): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(124): error C2248: 'Line::s' : private メンバー (クラス 'Line' で宣言されている) にアクセスできません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(9) : 'Line::s' の宣言を確認してください。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(124): error C2248: 'Line::e' : private メンバー (クラス 'Line' で宣言されている) にアクセスできません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(9) : 'Line::e' の宣言を確認してください。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(125): error C2248: 'Line::e' : private メンバー (クラス 'Line' で宣言されている) にアクセスできません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(9) : 'Line::e' の宣言を確認してください。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(125): error C2248: 'Line::s' : private メンバー (クラス 'Line' で宣言されている) にアクセスできません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(9) : 'Line::s' の宣言を確認してください。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(129): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(130): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(149): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(154): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(168): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(173): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(182): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(183): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(197): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(198): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(231): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(232): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(242): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(249): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(259): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(273): error C2248: 'Line::e' : private メンバー (クラス 'Line' で宣言されている) にアクセスできません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(9) : 'Line::e' の宣言を確認してください。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(273): error C2248: 'Line::s' : private メンバー (クラス 'Line' で宣言されている) にアクセスできません。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(9) : 'Line::s' の宣言を確認してください。
+                 c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\line.h(7) : 'Line' の宣言を確認してください。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(294): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(308): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(310): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(326): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\solver.cpp(332): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+         Poly.cpp
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\poly.cpp(9): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\poly.cpp(82): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\poly.cpp(83): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\poly.cpp(93): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\poly.cpp(94): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\poly.cpp(95): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+     1>c:\users\kawakami\documents\visual studio 2010\projects\gui\procon2016\solverc\solverc\src3\poly.cpp(96): warning C4018: '<' : signed と unsigned の数値を比較しようとしました。
+         Line.cpp
+         コードを生成中...
+     1>プロジェクト "C:\Users\Kawakami\Documents\Visual Studio 2010\Projects\GUI\procon2016\SolverC\SolverC\SolverC.vcxproj" (build ターゲット) のビルドが終了しました -- 失敗。
+
+ビルドに失敗しました。
+
+経過時間 00:00:08.19
