@@ -1,25 +1,24 @@
 #include "DxLib.h"
-#include "Solver.h"
+#include "SolverBase.h"
 #include "InputUI.h"
 
 InputUI input;
-Solver solver;
+SolverBase solver;
 
 void game_loop() {
+	static Point center = Point(0, 0);	//中心の絶対座標
+	static double scale = 1;			//拡大率
+	
+	//表示を動かす
+	if (CheckHitKey(KEY_INPUT_UP)) { center += Point(0, -3) / scale; }
+	if (CheckHitKey(KEY_INPUT_DOWN)) { center += Point(0, 3) / scale; }
+	if (CheckHitKey(KEY_INPUT_LEFT)) { center += Point(-3, 0) / scale; }
+	if (CheckHitKey(KEY_INPUT_RIGHT)) { center += Point(3, 0) / scale; }
+	if (CheckHitKey(KEY_INPUT_Z)) { scale -= 0.007; }
+	if (CheckHitKey(KEY_INPUT_X)) { scale += 0.007; }
 
-	input.update();
-
-	if (input.isClick()) {
-		/*辺選択*/
-		solver.select_line(input.getMousePoint());
-	}
-	if (input.isPush(KEY_INPUT_RETURN)) {
-		/*マッチング計算→辺選択のクリア*/
-		solver.solve();
-		solver.release_line();;
-	}
-	/*表示*/
-	solver.draw();
+	//表示する
+	solver.draw(center, scale, 800, 600);
 }
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
@@ -29,8 +28,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	solver.input("Problem/sample.txt", 5);
-	solver.prepare();
+	solver.input("NewProblem/Trans1.txt", 5);
 
 	// while(裏画面を表画面に反映,メッセージ処理,画面クリア, ESCで終了)
 	while (ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && CheckHitKey(KEY_INPUT_ESCAPE)==0) {

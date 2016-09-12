@@ -23,6 +23,7 @@ public:
 	void move(double dist);						//線分をunit_norm()の方向にdistだけ動かす。distが負の場合は逆方向に動く.
 	void rotate(Point angle);					//線分を原点Oを中心として、angleだけ回転（angleを掛けるだけ）
 	void transrate(Point trans);				//transだけ平行移動
+	void turn();								//y = 0を中心に反転
 
 	//計算
 	bool ishit(Line &line);						//他の線分との交差判定.
