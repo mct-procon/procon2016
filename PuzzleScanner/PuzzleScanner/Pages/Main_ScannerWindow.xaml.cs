@@ -110,7 +110,7 @@ namespace PuzzleScanner.Pages {
                 Emgu.CV.Util.VectorOfPoint polyCache = null;
                 foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 1000)) {
                     polyCache = new Emgu.CV.Util.VectorOfPoint();
-                    CvInvoke.ApproxPolyDP(parray, polyCache, 10, true);
+                    CvInvoke.ApproxPolyDP(parray, polyCache, 4, true);
                     polyStorage.Enqueue(polyCache);
                 }
             });
