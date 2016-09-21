@@ -29,6 +29,9 @@ namespace PuzzleScanner.Pages {
         private double Scale = 1;
         private Mat InputImage;
 
+        private UMat filtered;
+        private Mat Readed;
+
         //private int MAX_S = 220;
         //private int MIN_S = 70;
 
@@ -59,7 +62,8 @@ namespace PuzzleScanner.Pages {
 
         public Main_ScannerWindow(UMat filteredImg, Mat ReadedImg) {
             InitializeComponent();
-            UpdateContent_WithoutFilter(filteredImg, ReadedImg);
+            filtered = filteredImg;
+            Readed = ReadedImg;
         }
 
         /// <summary>
@@ -111,13 +115,16 @@ namespace PuzzleScanner.Pages {
             Canvas.SetTop(TEST_IMG, Offset);
             Canvas.SetLeft(TEST_IMG, Offset);
             Canvas.SetZIndex(TEST_IMG, 1);
+            ImageWidth = ReadedImg.Width;
+            ImageHeight = ReadedImg.Height;
 
             Queue<Emgu.CV.Util.VectorOfPoint> polyStorage = new Queue<Emgu.CV.Util.VectorOfPoint>(res.Count());
             await Task.Run(() => {
                 Emgu.CV.Util.VectorOfPoint polyCache = null;
+                int elp = (int)(0.003 * ImageWidth);
                 foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 1000)) {
                     polyCache = new Emgu.CV.Util.VectorOfPoint();
-                    CvInvoke.ApproxPolyDP(parray, polyCache, 4, true);
+                    CvInvoke.ApproxPolyDP(parray, polyCache, elp , true);
                     polyStorage.Enqueue(polyCache);
                 }
             });
@@ -168,8 +175,6 @@ namespace PuzzleScanner.Pages {
                 ImageList.Items.Add(chbox);
                 n++;
             }
-            ImageWidth = ReadedImg.Width;
-            ImageHeight = ReadedImg.Height;
             contours.Dispose();
             ReadedImg.Dispose();
             resultImg.Dispose();
@@ -257,35 +262,24 @@ namespace PuzzleScanner.Pages {
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(q_frm.Count.ToString());
-            StringBuilder sbX = new StringBuilder(), sbY = new StringBuilder();
             foreach(var f in q_frm) {
-                sb.AppendLine(f.Points.Length.ToString());
+                sb.AppendLine($"-1:{f.Points.Length.ToString()}");
                 foreach(var pts in f.Points.Get_Array) {
-                    sbX.Append(pts.X);
-                    sbY.Append(pts.Y);
-                    sbX.Append(" ");
-                    sbY.Append(" ");
+                    sb.Append(pts.X);
+                    sb.Append(" ");
+                    sb.AppendLine(pts.Y.ToString());
                 }
-                sb.AppendLine(sbX.ToString());
-                sb.AppendLine(sbY.ToString());
                 sb.AppendLine();
-                sbX.Clear();
-                sbY.Clear();
             }
             sb.AppendLine(q.Count.ToString());
             foreach (var f in q) {
-                sb.AppendLine(f.Points.Length.ToString());
+                sb.AppendLine($"{f.Tag}:{f.Points.Length.ToString()}");
                 foreach (var pts in f.Points.Get_Array) {
-                    sbX.Append(pts.X);
-                    sbY.Append(pts.Y);
-                    sbX.Append(" ");
-                    sbY.Append(" ");
+                    sb.Append(pts.X);
+                    sb.Append(" ");
+                    sb.AppendLine(pts.Y.ToString());
                 }
-                sb.AppendLine(sbX.ToString());
-                sb.AppendLine(sbY.ToString());
                 sb.AppendLine();
-                sbX.Clear();
-                sbY.Clear();
             }
             System.IO.StreamWriter sw = new System.IO.StreamWriter("result.txt", false, Encoding.UTF8);
             await sw.WriteAsync(sb.ToString());
@@ -521,6 +515,10 @@ namespace PuzzleScanner.Pages {
 
             Scroller.ScrollToHorizontalOffset((centerX / prev * Scale) - (Scroller.ViewportWidth / 2));
             Scroller.ScrollToVerticalOffset((centerY / prev * Scale) - (Scroller.ViewportHeight / 2));
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e) {
+            UpdateContent_WithoutFilter(filtered, Readed);
         }
     }
 

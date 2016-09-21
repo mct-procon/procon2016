@@ -17,7 +17,7 @@ foreach($f in $vecfiles) {
     } else {
         [System.IO.Directory]::CreateDirectory($cas_name)
     }
-    #Start-Process -FilePath opencv_traincascade.exe -ArgumentList "-data `"$cas_name`" -vec `"$f`" -bg `"$ng_name`" -numPos 900 -numNeg 49"
-    Write-Output "-data `"$cas_name`" -vec `"$f`" -bg `"$ng_name`" -numPos 90 -numNeg 49"
+    Start-Process -FilePath opencv_traincascade.exe -ArgumentList "-data `"$cas_name`" -vec `"$f`" -bg `"$ng_name`" -numPos 900 -numNeg 49"
+    Write-Output "Learned `"$f`""
     break
 }

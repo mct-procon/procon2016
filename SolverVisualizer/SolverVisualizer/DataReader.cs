@@ -14,28 +14,27 @@ namespace SolverVisualizer {
 
         internal async Task LoadAsync(string path) {
             string line;
-            double[] ns_x;
-            double[] ns_y;
+            double[] ns;
             int polys;
-            int cache_capacity;
+            int[] poly_info;
             StreamReader sr = new StreamReader(path, Encoding.UTF8);
             line = await sr.ReadLineAsync();
             polys = int.Parse(line.Trim());
             for (int n = 0; n < polys; ++n) {
                 line = await sr.ReadLineAsync();
-                cache_capacity = int.Parse(line);
-                line = await sr.ReadLineAsync();
-                ns_x = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => double.Parse(x)).ToArray();
-                line = await sr.ReadLineAsync();
-                ns_y = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(y => double.Parse(y)).ToArray();
+                poly_info = new int[1];
+                poly_info[0] = int.Parse(line);
                 Polygon p = new SolverVisualizer.Polygon();
                 p.FrameColor = Colors.Red;
-                for (int m = 0; m < cache_capacity; ++m) {
-                    p.Points.Add(new Point(ns_x[m], ns_y[m]));
-                    if (MaxSize.X < ns_x[m])
-                        MaxSize.X = ns_x[m];
-                    if (MaxSize.Y < ns_y[m])
-                        MaxSize.Y = ns_y[m];
+                p.Points = new PointCollection(poly_info[0]);
+                for (int m = 0; m < poly_info[1]; ++m) {
+                    line = await sr.ReadLineAsync();
+                    ns = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => double.Parse(x)).ToArray();
+                    p.Points.Add(new Point(ns[0], ns[1]));
+                    if (MaxSize.X < ns[0])
+                        MaxSize.X = ns[0];
+                    if (MaxSize.Y < ns[1])
+                        MaxSize.Y = ns[1];
                 }
                 Polygons.Add(p);
                 await sr.ReadLineAsync();
@@ -45,18 +44,18 @@ namespace SolverVisualizer {
             polys = int.Parse(line.Trim());
             for (int n = 0; n < polys; ++n) {
                 line = await sr.ReadLineAsync();
-                cache_capacity = int.Parse(line);
-                line = await sr.ReadLineAsync();
-                ns_x = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => double.Parse(x)).ToArray();
-                line = await sr.ReadLineAsync();
-                ns_y = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(y => double.Parse(y)).ToArray();
+                poly_info = line.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
                 Polygon p = new SolverVisualizer.Polygon();
-                for (int m = 0; m < cache_capacity; ++m) {
-                    p.Points.Add(new Point(ns_x[m], ns_y[m]));
-                    if (MaxSize.X < ns_x[m])
-                        MaxSize.X = ns_x[m];
-                    if (MaxSize.Y < ns_y[m])
-                        MaxSize.Y = ns_y[m];
+                p.Points = new PointCollection(poly_info[1]);
+                p.Tag = (sbyte)poly_info[0];
+                for (int m = 0; m < poly_info[1]; ++m) {
+                    line = await sr.ReadLineAsync();
+                    ns = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => double.Parse(x)).ToArray();
+                    p.Points.Add(new Point(ns[0], ns[1]));
+                    if (MaxSize.X < ns[0])
+                        MaxSize.X = ns[0];
+                    if (MaxSize.Y < ns[1])
+                        MaxSize.Y = ns[1];
                 }
                 Polygons.Add(p);
                 await sr.ReadLineAsync();
@@ -110,6 +109,7 @@ namespace SolverVisualizer {
     internal class Polygon {
         internal Color FrameColor = Colors.Black;
         internal PointCollection Points = new PointCollection();
+        internal sbyte Tag = -1;
     }
 
 }
