@@ -121,7 +121,7 @@ namespace PuzzleScanner.Pages {
             Queue<Emgu.CV.Util.VectorOfPoint> polyStorage = new Queue<Emgu.CV.Util.VectorOfPoint>(res.Count());
             await Task.Run(() => {
                 Emgu.CV.Util.VectorOfPoint polyCache = null;
-                int elp = (int)(0.003 * ImageWidth);
+                int elp = (int)(0.003 * Math.Max(ImageWidth, ImageHeight));
                 foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 1000)) {
                     polyCache = new Emgu.CV.Util.VectorOfPoint();
                     CvInvoke.ApproxPolyDP(parray, polyCache, elp , true);

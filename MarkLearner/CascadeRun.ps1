@@ -4,7 +4,8 @@ if(![System.IO.Directory]::Exists([System.IO.Path]::Combine([System.Environment]
 $vecfiles = [System.IO.Directory]::GetFiles([System.IO.Path]::Combine([System.Environment]::CurrentDirectory, "vecs"), "*", [System.IO.SearchOption]::AllDirectories)
 $negDic = [System.IO.Path]::Combine([System.Environment]::CurrentDirectory, "negs")
 $casDic = [System.IO.Path]::Combine([System.Environment]::CurrentDirectory, "Cascades")
-foreach($f in $vecfiles) {
+[System.Threading.Tasks.Parallel]::ForEach($vecfiles, { 
+    param($f);
     $ng_name = [System.IO.Path]::Combine($negDic, [System.IO.Path]::GetFileNameWithoutExtension($f) + ".txt")
     $cas_name = [System.IO.Path]::Combine($casDic, [System.IO.Path]::GetFileNameWithoutExtension($f))
     if(![System.IO.File]::Exists($ng_name)){
@@ -19,5 +20,4 @@ foreach($f in $vecfiles) {
     }
     Start-Process -FilePath opencv_traincascade.exe -ArgumentList "-data `"$cas_name`" -vec `"$f`" -bg `"$ng_name`" -numPos 900 -numNeg 49"
     Write-Output "Learned `"$f`""
-    break
-}
+})
