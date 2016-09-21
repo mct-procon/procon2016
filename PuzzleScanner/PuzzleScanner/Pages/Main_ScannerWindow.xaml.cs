@@ -13,6 +13,8 @@ using Emgu.CV;
 using System.Windows.Controls.Primitives;
 using System.Numerics;
 using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using WpfRect = System.Windows.Shapes.Rectangle;
 
 namespace PuzzleScanner.Pages {
     /// <summary>
@@ -25,6 +27,7 @@ namespace PuzzleScanner.Pages {
         private double Offset = 0;
 
         private double Scale = 1;
+        private Mat InputImage;
 
         //private int MAX_S = 220;
         //private int MIN_S = 70;
@@ -39,6 +42,10 @@ namespace PuzzleScanner.Pages {
         int ImageHeight = 0;
 
         List<ResultPolygonData> result = new List<ResultPolygonData>();
+
+        char[] cascades = new char[] {
+            'あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','も','や','ゆ','よ','ら','り','る','れ','ろ','ゐ','ゑ','を','ん','四','A','B','C','D','E','F','G','H','I'
+        };
 
         public Main_ScannerWindow() {
             InitializeComponent();
@@ -66,7 +73,7 @@ namespace PuzzleScanner.Pages {
             Waiter.Visibility = Visibility.Visible;
             var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
             Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
-
+            InputImage = ReadedImg.Clone();
             ImageList.Items.Clear();
             ResultCanvas.Children.Clear();
             Emgu.CV.Util.VectorOfVectorOfPoint contours = new Emgu.CV.Util.VectorOfVectorOfPoint();
@@ -170,6 +177,63 @@ namespace PuzzleScanner.Pages {
             anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
             Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
             Waiter.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// 未完成．タグ付けを行う．
+        /// </summary>
+        private async void DetectTags() {
+            CascadeClassifier cascade;
+            Rectangle[] detects;
+            for(sbyte n = 0; n < cascades.Length; ++n) {
+                cascade = new CascadeClassifier("なんだろね～");
+                detects = await Task.Run( () => cascade.DetectMultiScale(InputImage));
+                foreach(Rectangle r in detects) {
+                    WpfRect wr = new WpfRect() { Stroke = Brushes.Blue, StrokeThickness = 1.0, Width = r.Width, Height = r.Height };
+                    Canvas.SetLeft(wr, r.X);
+                    Canvas.SetTop(wr, r.Y);
+                    ResultCanvas.Children.Add(wr);
+                    for(int m = 0; m < result.Count; ++m)
+                        if(judgeInclusion(result[m], r.Location)) {
+                            result[m] = new ResultPolygonData(result[m].Angles, result[m].Lines, result[m].Points) { Tag = n };
+                            break;
+                        }
+                }
+            }
+        }
+
+        private bool judgeInclusion(ResultPolygonData d, Point p) {
+            double deg = 0;
+            int px = p.X;
+            int py = p.Y;
+
+            for (int index = 0; index < d.Points.Length; index++) {
+                int p2x = d.Points[index].X;
+                int p2y = d.Points[index].Y;
+                int p3x;
+                int p3y;
+                if (index < d.Points.Length - 1) {
+                    p3x = d.Points[index + 1].X;
+                    p3y = d.Points[index + 1].Y;
+                } else {
+                    p3x = d.Points[0].X;
+                    p3y = d.Points[0].Y;
+                }
+
+                var ax = p2x - px;
+                var ay = p2y - py;
+                var bx = p3x - px;
+                var by = p3y - py;
+
+                var cos = (ax * bx + ay * by) / (Math.Sqrt(ax * ax + ay * ay) * Math.Sqrt(bx * bx + by * by));
+                deg += Math.Acos(cos) * 180 / Math.PI;
+            }
+
+            if (Math.Round(deg) == 360) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         private void Next_Button_Clicked(object sender, RoutedEventArgs e) => Next();
@@ -493,10 +557,12 @@ namespace PuzzleScanner.Pages {
     }
 
     public struct ResultPolygonData {
+        public sbyte Tag;
         public RingBuffer<double> Angles;
         public RingBuffer<double> Lines;
         public RingBuffer<Point> Points;
         public ResultPolygonData(double[] a, double[] l, Point[] p) {
+            Tag = -1;
             Angles = a;
             Lines = l;
             Points = p;
