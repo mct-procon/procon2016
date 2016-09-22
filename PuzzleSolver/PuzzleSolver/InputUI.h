@@ -1,6 +1,8 @@
 #pragma once
 #include "DxLib.h"
+#if _MSC_VER <= 1600
 #include "STL.h"
+#endif
 using namespace std;
 
 class InputUI {

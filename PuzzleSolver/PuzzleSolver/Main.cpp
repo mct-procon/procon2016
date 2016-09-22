@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "Solver.h"
+#include "WinAPIExt.h"
 
 Solver solver;
 
@@ -67,7 +68,17 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	solver.input("\\NewProblem\\sample.txt", 5);                 //もし形状化によって頂点座標がxピクセルほどずれるなら、第2引数をxにしてください。（x<=5にしたい）
+	//solver.input("\\NewProblem\\sample.txt", 5);                 //もし形状化によって頂点座標がxピクセルほどずれるなら、第2引数をxにしてください。（x<=5にしたい）
+	HWND hwnd = GetMainWindowHandle();
+	while(true){
+		tstring filestr = WinAPIExt::ShowFileOpenDialog(hwnd);
+		if (filestr == "\0") {
+			DxLib_End();
+			return 0;
+		}
+		if(solver.inputTstr(filestr, 5)) break;
+		else MessageBox(hwnd, TEXT("ファイルの読み込みエラーが発生しました"), TEXT("ERROR"), MB_OK);
+	}
 	solver.余分な頂点を取り除く(10);
 	solver.solve();
 

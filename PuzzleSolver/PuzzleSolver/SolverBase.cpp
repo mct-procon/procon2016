@@ -52,24 +52,34 @@ Poly SolverBase::scaledown_poly(Poly &poly) {
 	return Poly(points, lines);		//第２引数は何でも良い
 }
 
+bool SolverBase::inputSerialize(ifstream* ifs) {
+	if (ifs->fail())
+		return false;
+	int poly_num;
+
+	*ifs >> poly_num;
+	for (int i = 0; i < poly_num; i++) { wakus.push_back(input_poly(*ifs, true)); }
+	*ifs >> poly_num;
+
+	for (int i = 0; i < poly_num; i++) { pieces.push_back(input_poly(*ifs, false)); }
+	ifs->close();
+
+	return true;
+}
 
 //入力 (新しいフォーマットで読む)
 void SolverBase::input(string filename, double dist) {
 	this->dist = dist;
 
 	ifstream ifs(filename); 
-	if (ifs.fail()) {
-		OutputDebugString("INPUT ERROR!\n");
-		return;
-	}
-	int poly_num;
+	inputSerialize(&ifs);
+}
 
-	ifs >> poly_num;
-	for (int i = 0; i < poly_num; i++) { wakus.push_back(input_poly(ifs, true)); }
-	ifs >> poly_num;
+bool SolverBase::inputTstr(tstring filename, double dist) {
+	this->dist = dist;
 
-	for (int i = 0; i < poly_num; i++) { pieces.push_back(input_poly(ifs, false)); }
-	ifs.close();
+	ifstream ifs(filename);
+	return inputSerialize(&ifs);
 }
 
 

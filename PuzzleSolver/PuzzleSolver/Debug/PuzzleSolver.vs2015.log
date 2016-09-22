@@ -1,5 +1,10 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (PuzzleSolver.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  WinAPIExt.cpp
+c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\winapiext.cpp(27): warning C4715: 'WinAPIExt::ShowFileOpenDialog': 値を返さないコントロール パスがあります。
   Main.cpp
-c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\main.cpp(23): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\main.cpp(24): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  スキップ中... (関連する変更は検出されませんでした)
+  SolverBase.cpp
+  Solver.cpp
   PuzzleSolver.vs2015.vcxproj -> C:\WorkSpace\BitBucket\procon2016-sub\master\PuzzleSolver\Debug\PuzzleSolver.vs2015.exe
   PuzzleSolver.vs2015.vcxproj -> C:\WorkSpace\BitBucket\procon2016-sub\master\PuzzleSolver\Debug\PuzzleSolver.vs2015.pdb (Full PDB)

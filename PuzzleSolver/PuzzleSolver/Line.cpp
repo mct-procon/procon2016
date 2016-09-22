@@ -1,6 +1,5 @@
 //Lineクラスの実装
 //参考文献：http://www.prefield.com/algorithm/
-
 #include "Line.h"
 
 //ベクトルuとベクトルvの外積の符号付きサイズ = u.real * v.imag - u.imag * v.realを返す. ちなみに、cross(u, v) = -cross(v, u)が成り立つ。

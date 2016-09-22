@@ -2,7 +2,9 @@
  
 #pragma once
 #include "Point.h"
+#if _MSC_VER <= 1600
 #include "STL.h"
+#endif
 
 class Line {
 private:
