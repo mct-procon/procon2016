@@ -228,10 +228,35 @@ Poly MargePoly::marge_poly(double dist_error, double angle_error_deg, Poly &src_
 	make_graph(); 
 	
 	int start_id = get_startPoint_id(src_poly, dst_poly, dst_is_piece);
-	if (start_id < 0) { return null_poly; }			//開始点が存在しない (例：枠に最後のピースを埋める直前とか）
-	double area = (dst_is_piece ? abs(src_poly.area()) + abs(dst_poly.area()) : abs(dst_poly.area()) - abs(src_poly.area()));	
-	vector<Point> cycle = get_cycle(start_id, !dst_is_piece, area);
-	if (cycle.size() == 0) { return null_poly; }	//マージして終了
+	double area = (dst_is_piece ? abs(src_poly.area()) + abs(dst_poly.area()) : abs(dst_poly.area()) - abs(src_poly.area()));
+	vector<Point> cycle;
+
+	if (start_id < 0) { //自明な開始点が存在しないので開始点を全探索する（枠の全頂点をピースが囲んでいる場合）
+		int sid;
+		for (sid = 0; sid < points.size(); sid++) {
+			cycle = get_cycle(sid, !dst_is_piece, area);
+			if (cycle.size() > 0) { break; }
+		}
+		if (sid == points.size()) { //多角形を作れなかった or 枠を埋めた
+			if (!dst_is_piece && abs(area) <= 1000) {	//枠を埋めた
+				cycle.push_back(Point(-114514, -114514));	//ダミーの点を追加
+			}
+			else {
+				return null_poly;
+			}
+		}
+	}
+	else {	//自明な開始点が存在するのでそこから開始する
+		cycle = get_cycle(start_id, !dst_is_piece, area);
+		if (cycle.size() == 0) {	//多角形を作れなかった or 枠を埋めた
+			if (!dst_is_piece && abs(area) <= 1000) {	//枠を埋めた
+				cycle.push_back(Point(-114514, -114514));	//ダミーの点を追加
+			}
+			else {
+				return null_poly;
+			}
+		}
+	}
 
 	//冗長な点を取り除く
 	vector<Point> new_cycle;

@@ -67,7 +67,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int) {
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	solver.input("NewProblem/sample.txt", 5);
+	solver.input("NewProblem/sample.txt", 5);	//もし形状化によって頂点座標がxピクセルほどずれるなら、第2引数をxにしてください。（x<=5にしたい）
 	solver.余分な頂点を取り除く(10);
 	solver.solve();
 

@@ -51,7 +51,7 @@ double Solver::evaluation(Poly &poly1, Poly &poly2, bool is_poly2_piece) {
 			Line line2a = Line(poly2.points[j], poly2.points[(j - 1 + poly2.size()) % poly2.size()]);
 			double score_a = line1a.machi_score(line2a, dist_error, angle_error); if (!(score_a == 1 || score_a == 4)) continue;	//Œü‚«‚ªˆê’v‚µ‚Ä‚¢‚é‚©‚ð”»’è
 			double score_b = line1b.machi_score(line2b, dist_error, angle_error); if (!(score_b == 1 || score_b == 4)) continue;	//Œü‚«‚ªˆê’v‚µ‚Ä‚¢‚é‚©‚ð”»’è
-			score += 10;
+			score += 3;
 			break;
 		}
 	}
@@ -142,7 +142,7 @@ bool Solver::connect() {
 		double dist_error = dist;
 		double angle_error = 3;
 
-		if (!marge_poly.can_marge(dist_error, angle_error, src, dst, dst_is_piece)) { if (i + 1 < score_move.size()) restore(); continue; }
+		if (!marge_poly.can_marge(dist_error, angle_error, src, dst, dst_is_piece)) { restore(); continue; }
 		Poly marged_poly = marge_poly.marge_poly(dist_error * 1.5, angle_error, src, dst, dst_is_piece);
 		if (marged_poly.size() <= 0) { if (i + 1 < score_move.size()) restore(); continue; }
 
