@@ -112,9 +112,20 @@ double Line::dist(Point point) {
 }
 
 //線分lineとの一致度
-double Line::machi_score(Line &line, double permit_error) {
-	double score = 0;
-	if (min(abs(s - line.s), abs(s - line.e)) <= permit_error) score++;
-	if (min(abs(e - line.s), abs(e - line.e)) <= permit_error) score++;
-	return score;
+//0…一点も共有していない
+//4…線分が一致
+//2…向きが逆
+//1…向きが同じ
+//線分の方向を見る際にも用いているので、ここの戻り値を変えると、marge_poly()と角度の評価がバグります。
+//線分の方向を返す関数とスコア関数を分け、適切な関数名を付けるの、誰かやってほしい。
+double Line::machi_score(Line line, double dist_error, double angle_error_deg) {
+	if (abs(s - line.e) <= dist_error || abs(e - line.s) <= dist_error) swap(line.s, line.e);
+	if (abs(s - line.s) <= dist_error && abs(e - line.e) <= dist_error) return 4;
+	if (abs(s - line.s) > dist_error && abs(e - line.e) > dist_error) return 0;
+
+	Point angle = (e - s) / (line.e - line.s);
+	angle /= abs(angle);
+	if (abs(angle.imag()) > sin(angle_error_deg * 3.1415926 / 180.0)) return 0;
+	if (angle.real() < 0) return 2;
+	return 1;
 }

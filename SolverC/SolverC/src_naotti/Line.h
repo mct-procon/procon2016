@@ -26,8 +26,8 @@ public:
 	void turn();								//y = 0を中心に反転
 
 	//計算
-	bool ishit(Line &line);						//他の線分との交差判定.
-	bool ishit_half(Line &half_line);			//半直線half_lineとの交差判定.
-	double dist(Point point);					//点pointから線分thisまでの距離.
-	double machi_score(Line &line, double permit_error);		//線分lineとの一致度
+	bool ishit(Line &line);														//他の線分との交差判定.
+	bool ishit_half(Line &half_line);											//半直線half_lineとの交差判定.
+	double dist(Point point);													//点pointから線分thisまでの距離.
+	double machi_score(Line line, double dist_error, double angle_error_deg);	//線分lineとの一致度
 };

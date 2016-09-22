@@ -26,6 +26,8 @@ public:
 	//取得
 	int size();						//頂点数 (points.size() - 1)
 	double area();					//多角形Polyの符号付き面積 (正…反時計まわり, 負…時計回り）
+
 	bool is_hit(Poly &poly);		//polyと当たっているか？
+	bool is_cover_point(Point &p);	//点pを含んでいるか？
 	bool is_cover(Poly &poly);		//polyを含んでいるか？（is_hit(poly) == falseのときは正しい結果を返す）
 };

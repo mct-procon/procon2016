@@ -8,7 +8,7 @@ void Poly::update_rect() {
 	ly = ry = points[0].imag();
 	for (int i = 1; i < size(); i++) {
 		Point p = points[i];
-		lx = min(lx, p.imag());
+		lx = min(lx, p.real());
 		ly = min(ly, p.imag());
 		rx = max(rx, p.real());
 		ry = max(ry, p.imag());
@@ -38,6 +38,8 @@ void Poly::point_reverse() {
 }
 
 
+#include "DxLib.h"
+
 //移動（半直線points[id]->points[id+1]を半直線s->eにくっつける)
 void Poly::move(int id, Point s, Point e) {
 	Point mul = (e - s) / (points[id + 1] - points[id]);
@@ -57,12 +59,11 @@ void Poly::move(int id, Point s, Point e) {
 	update_rect();
 }
 
-
 //反転（y=0を基準として反転し、頂点列の向きを修正する。）
 void Poly::turn() {
 	int i;
 	vector<Point> tmp(points.size());
-	
+
 	//頂点列の反転
 	for (i = 0; i < points.size(); i++) tmp[i] = conj(points[i]);
 	for (i = 0; i < points.size(); i++) points[i] = tmp[points.size() - 1 - i];
@@ -103,7 +104,6 @@ double Poly::area() {
 	return ret;
 }
 
-
 //辺が接触しているならtrue, 接触していないならfalseを返す.
 bool Poly::is_hit(Poly &poly) {
 	int i, j;
@@ -120,11 +120,8 @@ bool Poly::is_hit(Poly &poly) {
 	return false;
 }
 
-//polyを含んでいるならtrueを返す。（使用時の条件：接触していない)
-bool Poly::is_cover(Poly &poly) {
-	if (poly.lx < lx || poly.rx > rx || poly.ly < ly || poly.ry > ry) { return false; }
-
-	Point p = poly.points[0];
+//頂点pを含んでいればtrueを返す。
+bool Poly::is_cover_point(Point &p) {
 	Line hl = Line(p, Point(10000, 0));
 	int cnt = 0;
 
@@ -136,4 +133,10 @@ bool Poly::is_cover(Poly &poly) {
 	}
 	if (cnt % 2 == 1) return true;
 	return false;
+}
+
+//polyを含んでいるならtrueを返す。（使用時の条件：接触していない)
+bool Poly::is_cover(Poly &poly) {
+	if (poly.lx < lx || poly.rx > rx || poly.ly < ly || poly.ry > ry) { return false; }
+	return is_cover_point(poly.points[0]);
 }
