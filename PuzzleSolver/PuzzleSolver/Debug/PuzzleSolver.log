@@ -1,0 +1,4 @@
+﻿  Main.cpp
+c:\users\kameg\documents\visual studio 2015\projects\puzzlesolver\puzzlesolver\main.cpp(23): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  PuzzleSolver.vcxproj -> C:\Users\kameg\Documents\Visual Studio 2015\Projects\PuzzleSolver\Debug\PuzzleSolver.exe
+  PuzzleSolver.vcxproj -> C:\Users\kameg\Documents\Visual Studio 2015\Projects\PuzzleSolver\Debug\PuzzleSolver.pdb (Full PDB)

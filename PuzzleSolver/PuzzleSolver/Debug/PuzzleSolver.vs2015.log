@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (PuzzleSolver.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Main.cpp
+c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\main.cpp(23): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  PuzzleSolver.vs2015.vcxproj -> C:\WorkSpace\BitBucket\procon2016-sub\master\PuzzleSolver\Debug\PuzzleSolver.vs2015.exe
+  PuzzleSolver.vs2015.vcxproj -> C:\WorkSpace\BitBucket\procon2016-sub\master\PuzzleSolver\Debug\PuzzleSolver.vs2015.pdb (Full PDB)
