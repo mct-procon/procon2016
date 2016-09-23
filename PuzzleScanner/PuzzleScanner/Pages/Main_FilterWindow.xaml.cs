@@ -23,6 +23,7 @@ namespace PuzzleScanner.Pages {
         UMat mm = new UMat();
         Mat readed = new Mat();
         UMat cc = new UMat();
+        System.Drawing.Bitmap bmp;
 
         int ImageHeight = 0;
         int ImageWidth = 0;
@@ -43,6 +44,7 @@ namespace PuzzleScanner.Pages {
             ImageWidth = readed.Width;
             ImageHeight = readed.Height;
             CvInvoke.CvtColor(readed, mm, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
+            cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             filter();
             Scale = 1;
             BaseImg.Source = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
@@ -51,8 +53,10 @@ namespace PuzzleScanner.Pages {
         }
 
         private void filter() {
-            cc = FilterMat(mm, (byte)(H_MIN.Value * 255 / 360), (byte)(H_MAX.Value * 255 / 360), (byte)(S_MIN.Value * 255 / 100), (byte)(S_MAX.Value * 255 / 100), (byte)(V_MIN.Value * 255 / 100), (byte)(V_MAX.Value * 255 / 100));
-            img.Source = Main_ScannerWindow.ToWPFBitmap(cc.Bitmap);
+            FilterMat(mm,ref cc, (byte)(H_MIN.Value * 255 / 360), (byte)(H_MAX.Value * 255 / 360), (byte)(S_MIN.Value * 255 / 100), (byte)(S_MAX.Value * 255 / 100), (byte)(V_MIN.Value * 255 / 100), (byte)(V_MAX.Value * 255 / 100));
+            bmp = cc.Bitmap;
+            img.Source = Main_ScannerWindow.ToWPFBitmap(bmp);
+            bmp.Dispose();
             Thumbnail.Source = img.Source;
         }
 
@@ -73,16 +77,17 @@ namespace PuzzleScanner.Pages {
         /// <param name="MIN_V">最小V</param>
         /// <param name="MAX_V">最大V</param>
         /// <returns></returns>
-        private UMat FilterMat(UMat mm, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
-            UMat res = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
+        private UMat FilterMat(UMat mm, ref UMat cc, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
+            if(cc.Rows != mm.Rows || cc.Cols != mm.Cols)
+                cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             byte[] cache_in = mm.Bytes;
-            byte[] filtercache = res.Bytes;
+            byte[] filtercache = cc.Bytes;
             for (int n = 0; n < filtercache.Length; ++n) {
                 filtercache[n] = (cache_in[n * 3] >= MIN_H && cache_in[n * 3] <= MAX_H && cache_in[n * 3 + 1] <= MAX_S && cache_in[n * 3 + 1] >= MIN_S && cache_in[n * 3 + 2] <= MAX_V && cache_in[n * 3 + 2] >= MIN_V) ?
                     (byte)255 : (byte)0;
             }
-            res.Bytes = filtercache;
-            return res;
+            cc.Bytes = filtercache;
+            return cc;
         }
 
         private void UpdateThumbnailViewport(object sender, ScrollChangedEventArgs e) {
@@ -151,6 +156,10 @@ namespace PuzzleScanner.Pages {
 
             Scroller.ScrollToHorizontalOffset((centerX / prev * Scale) - (Scroller.ViewportWidth / 2));
             Scroller.ScrollToVerticalOffset((centerY / prev * Scale) - (Scroller.ViewportHeight / 2));
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e) {
+            mm.Dispose();
         }
     }
 }

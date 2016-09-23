@@ -8,6 +8,9 @@
       Title="Choose_Acceralator">
 
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary Source="/Styles/NormalControls.xaml"/>
+        </Grid.Resources>
         <TextBlock Text="Choose Acceralator" FontFamily="Segoe UI Light" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Button x:Name="CPUButton" HorizontalAlignment="Left" VerticalAlignment="Top" Content="None(CPU)" Margin="18,60,0,0" Height="90" Width="140" Click="CPUButtonClicked"/>
         <Button x:Name="OpenCLButton" HorizontalAlignment="Left" VerticalAlignment="Top" Content="OpenCL" Margin="170,60,0,0" Height="90" Width="140" Click="OpenCLButtonClicked"/>

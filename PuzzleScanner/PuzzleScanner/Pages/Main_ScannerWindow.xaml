@@ -9,6 +9,9 @@
       Title="Main_ScannerWindow">
 
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary Source="/Styles/NormalControls.xaml"/>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="175"/>
             <ColumnDefinition/>
