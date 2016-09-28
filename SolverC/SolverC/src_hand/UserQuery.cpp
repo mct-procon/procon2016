@@ -123,13 +123,6 @@ int UserQuery::set_query() {
 		if (!(prev_mouseInput & MOUSE_INPUT_RIGHT) && (now_mouseInput & MOUSE_INPUT_RIGHT)) right_click(mouseX, mouseY);
 		if (!(prev_mouseInput & MOUSE_INPUT_LEFT) && (now_mouseInput & MOUSE_INPUT_LEFT)) left_click(mouseX, mouseY);
 		
-		//BackSpaceキーを押すと、手が戻る
-		if (!bkey[KEY_INPUT_BACK] && key[KEY_INPUT_BACK]) {
-			State res = backup.pop();
-			pieces = res.pieces;
-			wakus = res.wakus;
-		}
-
 		//描画
 		update_draw_option();
 		draw();
@@ -149,7 +142,7 @@ int UserQuery::set_query() {
 			DrawFormatString((int)(line.s.real() + line.e.real()) / 2, (int)(line.s.imag() + line.e.imag()) / 2, GetColor(255, 100, 0), "dst");
 			DrawArrow((int)line.e.real(), (int)line.e.imag(), (int)line.s.real(), (int)line.s.imag(), GetColor(255, 100, 0), 4);	//移動先はオレンジで
 		}
-		//DrawFormatString(100, 100, 0, "pieceNum = %d\n", pieces.size());
+		DrawFormatString(100, 100, 0, "pieceNum = %d\n", pieces.size());
 	}
 	return ProcessMessage();
 }
