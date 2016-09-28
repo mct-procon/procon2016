@@ -19,7 +19,7 @@ namespace PuzzleScanner.Pages {
     /// <summary>
     /// Main_FilterWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class Main_FilterWindow : Page {
+    public partial class Filter : Page {
         UMat mm = new UMat();
         Mat readed = new Mat();
         UMat cc = new UMat();
@@ -30,11 +30,11 @@ namespace PuzzleScanner.Pages {
 
         double Scale = 1;
 
-        public Main_FilterWindow() {
+        public Filter() {
             InitializeComponent();
         }
 
-        public Main_FilterWindow(string ImagePath) {
+        public Filter(string ImagePath) {
             InitializeComponent();
             Init2(ImagePath);
         }
@@ -52,10 +52,16 @@ namespace PuzzleScanner.Pages {
             imgCanvas.Height = ImageHeight;
         }
 
-        private void filter() {
-            FilterMat(mm,ref cc, (byte)(H_MIN.Value * 255 / 360), (byte)(H_MAX.Value * 255 / 360), (byte)(S_MIN.Value * 255 / 100), (byte)(S_MAX.Value * 255 / 100), (byte)(V_MIN.Value * 255 / 100), (byte)(V_MAX.Value * 255 / 100));
+        private async void filter() {
+            byte _h_min = (byte)(H_MIN.Value * 255 / 360);
+            byte _h_max = (byte)(H_MAX.Value * 255 / 360);
+            byte _s_min = (byte)(S_MIN.Value * 255 / 100);
+            byte _s_max = (byte)(S_MAX.Value * 255 / 100);
+            byte _v_min = (byte)(V_MIN.Value * 255 / 100);
+            byte _v_max = (byte)(V_MAX.Value * 255 / 100);
+            await Task.Run( () => FilterMat(mm,ref cc, _h_min , _h_max, _s_min , _s_max , _v_min , _v_max));
             bmp = cc.Bitmap;
-            img.Source = Main_ScannerWindow.ToWPFBitmap(bmp);
+            img.Source = Scanner.ToWPFBitmap(bmp);
             bmp.Dispose();
             Thumbnail.Source = img.Source;
         }
@@ -77,18 +83,61 @@ namespace PuzzleScanner.Pages {
         /// <param name="MIN_V">最小V</param>
         /// <param name="MAX_V">最大V</param>
         /// <returns></returns>
-        private UMat FilterMat(UMat mm, ref UMat cc, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
+        private void FilterMat(UMat mm, ref UMat cc, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
             if(cc.Rows != mm.Rows || cc.Cols != mm.Cols)
                 cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             byte[] cache_in = mm.Bytes;
+
+            //--------------------------
+            //　　並列化した方が遅かった…
+            //--------------------------
+            //int thread_job = cc.Bytes.Length / Environment.ProcessorCount;
+            //int surplus = cc.Bytes.Length - (thread_job * Environment.ProcessorCount);
+            //Task<byte[]>[] tasks = new Task<byte[]>[Environment.ProcessorCount];
+            //int cache_iter = 0;
+            //for(int n = 0; n < tasks.Length; ++n) {
+            //    int m = n < surplus ? thread_job + 1 : thread_job;
+            //    _data_Vector3_filterMat[] cache_data = new _data_Vector3_filterMat[m];
+            //    for (int p = 0; p < m; ++p) {
+            //        cache_data[p] = new _data_Vector3_filterMat();
+            //        cache_data[p].H = cache_in[cache_iter];
+            //        cache_iter++;
+            //        cache_data[p].S = cache_in[cache_iter];
+            //        cache_iter++;
+            //        cache_data[p].V = cache_in[cache_iter];
+            //        cache_iter++;
+            //    }
+
+            //    tasks[n] = Task.Run(() => {
+            //        byte[] _return_cache = new byte[m];
+            //        for (int p = 0; p < m; ++p) {
+            //            _return_cache[p] = (cache_data[p].H >= MIN_H && cache_data[p].H <= MAX_H && 
+            //            cache_data[p].S <= MAX_S && cache_data[p].S >= MIN_S && cache_data[p].V <= MAX_V && cache_data[p].V >= MIN_V) ?
+            //                (byte)255 : (byte)0;
+            //        }
+            //        return _return_cache;
+            //    });
+            //}
+            //Task.WaitAll(tasks);
+            //cc.Bytes = PuzzleScanner.Utils.ParallelExtensions.Merge(tasks).ToArray();
             byte[] filtercache = cc.Bytes;
+            int cache_at = 0;
             for (int n = 0; n < filtercache.Length; ++n) {
-                filtercache[n] = (cache_in[n * 3] >= MIN_H && cache_in[n * 3] <= MAX_H && cache_in[n * 3 + 1] <= MAX_S && cache_in[n * 3 + 1] >= MIN_S && cache_in[n * 3 + 2] <= MAX_V && cache_in[n * 3 + 2] >= MIN_V) ?
+                filtercache[n] = (cache_in[cache_at] >= MIN_H && cache_in[cache_at] <= MAX_H && cache_in[cache_at + 1] <= MAX_S && cache_in[cache_at + 1] >= MIN_S && cache_in[cache_at + 2] <= MAX_V && cache_in[cache_at + 2] >= MIN_V) ?
                     (byte)255 : (byte)0;
+                cache_at += 3;
             }
             cc.Bytes = filtercache;
-            return cc;
         }
+
+        //private struct _data_Vector3_filterMat {
+        //    public byte H, S, V;
+        //    public _data_Vector3_filterMat(byte _h, byte _s, byte _v) {
+        //        H = _h;
+        //        S = _s;
+        //        V = _v;
+        //    }
+        //}
 
         private void UpdateThumbnailViewport(object sender, ScrollChangedEventArgs e) {
             // ExtentWidth/Height が ScrollViewer 内の広さ
@@ -128,7 +177,7 @@ namespace PuzzleScanner.Pages {
         }
         private void Next_Click(object sender, RoutedEventArgs e) {
             filter();
-            ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Main_ScannerWindow(cc, readed));
+            ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Scanner(cc, readed));
         }
 
         private void Scroller_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
@@ -142,7 +191,7 @@ namespace PuzzleScanner.Pages {
             double centerX = (Scroller.HorizontalOffset + Scroller.ViewportWidth / 2);
             double centerY = (Scroller.VerticalOffset + Scroller.ViewportHeight / 2);
             double prev = Scale;
-            Scale += delta * 0.001;
+            Scale += delta * 0.0001;
             if (Scale < 0) {
                 Scale = prev;
                 return;

@@ -44,7 +44,7 @@ namespace PuzzleScanner.Pages {
         private void NextButtonClick(object sender, RoutedEventArgs e) {
             MainWindow mw = (MainWindow)Window.GetWindow(this);
             mw.BackToImageChooseButton.Visibility = Visibility.Visible;
-            mw.MainFrame.Navigate(new Pages.Main_FilterWindow(ReferencedImageFilePath));
+            mw.MainFrame.Navigate(new Pages.Filter(ReferencedImageFilePath));
         }
 
         private void CalibButton_Click(object sender, RoutedEventArgs e) {

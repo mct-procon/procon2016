@@ -101,6 +101,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utils\ParallelExtensions.cs" />
     <Page Include="CustomControll\PolygonListedItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,11 +129,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Main_FilterWindow.xaml">
+    <Page Include="Pages\Filter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Main_ScannerWindow.xaml">
+    <Page Include="Pages\Scanner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,11 +153,11 @@
     <Compile Include="Pages\LoadImageFile.xaml.cs">
       <DependentUpon>LoadImageFile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Main_FilterWindow.xaml.cs">
-      <DependentUpon>Main_FilterWindow.xaml</DependentUpon>
+    <Compile Include="Pages\Filter.xaml.cs">
+      <DependentUpon>Filter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Main_ScannerWindow.xaml.cs">
-      <DependentUpon>Main_ScannerWindow.xaml</DependentUpon>
+    <Compile Include="Pages\Scanner.xaml.cs">
+      <DependentUpon>Scanner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -175,7 +176,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
