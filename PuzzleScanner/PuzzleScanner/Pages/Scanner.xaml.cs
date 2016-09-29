@@ -140,46 +140,10 @@ namespace PuzzleScanner.Pages {
                 CustomControll.PolygonListedItem chbox = new CustomControll.PolygonListedItem(n.ToString());
                 Stack<UIElement> drawers = new Stack<UIElement>((poly.Points.Length + 1) * 4);
 
-                //----------
-                //Old Code
-                //----------
-                for(int m = 0; m < poly.Angles.Length; ++m) {
-                //    Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
-                //    esp.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
-                //    Canvas.SetZIndex(esp, 3);
-                //    Canvas.SetTop(esp, poly.Points[m].Y);
-                //    Canvas.SetLeft(esp, poly.Points[m].X);
-                    TextBlock tb = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkRed,Background = new SolidColorBrush(Color.FromArgb(125,255,255,255)), Text = poly.Angles[m].ToString("F") + "°" };
-                    chardrawers.Push(tb);
-                    Canvas.SetZIndex(tb, 4);
-                    Canvas.SetTop(tb, poly.Points[m].Y);
-                    Canvas.SetLeft(tb, poly.Points[m].X);
-                //    drawers.Push(esp);
-                    drawers.Push(tb);
-
-                    ResultCanvas.Children.Add(tb);
-                //    ResultCanvas.Children.Add(esp);
-                //    Line l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = poly.Points[m-1].X, X2 = poly.Points[m].X, Y1 = poly.Points[m-1].Y, Y2 = poly.Points[m].Y };
-                //    l.MouseLeftButtonUp += (ss, ee) => chbox.EnableButton.IsChecked = chbox.EnableButton.IsChecked == true ? false : true;
-                //    l.MouseRightButtonUp += (ss, ee) => chbox.FrameButton.IsChecked = chbox.FrameButton.IsChecked == true ? false : true;
-                //    Canvas.SetZIndex(l, 2);
-                //    Canvas.SetTop(l, Offset);
-                //    Canvas.SetLeft(l, Offset);
-                    TextBlock tb2 = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkGreen,Background = new SolidColorBrush(Color.FromArgb(125,255,255,255)), Text = poly.Lines[m - 1].ToString("F") + "px" };
-                    chardrawers.Push(tb2);
-                    Canvas.SetZIndex(tb2, 4);
-                    Canvas.SetTop(tb2, (poly.Points[m].Y + poly.Points[m-1].Y) / 2);
-                    Canvas.SetLeft(tb2, (poly.Points[m].X + poly.Points[m-1].X) / 2);
-                    ResultCanvas.Children.Add(tb2);
-                //    ResultCanvas.Children.Add(l);
-                //    drawers.Push(l);
-                    drawers.Push(tb2);
-                }
-
                 Polygon po = new Polygon() { Stroke = Brushes.Green, StrokeThickness = 4 };
                 //po.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
                 po.MouseLeftButtonUp += (ss, ee) => {
-                    if(chbox.FrameButton.IsChecked == true) {
+                    if (chbox.FrameButton.IsChecked == true) {
                         chbox.FrameButton.IsChecked = false;
                         po.Stroke = Brushes.Green;
                     } else {
@@ -195,6 +159,65 @@ namespace PuzzleScanner.Pages {
                 ResultCanvas.Children.Add(po);
                 UIPolygons.Push(po);
                 drawers.Push(po);
+                for (int m = 0; m < poly.Angles.Length; ++m) {
+                    bool esp_isDragging = false;
+                    int esp_index = m;
+                    System.Windows.Point esp_DragOffset = new System.Windows.Point();
+                    Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
+                    //esp.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
+                    esp.MouseLeftButtonDown += (ss, ee) => {
+                        esp_isDragging = true;
+                        esp_DragOffset = ee.GetPosition(esp);
+                        esp.CaptureMouse();
+                    };
+                    esp.MouseMove += (ss, ee) => {
+                        if(esp_isDragging) {
+                            System.Windows.Point pt = Mouse.GetPosition(ResultCanvas);
+                            Canvas.SetLeft(esp, pt.X - esp_DragOffset.X);
+                            Canvas.SetTop(esp, pt.Y - esp_DragOffset.Y);
+                            po.Points[esp_index] = new System.Windows.Point(pt.X - esp_DragOffset.X, pt.Y - esp_DragOffset.Y);
+                        }
+                    };
+                    Canvas.SetZIndex(esp, 4);
+                    Canvas.SetTop(esp, poly.Points[m].Y);
+                    Canvas.SetLeft(esp, poly.Points[m].X);
+                    TextBlock tb = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkRed, Background = new SolidColorBrush(Color.FromArgb(125, 255, 255, 255)), Text = poly.Angles[m].ToString("F") + "°" };
+                    chardrawers.Push(tb);
+                    Canvas.SetZIndex(tb, 3);
+                    Canvas.SetTop(tb, poly.Points[m].Y);
+                    Canvas.SetLeft(tb, poly.Points[m].X);
+                    drawers.Push(esp);
+                    drawers.Push(tb);
+
+                    ResultCanvas.Children.Add(tb);
+                    ResultCanvas.Children.Add(esp);
+                    //    Line l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = poly.Points[m-1].X, X2 = poly.Points[m].X, Y1 = poly.Points[m-1].Y, Y2 = poly.Points[m].Y };
+                    //    l.MouseLeftButtonUp += (ss, ee) => chbox.EnableButton.IsChecked = chbox.EnableButton.IsChecked == true ? false : true;
+                    //    l.MouseRightButtonUp += (ss, ee) => chbox.FrameButton.IsChecked = chbox.FrameButton.IsChecked == true ? false : true;
+                    //    Canvas.SetZIndex(l, 2);
+                    //    Canvas.SetTop(l, Offset);
+                    //    Canvas.SetLeft(l, Offset);
+                    TextBlock tb2 = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkGreen,Background = new SolidColorBrush(Color.FromArgb(125,255,255,255)), Text = poly.Lines[m - 1].ToString("F") + "px" };
+                    chardrawers.Push(tb2);
+                    Canvas.SetZIndex(tb2, 3);
+                    Canvas.SetTop(tb2, (poly.Points[m].Y + poly.Points[m-1].Y) / 2);
+                    Canvas.SetLeft(tb2, (poly.Points[m].X + poly.Points[m-1].X) / 2);
+                    ResultCanvas.Children.Add(tb2);
+                    //    ResultCanvas.Children.Add(l);
+                    //    drawers.Push(l);
+                    drawers.Push(tb2);
+
+                    esp.MouseLeftButtonUp += (ss, ee) => {
+                        esp.ReleaseMouseCapture();
+                        esp_isDragging = false;
+                        System.Windows.Point pt = Mouse.GetPosition(ResultCanvas);
+                        Canvas.SetLeft(esp, pt.X - Math.Floor(esp_DragOffset.X));
+                        Canvas.SetTop(esp, pt.Y - Math.Floor(esp_DragOffset.Y));
+                        poly.Points[esp_index] = new Point(poly.Points[esp_index].X - (int)Math.Floor(esp_DragOffset.X), poly.Points[esp_index].Y - (int)Math.Floor(esp_DragOffset.Y));
+                        po.Points[esp_index] = new System.Windows.Point(pt.X - Math.Floor(esp_DragOffset.X), pt.Y - Math.Floor(esp_DragOffset.Y));
+                    };
+                }
+
                 chbox.EnableButton.Checked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Visible; } };
                 chbox.EnableButton.Unchecked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Hidden; } };
                 ImageList.Items.Add(chbox);
@@ -516,6 +539,19 @@ namespace PuzzleScanner.Pages {
             return new ResultPolygonData(Points, Lines, Poly.Get_Array);
         }
 
+        private static Tuple<double, double, double> UpdatePolygonInformation (Point Prev, Point Current, Point Next) {
+            Vector<double> v1 = new Vector<double>(new double[] { Current.X, Current.Y, Next.X, Next.Y });
+            Vector<double> v2 = new Vector<double>(new double[] { Prev.X, Prev.Y, Current.X, Current.Y });
+            v1 -= v2;
+            Vector<double> v3 = new Vector<double>(new double[] { Math.Atan2(v1[1], v1[0]), Math.Atan2(v1[3], v1[2]), 0, 0 });
+            v3 *= new Vector<double>(new double[] { 180 / 3.1415926358979323, 180 / 3.1415926358979323, 0, 0 });
+            double second = 180 + v3[0] - v3[1] + 360;
+            while (second > 360) second -= 360;
+            second = 360 - second;
+            double first = Math.Sqrt(Math.Abs(Math.Pow(Prev.X - Current.X, 2) + Math.Pow(Prev.Y - Current.Y, 2)));
+            double third = Math.Sqrt(Math.Abs(Math.Pow(Current.X - Next.X, 2) + Math.Pow(Current.Y - Next.Y, 2)));
+            return Tuple.Create(first, second, third);
+        }
 
         private void Scroller_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
             if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None) {
@@ -588,7 +624,7 @@ namespace PuzzleScanner.Pages {
         public static implicit operator RingBuffer<T>(T[] val) => new RingBuffer<T>(val);
     }
 
-    public struct ResultPolygonData {
+    public class ResultPolygonData {
         public sbyte Tag;
         public RingBuffer<double> Angles;
         public RingBuffer<double> Lines;
