@@ -229,6 +229,27 @@ namespace PuzzleScanner.Pages {
             ReadedImg.Dispose();
             resultImg.Dispose();
 
+
+            // ExtentWidth/Height が ScrollViewer 内の広さ
+            // ViewportWidth/Height が ScrollViewer で実際に表示されているサイズ
+
+            var xfactor = this.Thumbnail.ActualWidth / Scroller.ExtentWidth;
+            var yfactor = this.Thumbnail.ActualHeight / Scroller.ExtentHeight;
+
+            var width = Scroller.ViewportWidth * xfactor;
+            if (width > this.Thumbnail.ActualWidth) width = this.Thumbnail.ActualWidth;
+
+            var height = Scroller.ViewportHeight * yfactor;
+            if (height > this.Thumbnail.ActualHeight) height = this.Thumbnail.ActualHeight;
+
+            // Canvas (親パネル) 上での Viewport の位置を、Left/Top 添付プロパティで設定
+            // (XAML で言う <Border Canvas.Left="0" ... \> みたいなやつ)
+            Canvas.SetLeft(this.Viewport, 0);
+            Canvas.SetTop(this.Viewport, 0);
+
+            this.Viewport.Width = width;
+            this.Viewport.Height = height;
+
             anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
             Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
             Waiter.Visibility = Visibility.Hidden;

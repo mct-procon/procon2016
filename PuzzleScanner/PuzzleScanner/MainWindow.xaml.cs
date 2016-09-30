@@ -36,11 +36,11 @@ namespace PuzzleScanner {
             WindowState = WindowState.Minimized;
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
-            MainFrame.Navigate(new Pages.Choose_Acceralator());
+            MainFrame.Navigate(new Pages.Start());
         }
 
         private void BackToImageChooseButton_Click(object sender, RoutedEventArgs e) {
-            MainFrame.Navigate(new Pages.LoadImageFile());
+            MainFrame.Navigate(new Pages.Start());
         }
     }
 }

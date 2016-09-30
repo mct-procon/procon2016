@@ -20,6 +20,8 @@ namespace PuzzleScanner.Pages {
     /// Main_FilterWindow.xaml の相互作用ロジック
     /// </summary>
     public partial class Filter : Page {
+        string ImagePath;
+
         UMat mm = new UMat();
         Mat readed = new Mat();
         UMat cc = new UMat();
@@ -34,22 +36,48 @@ namespace PuzzleScanner.Pages {
             InitializeComponent();
         }
 
-        public Filter(string ImagePath) {
+        public Filter(string imgPath) {
             InitializeComponent();
-            Init2(ImagePath);
+            ImagePath = imgPath;
         }
 
-        private void Init2(string ImagePath) {
-            readed = CvInvoke.Imread(ImagePath, Emgu.CV.CvEnum.LoadImageType.Color);
-            ImageWidth = readed.Width;
-            ImageHeight = readed.Height;
-            CvInvoke.CvtColor(readed, mm, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
-            cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
+        private async void Page_Loaded(object sender, RoutedEventArgs e) {
+            if (string.IsNullOrWhiteSpace(ImagePath))
+                return;
+            await Task.Run(() => {
+                readed = CvInvoke.Imread(ImagePath, Emgu.CV.CvEnum.LoadImageType.Color);
+                ImageWidth = readed.Width;
+                ImageHeight = readed.Height;
+                CvInvoke.CvtColor(readed, mm, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
+                cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
+            });
+            imgCanvas.Width = ImageWidth;
+            imgCanvas.Height = ImageHeight;
             filter();
             Scale = 1;
             BaseImg.Source = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
-            imgCanvas.Width = ImageWidth;
-            imgCanvas.Height = ImageHeight;
+
+
+            // ExtentWidth/Height が ScrollViewer 内の広さ
+            // ViewportWidth/Height が ScrollViewer で実際に表示されているサイズ
+
+            var xfactor = this.Thumbnail.ActualWidth / Scroller.ExtentWidth;
+            var yfactor = this.Thumbnail.ActualHeight / Scroller.ExtentHeight;
+
+            var width = Scroller.ViewportWidth * xfactor;
+            if (width > this.Thumbnail.ActualWidth) width = this.Thumbnail.ActualWidth;
+
+            var height = Scroller.ViewportHeight * yfactor;
+            if (height > this.Thumbnail.ActualHeight) height = this.Thumbnail.ActualHeight;
+
+            // Canvas (親パネル) 上での Viewport の位置を、Left/Top 添付プロパティで設定
+            // (XAML で言う <Border Canvas.Left="0" ... \> みたいなやつ)
+            Canvas.SetLeft(this.Viewport, 0);
+            Canvas.SetTop(this.Viewport, 0);
+
+            this.Viewport.Width = width;
+            this.Viewport.Height = height;
+
         }
 
         private async void filter() {
@@ -165,6 +193,8 @@ namespace PuzzleScanner.Pages {
         }
 
         private void OnDragDelta(object sender, DragDeltaEventArgs e) {
+            if (!this.IsLoaded)
+                return;
             this.Scroller.ScrollToHorizontalOffset(
                 this.Scroller.HorizontalOffset + (e.HorizontalChange * this.Scroller.ExtentWidth / this.Thumbnail.ActualWidth));
 

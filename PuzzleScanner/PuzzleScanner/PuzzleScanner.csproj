@@ -61,8 +61,8 @@
       <HintPath>..\packages\EmguCV.3.1.0.1\lib\net30\Emgu.CV.World.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.1.1.2349.61993\lib\NET40\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
@@ -121,7 +121,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\Choose_Acceralator.xaml">
+    <Page Include="Pages\Start.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -147,8 +147,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pages\Choose_Acceralator.xaml.cs">
-      <DependentUpon>Choose_Acceralator.xaml</DependentUpon>
+    <Compile Include="Pages\Start.xaml.cs">
+      <DependentUpon>Start.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\LoadImageFile.xaml.cs">
       <DependentUpon>LoadImageFile.xaml</DependentUpon>
@@ -176,6 +176,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="OpenTK.dll.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

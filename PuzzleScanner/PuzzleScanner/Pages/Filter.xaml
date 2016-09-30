@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:PuzzleScanner.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="304.819" d:DesignWidth="354.217"
-      Unloaded="Page_Unloaded"
+      Unloaded="Page_Unloaded" Loaded="Page_Loaded"
       Title="Main_FilterWindow">
 
     <Grid>
@@ -64,7 +64,7 @@
         <TextBlock Text="V" Margin="5" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center"/>
         <TextBlock Text="V" Margin="5" Grid.Column="5" Grid.Row="1" VerticalAlignment="Center"/>
         <ScrollViewer x:Name="Scroller" Grid.Row="2" Grid.Column="7" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">
-            <Canvas x:Name="imgCanvas" HorizontalAlignment="Left" VerticalAlignment="Top" >
+            <Canvas x:Name="imgCanvas" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Canvas.RenderTransform>
                     <ScaleTransform x:Name="CanvasScale"/>
                 </Canvas.RenderTransform>

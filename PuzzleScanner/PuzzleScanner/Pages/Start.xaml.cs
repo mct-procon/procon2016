@@ -18,8 +18,8 @@ namespace PuzzleScanner.Pages {
     /// <summary>
     /// Choose_Acceralator.xaml の相互作用ロジック
     /// </summary>
-    public partial class Choose_Acceralator : Page {
-        public Choose_Acceralator() {
+    public partial class Start : Page {
+        public Start() {
             InitializeComponent();
             OpenCLButton.IsEnabled = CvInvoke.HaveOpenCL;
         }
