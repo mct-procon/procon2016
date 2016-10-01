@@ -28,7 +28,7 @@ namespace PuzzleScanner.Pages {
                 ActionTitle.Text = $"Choose {App.SccannerScanCountString} Image";
                 Scanner_Count = App.ScannerScanCount;
                 if (App.ScannerScanCount > 0)
-                    GoScanButtonInScanner.Visibility = Visibility.Collapsed;
+                    GoScanButtonInScanner.Visibility = Visibility.Visible;
             }
         }
 
@@ -54,7 +54,10 @@ namespace PuzzleScanner.Pages {
                     App.ScannerImagePathes[Scanner_Count] = ReferencedImageFilePath;
                 if (App.ScannerScanCount == 0)
                     mw.MainFrame.Navigate(new Pages.Filter(ReferencedImageFilePath));
-                //TODO:
+                else {
+                    App.ScannerScanCount++;
+                    mw.MainFrame.Navigate(new Pages.LoadImageFile());
+                }
             } else
                 mw.MainFrame.Navigate(new Pages.Filter(ReferencedImageFilePath));
         }

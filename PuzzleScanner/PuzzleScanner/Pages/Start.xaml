@@ -18,7 +18,7 @@
         </StackPanel>
         <TextBlock Text="Start Action" FontFamily="Segoe UI Light" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,155,0,0"/>
         <Button x:Name="ScanWithCameraButton" Content="Scan With Camera" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,213,0,0" Height="90" Width="140" IsEnabled="false" Click="ScanWithCameraClicked"/>
-        <Button x:Name="ScanWithScannerButton" Content="Scan With Scanner&#xa;(Not Tested)" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="170,213,0,0" Height="90" Width="140" IsEnabled="false"/>
+        <Button x:Name="ScanWithScannerButton" Content="Scan With Scanner&#xa;(Not Tested)" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="170,213,0,0" Height="90" Width="140" IsEnabled="false" Click="ScanWithScannerClicked"/>
         <Button x:Name="SolveOnly" Content="Puzzle Solve" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="320,213,0,0" Height="90" Width="140" IsEnabled="false"/>
     </Grid>
 </Page>

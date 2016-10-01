@@ -14,8 +14,8 @@
         <TextBlock Text="Choose Image" FontFamily="Segoe UI Light" x:Name="ActionTitle" FontSize="36"/>
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,55,0,0" Content="Reference" Width="80" Height="40" Click="ReferenceButtonClick"/>
         <Button x:Name="NextButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="80" Height="40" Content="Next" Click="NextButtonClick" Visibility="Collapsed"/>
-        <Button x:Name="GoScanButtonInScanner" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="100,0,0,10" Width="100" Height="40" Content="End Selecting" Click="GoScanButtonInScannerClick" Visibility="Collapsed"/>
-        <Image x:Name="Previewer" Margin="95,87,10,10"/>
+        <Button x:Name="GoScanButtonInScanner" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,90" Width="100" Height="40" Content="End Selecting" Click="GoScanButtonInScannerClick" Visibility="Collapsed"/>
+        <Image x:Name="Previewer" Margin="115,87,10,10"/>
         <TextBlock Text="Preview" FontFamily="Segoe UI Light" FontSize="20" Margin="95,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </Page>
