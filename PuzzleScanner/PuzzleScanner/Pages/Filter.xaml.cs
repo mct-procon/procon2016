@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,6 +32,9 @@ namespace PuzzleScanner.Pages {
         int ImageWidth = 0;
 
         double Scale = 1;
+
+        Task filterTask;
+        CancellationTokenSource filter_cancelToken = new CancellationTokenSource();
 
         public Filter() {
             InitializeComponent();
@@ -78,26 +82,54 @@ namespace PuzzleScanner.Pages {
             this.Viewport.Width = width;
             this.Viewport.Height = height;
 
+            NextButton.IsEnabled = true;
         }
 
-        private async void filter() {
+        private void filter() {
             byte _h_min = (byte)(H_MIN.Value * 255 / 360);
             byte _h_max = (byte)(H_MAX.Value * 255 / 360);
             byte _s_min = (byte)(S_MIN.Value * 255 / 100);
             byte _s_max = (byte)(S_MAX.Value * 255 / 100);
             byte _v_min = (byte)(V_MIN.Value * 255 / 100);
             byte _v_max = (byte)(V_MAX.Value * 255 / 100);
-            await Task.Run( () => FilterMat(mm,ref cc, _h_min , _h_max, _s_min , _s_max , _v_min , _v_max));
-            bmp = cc.Bitmap;
-            img.Source = Scanner.ToWPFBitmap(bmp);
-            bmp.Dispose();
-            Thumbnail.Source = img.Source;
+            TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
+            filterTask = Task.Run(() => FilterMat(ref mm, ref cc, _h_min, _h_max, _s_min, _s_max, _v_min, _v_max), filter_cancelToken.Token);
+            filterTask.ContinueWith((t) => {
+                if (!filterTask.IsCanceled) {
+                    bmp = cc.Bitmap;
+                    img.Source = Scanner.ToWPFBitmap(bmp);
+                    bmp.Dispose();
+                    Thumbnail.Source = img.Source;
+                }
+            }, t_s);
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-            //if (!this.IsInitialized)
-            //    return;
-            //filter();
+            if (!this.IsInitialized || !this.IsLoaded)
+                return;
+            byte _h_min = (byte)(H_MIN.Value * 255 / 360);
+            byte _h_max = (byte)(H_MAX.Value * 255 / 360);
+            byte _s_min = (byte)(S_MIN.Value * 255 / 100);
+            byte _s_max = (byte)(S_MAX.Value * 255 / 100);
+            byte _v_min = (byte)(V_MIN.Value * 255 / 100);
+            byte _v_max = (byte)(V_MAX.Value * 255 / 100);
+            TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
+            if (!filterTask.IsCompleted) {
+                filter_cancelToken.Cancel();
+                filter_cancelToken.Dispose();
+                filter_cancelToken = new CancellationTokenSource();
+            } else {
+                filterTask = Task.Run(() => FilterMat(ref mm, ref cc, _h_min, _h_max, _s_min, _s_max, _v_min, _v_max), filter_cancelToken.Token);
+                filterTask.ContinueWith((t) => {
+                    if (!filterTask.IsCanceled) {
+                        bmp = cc.Bitmap;
+                        img.Source = Scanner.ToWPFBitmap(bmp);
+                        bmp.Dispose();
+                        Thumbnail.Source = img.Source;
+                    }
+                }, t_s);
+            }
+
         }
 
         /// <summary>
@@ -111,7 +143,7 @@ namespace PuzzleScanner.Pages {
         /// <param name="MIN_V">最小V</param>
         /// <param name="MAX_V">最大V</param>
         /// <returns></returns>
-        private void FilterMat(UMat mm, ref UMat cc, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
+        internal static void FilterMat(ref UMat mm, ref UMat cc, byte MIN_H, byte MAX_H, byte MIN_S, byte MAX_S, byte MIN_V, byte MAX_V) {
             if(cc.Rows != mm.Rows || cc.Cols != mm.Cols)
                 cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             byte[] cache_in = mm.Bytes;
@@ -207,7 +239,14 @@ namespace PuzzleScanner.Pages {
         }
         private void Next_Click(object sender, RoutedEventArgs e) {
             filter();
-            ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Scanner(cc, readed));
+            if (App.IsScannerScan) {
+                App.Scanner_Filter = new byte[] { (byte)(H_MIN.Value * 255 / 360), (byte)(H_MAX.Value * 255 / 360), (byte)(S_MIN.Value * 255 / 100),
+                    (byte)(S_MAX.Value * 255 / 100), (byte)(V_MIN.Value * 255 / 100), (byte)(V_MAX.Value * 255 / 100) };
+                App.ScannerScanCount++;
+                ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.LoadImageFile());
+            } else {
+                ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Scanner(cc, readed));
+            }
         }
 
         private void Scroller_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {

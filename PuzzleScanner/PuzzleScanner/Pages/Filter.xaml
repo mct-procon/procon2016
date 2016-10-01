@@ -94,7 +94,7 @@
                 </Thumb.Template>
             </Thumb>
         </Canvas>
-        <Button Content="Update" Grid.Row="3" Grid.Column="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,90,5" Width="80" Height="40" Click="Update_Click"/>
-        <Button Content="Next" Grid.Row="3" Grid.Column="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="80" Height="40" Click="Next_Click"/>
+        <Button Content="Update" Grid.Row="3" Grid.Column="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,90,5" Width="80" Height="40" Click="Update_Click" Visibility="Hidden"/>
+        <Button x:Name="NextButton" Content="Next" Grid.Row="3" Grid.Column="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="80" Height="40" Click="Next_Click" IsEnabled="false"/>
     </Grid>
 </Page>

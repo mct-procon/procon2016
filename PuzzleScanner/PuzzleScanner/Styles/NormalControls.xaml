@@ -45,6 +45,9 @@
                     </BeginStoryboard>
                 </Trigger.ExitActions>
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="border" Property="Background" Value="DarkGray"/>
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style TargetType="{x:Type Button}">
@@ -99,6 +102,9 @@
             </Trigger>
             <Trigger Property="IsChecked" Value="true">
                 <Setter TargetName="border" Property="Background" Value="#FFFFAE00"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="border" Property="Background" Value="DarkGray"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

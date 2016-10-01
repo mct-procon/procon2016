@@ -21,12 +21,16 @@ namespace PuzzleScanner.Pages {
     /// </summary>
     public partial class LoadImageFile : Page {
         string ReferencedImageFilePath = "";
+        int Scanner_Count = 0;
         public LoadImageFile() {
             InitializeComponent();
+            if (App.IsScannerScan) {
+                ActionTitle.Text = $"Choose {App.SccannerScanCountString} Image";
+                Scanner_Count = App.ScannerScanCount;
+                if (App.ScannerScanCount > 0)
+                    GoScanButtonInScanner.Visibility = Visibility.Collapsed;
+            }
         }
-
-
-
 
         private void ReferenceButtonClick(object sender,RoutedEventArgs e) {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -43,19 +47,27 @@ namespace PuzzleScanner.Pages {
 
         private void NextButtonClick(object sender, RoutedEventArgs e) {
             MainWindow mw = (MainWindow)Window.GetWindow(this);
-            mw.BackToImageChooseButton.Visibility = Visibility.Visible;
-            mw.MainFrame.Navigate(new Pages.Filter(ReferencedImageFilePath));
+            if (App.IsScannerScan) {
+                if (App.ScannerScanCount <= Scanner_Count + 1)
+                    App.ScannerImagePathes.Add(ReferencedImageFilePath);
+                else
+                    App.ScannerImagePathes[Scanner_Count] = ReferencedImageFilePath;
+                if (App.ScannerScanCount == 0)
+                    mw.MainFrame.Navigate(new Pages.Filter(ReferencedImageFilePath));
+                //TODO:
+            } else
+                mw.MainFrame.Navigate(new Pages.Filter(ReferencedImageFilePath));
         }
 
-        private void CalibButton_Click(object sender, RoutedEventArgs e) {
-            //CvInvoke.NamedWindow("debugwindow");
-            //int HorizonalCrossCount = 39;
-            //int VerticalCrossCount = 29;
-            //Mat frame = CvInvoke.Imread(ReferencedImageFilePath);
-            //Mat gray;
-            //CvInvoke.Flip(frame, frame, Emgu.CV.CvEnum.FlipType.None);
-            //CvInvoke.CvtColor(frame, gray, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
-
+        private void GoScanButtonInScannerClick(object sender, RoutedEventArgs e) {
+            if (App.IsScannerScan) {
+                if (App.ScannerScanCount <= Scanner_Count + 1)
+                    App.ScannerImagePathes.Add(ReferencedImageFilePath);
+                else
+                    App.ScannerImagePathes[Scanner_Count] = ReferencedImageFilePath;
+            }
+            MainWindow mw = (MainWindow)Window.GetWindow(this);
+            mw.MainFrame.Navigate(new Pages.ScannerWithPanorama());
         }
     }
 }

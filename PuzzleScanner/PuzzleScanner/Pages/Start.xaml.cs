@@ -21,7 +21,6 @@ namespace PuzzleScanner.Pages {
     public partial class Start : Page {
         public Start() {
             InitializeComponent();
-            OpenCLButton.IsEnabled = CvInvoke.HaveOpenCL;
         }
 
         private void OpenCLButtonClicked(object sender, RoutedEventArgs e) {
@@ -33,5 +32,28 @@ namespace PuzzleScanner.Pages {
             CvInvoke.UseOpenCL = false;
             ((MainWindow)(Window.GetWindow(this))).MainFrame.Navigate(new Pages.LoadImageFile());
         }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e) {
+            bool isOpenCLEnabled = await Task.Run(() => CvInvoke.HaveOpenCL); 
+            OpenCL.IsEnabled = isOpenCLEnabled;
+            ScanWithCameraButton.IsEnabled = true;
+            ScanWithScannerButton.IsEnabled = true;
+            OpenCL.IsChecked = isOpenCLEnabled;
+            App.ScannerImagePathes = new List<string>();
+        }
+
+        private void ScanWithScannerClicked(object sender, RoutedEventArgs e) {
+            CvInvoke.UseOpenCL = OpenCL.IsChecked == true;
+            App.IsScannerScan = true;
+            App.ScannerScanCount = 0;
+            ((MainWindow)(Window.GetWindow(this))).MainFrame.Navigate(new Pages.LoadImageFile());
+        }
+
+        private void ScanWithCameraClicked(object sender, RoutedEventArgs e) {
+            CvInvoke.UseOpenCL = OpenCL.IsChecked == true;
+            App.IsScannerScan = false;
+            ((MainWindow)(Window.GetWindow(this))).MainFrame.Navigate(new Pages.LoadImageFile());
+        }
+
     }
 }

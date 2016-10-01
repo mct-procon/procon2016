@@ -39,8 +39,9 @@ namespace PuzzleScanner {
             MainFrame.Navigate(new Pages.Start());
         }
 
-        private void BackToImageChooseButton_Click(object sender, RoutedEventArgs e) {
-            MainFrame.Navigate(new Pages.Start());
+        private void BackButton_Click(object sender, RoutedEventArgs e) {
+            if(MainFrame.CanGoBack)
+                MainFrame.GoBack();
         }
     }
 }

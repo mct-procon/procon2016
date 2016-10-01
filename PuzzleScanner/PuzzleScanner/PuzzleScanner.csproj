@@ -101,6 +101,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Pages\ScannerWithPanorama.cs" />
     <Compile Include="Utils\ParallelExtensions.cs" />
     <Page Include="CustomControll\PolygonListedItem.xaml">
       <SubType>Designer</SubType>

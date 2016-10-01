@@ -30,8 +30,8 @@ namespace PuzzleScanner.Pages {
         private double Scale = 1;
         private Mat InputImage;
 
-        private UMat filtered;
-        private Mat Readed;
+        protected UMat filtered;
+        protected Mat Readed;
 
         Stack<Polygon> UIPolygons = null;
 
@@ -43,7 +43,6 @@ namespace PuzzleScanner.Pages {
 
         //private int MAX_H = 50;
         //private int MIN_H = 0;
-        string ImagePath = "";
         int ImageWidth = 0;
         int ImageHeight = 0;
 
@@ -608,8 +607,16 @@ namespace PuzzleScanner.Pages {
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e) {
+        protected virtual void Page_Loaded(object sender, RoutedEventArgs e) {
             UpdateContent_WithoutFilter(filtered, Readed);
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e) {
+            Readed?.Dispose();
+            InputImage?.Dispose();
+            filtered?.Dispose();
+            UIPolygons = null;
+            result = null;
         }
     }
 
