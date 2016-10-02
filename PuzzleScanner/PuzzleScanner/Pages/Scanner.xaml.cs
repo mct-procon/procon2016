@@ -160,11 +160,14 @@ namespace PuzzleScanner.Pages {
                     bool esp_isDragging = false;
                     int esp_index = m;
                     System.Windows.Point esp_DragOffset = new System.Windows.Point();
+                    System.Windows.Point esp_DragOffset_sum = new System.Windows.Point();
                     Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
                     //esp.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
                     esp.MouseLeftButtonDown += (ss, ee) => {
                         esp_isDragging = true;
                         esp_DragOffset = ee.GetPosition(esp);
+                        esp_DragOffset_sum.X += esp_DragOffset.X;
+                        esp_DragOffset_sum.Y += esp_DragOffset.Y;
                         esp.CaptureMouse();
                     };
                     esp.MouseMove += (ss, ee) => {
@@ -173,6 +176,7 @@ namespace PuzzleScanner.Pages {
                             Canvas.SetLeft(esp, pt.X - esp_DragOffset.X);
                             Canvas.SetTop(esp, pt.Y - esp_DragOffset.Y);
                             po.Points[esp_index] = new System.Windows.Point(pt.X - esp_DragOffset.X, pt.Y - esp_DragOffset.Y);
+                            System.Diagnostics.Debug.WriteLine(esp_DragOffset.X);
                         }
                     };
                     Canvas.SetZIndex(esp, 4);
@@ -211,7 +215,9 @@ namespace PuzzleScanner.Pages {
                         Canvas.SetLeft(esp, pt.X - Math.Floor(esp_DragOffset.X));
                         Canvas.SetTop(esp, pt.Y - Math.Floor(esp_DragOffset.Y));
                         poly.Points[esp_index] = new Point(poly.Points[esp_index].X - (int)Math.Floor(esp_DragOffset.X), poly.Points[esp_index].Y - (int)Math.Floor(esp_DragOffset.Y));
-                        po.Points[esp_index] = new System.Windows.Point(pt.X - Math.Floor(esp_DragOffset.X), pt.Y - Math.Floor(esp_DragOffset.Y));
+                        esp_DragOffset_sum.X += esp_DragOffset.X;
+                        esp_DragOffset_sum.Y += esp_DragOffset.Y;
+                        po.Points[esp_index] = new System.Windows.Point(pt.X - Math.Floor(esp_DragOffset_sum.X), pt.Y - Math.Floor(esp_DragOffset_sum.Y));
                     };
                 }
 
