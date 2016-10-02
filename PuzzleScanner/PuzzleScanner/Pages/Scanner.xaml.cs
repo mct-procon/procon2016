@@ -160,11 +160,9 @@ namespace PuzzleScanner.Pages {
                     bool esp_isDragging = false;
                     int esp_index = m;
                     System.Windows.Point esp_DragOffset = new System.Windows.Point();
-                    System.Windows.Point esp_DragOffset_sum = new System.Windows.Point();
                     Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
                     //esp.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
                     esp.MouseLeftButtonDown += (ss, ee) => {
-                        esp_DragOffset_sum = new System.Windows.Point();
                         esp_isDragging = true;
                         esp_DragOffset = ee.GetPosition(esp);
                         esp.CaptureMouse();
@@ -174,8 +172,6 @@ namespace PuzzleScanner.Pages {
                             System.Windows.Point pt = Mouse.GetPosition(ResultCanvas);
                             Canvas.SetLeft(esp, pt.X - esp_DragOffset.X);
                             Canvas.SetTop(esp, pt.Y - esp_DragOffset.Y);
-                            esp_DragOffset_sum.X += esp_DragOffset.X;
-                            esp_DragOffset_sum.Y += esp_DragOffset.Y;
                             po.Points[esp_index] = new System.Windows.Point(pt.X - esp_DragOffset.X, pt.Y - esp_DragOffset.Y);
                         }
                     };
@@ -212,12 +208,10 @@ namespace PuzzleScanner.Pages {
                         esp.ReleaseMouseCapture();
                         esp_isDragging = false;
                         System.Windows.Point pt = Mouse.GetPosition(ResultCanvas);
-                        Canvas.SetLeft(esp, pt.X - Math.Floor(esp_DragOffset.X));
-                        Canvas.SetTop(esp, pt.Y - Math.Floor(esp_DragOffset.Y));
-                        esp_DragOffset_sum.X += esp_DragOffset.X;
-                        esp_DragOffset_sum.Y += esp_DragOffset.Y;
-                        po.Points[esp_index] = new System.Windows.Point(pt.X -esp_DragOffset.X, pt.Y - esp_DragOffset.Y);
-                        poly.Points[esp_index] = new Point(poly.Points[esp_index].X - (int)esp_DragOffset_sum.X, poly.Points[esp_index].Y - (int)esp_DragOffset_sum.Y);
+                        Canvas.SetLeft(esp, pt.X - esp_DragOffset.X);
+                        Canvas.SetTop(esp, pt.Y - esp_DragOffset.Y);
+                        po.Points[esp_index] = new System.Windows.Point(pt.X - esp_DragOffset.X, pt.Y - esp_DragOffset.Y);
+                        poly.Points[esp_index] = new Point((int)(pt.X - esp_DragOffset.X), (int)(pt.Y -  esp_DragOffset.Y));
                     };
                 }
 
