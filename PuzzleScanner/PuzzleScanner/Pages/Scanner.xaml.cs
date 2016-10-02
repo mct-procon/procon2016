@@ -161,7 +161,6 @@ namespace PuzzleScanner.Pages {
                     int esp_index = m;
                     System.Windows.Point esp_DragOffset = new System.Windows.Point();
                     Ellipse esp = new Ellipse() { Fill = Brushes.Red, Stroke = Brushes.Red, Width = NormalCircleSize, Height = NormalCircleSize };
-                    //esp.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
                     esp.MouseLeftButtonDown += (ss, ee) => {
                         esp_isDragging = true;
                         esp_DragOffset = ee.GetPosition(esp);
@@ -188,20 +187,12 @@ namespace PuzzleScanner.Pages {
 
                     ResultCanvas.Children.Add(tb);
                     ResultCanvas.Children.Add(esp);
-                    //    Line l = new Line() { Stroke = Brushes.ForestGreen, StrokeThickness = NormalLineTickness, X1 = poly.Points[m-1].X, X2 = poly.Points[m].X, Y1 = poly.Points[m-1].Y, Y2 = poly.Points[m].Y };
-                    //    l.MouseLeftButtonUp += (ss, ee) => chbox.EnableButton.IsChecked = chbox.EnableButton.IsChecked == true ? false : true;
-                    //    l.MouseRightButtonUp += (ss, ee) => chbox.FrameButton.IsChecked = chbox.FrameButton.IsChecked == true ? false : true;
-                    //    Canvas.SetZIndex(l, 2);
-                    //    Canvas.SetTop(l, Offset);
-                    //    Canvas.SetLeft(l, Offset);
                     TextBlock tb2 = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkGreen,Background = new SolidColorBrush(Color.FromArgb(125,255,255,255)), Text = poly.Lines[m - 1].ToString("F") + "px" };
                     chardrawers.Push(tb2);
                     Canvas.SetZIndex(tb2, 3);
                     Canvas.SetTop(tb2, (poly.Points[m].Y + poly.Points[m-1].Y) / 2);
                     Canvas.SetLeft(tb2, (poly.Points[m].X + poly.Points[m-1].X) / 2);
                     ResultCanvas.Children.Add(tb2);
-                    //    ResultCanvas.Children.Add(l);
-                    //    drawers.Push(l);
                     drawers.Push(tb2);
 
                     esp.MouseLeftButtonUp += (ss, ee) => {
