@@ -70,7 +70,7 @@ namespace PuzzleScanner.Pages {
                     App.ScannerImagePathes[Scanner_Count] = ReferencedImageFilePath;
             }
             MainWindow mw = (MainWindow)Window.GetWindow(this);
-            mw.MainFrame.Navigate(new Pages.ScannerWithPanorama());
+            mw.MainFrame.Navigate(new Pages.Scanner());
         }
     }
 }

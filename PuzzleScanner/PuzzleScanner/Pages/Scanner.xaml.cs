@@ -35,6 +35,8 @@ namespace PuzzleScanner.Pages {
 
         Stack<Polygon> UIPolygons = null;
 
+        bool PanoramaMode = false;
+
         //private int MAX_S = 220;
         //private int MIN_S = 70;
 
@@ -54,6 +56,7 @@ namespace PuzzleScanner.Pages {
 
         public Scanner() {
             InitializeComponent();
+            PanoramaMode = true;
         }
 
         //public Main_ScannerWindow(string imagepath) {
@@ -74,11 +77,6 @@ namespace PuzzleScanner.Pages {
         /// <param name="FilteredImg">フィルタしたイメージ</param>
         /// <param name="ReadedImg">原画像</param>
         private async void UpdateContent_WithoutFilter(UMat FilteredImg, Mat ReadedImg) {
-            //GUI ANIMATION ホワイトさせるほど処理長くないけど…
-            Waiter.Opacity = 0;
-            Waiter.Visibility = Visibility.Visible;
-            var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
-            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
             InputImage = ReadedImg.Clone();
             ImageList.Items.Clear();
             ResultCanvas.Children.Clear();
@@ -248,10 +246,6 @@ namespace PuzzleScanner.Pages {
 
             this.Viewport.Width = width;
             this.Viewport.Height = height;
-
-            anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
-            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
-            Waiter.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -559,6 +553,7 @@ namespace PuzzleScanner.Pages {
             return new ResultPolygonData(Points, Lines, Poly.Get_Array);
         }
 
+        //Not Used
         private static Tuple<double, double, double> UpdatePolygonInformation (Point Prev, Point Current, Point Next) {
             Vector<double> v1 = new Vector<double>(new double[] { Current.X, Current.Y, Next.X, Next.Y });
             Vector<double> v2 = new Vector<double>(new double[] { Prev.X, Prev.Y, Current.X, Current.Y });
@@ -607,8 +602,44 @@ namespace PuzzleScanner.Pages {
             }
         }
 
-        protected virtual void Page_Loaded(object sender, RoutedEventArgs e) {
+        protected async void Page_Loaded(object sender, RoutedEventArgs e) {
+            //GUI ANIMATION ホワイトさせるほど処理長くないけど…
+            Waiter.Opacity = 0;
+            Waiter.Visibility = Visibility.Visible;
+            var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
+            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
+            if (PanoramaMode)
+                await CreatePanorama();
             UpdateContent_WithoutFilter(filtered, Readed);
+            anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
+            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
+            Waiter.Visibility = Visibility.Hidden;
+        }
+
+        protected async Task CreatePanorama() {
+            bool Sucseeded = false;
+            await Task.Run(() => {
+                Mat MatCache = CvInvoke.Imread(App.ScannerImagePathes[0], Emgu.CV.CvEnum.LoadImageType.Color);
+                for (int i = 1; i < App.ScannerImagePathes.Count; ++i) {
+                    using (Mat MatCache2 = MatCache.Clone()) {
+                        using (Mat MatCache3 = CvInvoke.Imread(App.ScannerImagePathes[i], Emgu.CV.CvEnum.LoadImageType.Color)) {
+                            using (Emgu.CV.Util.VectorOfMat ReadedImagePair = new Emgu.CV.Util.VectorOfMat(MatCache2.Clone(), MatCache3.Clone())) {
+                                using (Emgu.CV.Stitching.Stitcher stic = new Emgu.CV.Stitching.Stitcher(true)) {
+                                    MatCache.Dispose();
+                                    MatCache = new Mat();
+                                    Sucseeded = stic.Stitch(ReadedImagePair, MatCache);
+                                }
+                            }
+                        }
+                    }
+                }
+                Readed = MatCache.Clone();
+                MatCache.Dispose();
+                filtered = new UMat();
+                UMat Hsvmat = new UMat();
+                CvInvoke.CvtColor(Readed, Hsvmat, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
+                Filter.FilterMat(ref Hsvmat, ref filtered, App.Scanner_Filter[0], App.Scanner_Filter[1], App.Scanner_Filter[2], App.Scanner_Filter[3], App.Scanner_Filter[4], App.Scanner_Filter[5]);
+            });
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e) {
