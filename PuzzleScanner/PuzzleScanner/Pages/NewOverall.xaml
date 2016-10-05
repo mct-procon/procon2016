@@ -1,0 +1,29 @@
+﻿<Page x:Class="PuzzleScanner.Pages.NewOverall"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PuzzleScanner.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="300.602" d:DesignWidth="401.807"
+      Title="NewOverall">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary Source="/Styles/NormalControls.xaml"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="PagesItemList" Margin="2,0,2,32" SelectionChanged="PagesItemList_SelectionChanged"/>
+        <Frame x:Name="PageContent" Grid.Column="1"/>
+        <Button x:Name="AddButton" Content="＋"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,2,2" Width="40" Height="30" Click="AddButton_Click"/>
+        <Button x:Name="AddPanoramaButton" Content="＋P" IsEnabled="false" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,45,2" Width="30" Height="30"/>
+        <Button x:Name="NextButton" Content="Next" IsEnabled="false" Grid.Row="1" Grid.Column="1" Width="80" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5"/>
+        <Button x:Name="TextWriteOut" Content="I/O Output" Grid.Row="1" Grid.Column="1" Width="80" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,90,5" Click="TextWriteOut_Click"/>
+    </Grid>
+</Page>

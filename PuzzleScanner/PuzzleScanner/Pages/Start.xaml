@@ -12,13 +12,14 @@
             <ResourceDictionary Source="/Styles/NormalControls.xaml"/>
         </Grid.Resources>
         <TextBlock Text="Select Acceralator" FontFamily="Segoe UI Light" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <StackPanel Margin="20,60,90,150" Orientation="Horizontal">
+        <StackPanel Margin="20,60,183,172" Orientation="Horizontal">
             <RadioButton x:Name="CPU" HorizontalAlignment="Left" VerticalAlignment="Top" Content="None(CPU)" Height="90" Width="140" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="True"/>
             <RadioButton x:Name="OpenCL" HorizontalAlignment="Left" VerticalAlignment="Top" Content="OpenCL" Margin="10,0,0,0" Height="90" Width="140" Style="{StaticResource {x:Type ToggleButton}}" IsEnabled="false"/>
         </StackPanel>
         <TextBlock Text="Start Action" FontFamily="Segoe UI Light" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,155,0,0"/>
-        <Button x:Name="ScanWithCameraButton" Content="Scan With Camera" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,213,0,0" Height="90" Width="140" IsEnabled="false" Click="ScanWithCameraClicked"/>
-        <Button x:Name="ScanWithScannerButton" Content="Scan With Scanner&#xa;(Not Tested)" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="170,213,0,0" Height="90" Width="140" IsEnabled="false" Click="ScanWithScannerClicked"/>
+        <Button x:Name="BeginButton" Content="Begin" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,213,0,0" Height="90" Width="140" IsEnabled="false" Click="BeginButton_Click"/>
+        <Button x:Name="ScanWithCameraButton" Content="Scan With Camera" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="170,213,0,0" Height="45" Width="140" IsEnabled="false" Click="ScanWithCameraClicked"/>
+        <Button x:Name="ScanWithScannerButton" Content="Scan With Scanner" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="170,263,0,0" Height="40" Width="140" IsEnabled="false" Click="ScanWithScannerClicked"/>
         <Button x:Name="SolveOnly" Content="Puzzle Solve" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="320,213,0,0" Height="90" Width="140" IsEnabled="false"/>
     </Grid>
 </Page>

@@ -38,6 +38,7 @@ namespace PuzzleScanner.Pages {
             OpenCL.IsEnabled = isOpenCLEnabled;
             ScanWithCameraButton.IsEnabled = true;
             ScanWithScannerButton.IsEnabled = true;
+            BeginButton.IsEnabled = true;
             OpenCL.IsChecked = isOpenCLEnabled;
             App.ScannerImagePathes = new List<string>();
         }
@@ -55,5 +56,8 @@ namespace PuzzleScanner.Pages {
             ((MainWindow)(Window.GetWindow(this))).MainFrame.Navigate(new Pages.LoadImageFile());
         }
 
+        private void BeginButton_Click(object sender, RoutedEventArgs e) {
+            ((MainWindow)(Window.GetWindow(this))).MainFrame.Navigate(new Pages.NewOverall());
+        }
     }
 }
