@@ -19,28 +19,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Line.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MargePoly.cpp" />
-    <ClCompile Include="Poly.cpp" />
-    <ClCompile Include="Solver.cpp" />
-    <ClCompile Include="SolverBase.cpp" />
-    <ClCompile Include="WinAPIExt.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="InputUI.h" />
-    <ClInclude Include="Line.h" />
-    <ClInclude Include="MargePoly.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="Poly.h" />
-    <ClInclude Include="Solver.h" />
-    <ClInclude Include="SolverBase.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="WinAPIExt.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="opinion.txt" />
     <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="srcHand\Extern.cpp" />
+    <ClCompile Include="srcHand\Line.cpp" />
+    <ClCompile Include="srcHand\Main.cpp" />
+    <ClCompile Include="srcHand\MargePoly.cpp" />
+    <ClCompile Include="srcHand\Poly.cpp" />
+    <ClCompile Include="srcHand\Solver.cpp" />
+    <ClCompile Include="srcHand\SolverBase.cpp" />
+    <ClCompile Include="srcHand\UserQuery.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="srcHand\Backup.h" />
+    <ClInclude Include="srcHand\Extern.h" />
+    <ClInclude Include="srcHand\Line.h" />
+    <ClInclude Include="srcHand\MargePoly.h" />
+    <ClInclude Include="srcHand\Point.h" />
+    <ClInclude Include="srcHand\Poly.h" />
+    <ClInclude Include="srcHand\Solver.h" />
+    <ClInclude Include="srcHand\SolverBase.h" />
+    <ClInclude Include="srcHand\stdafx.h" />
+    <ClInclude Include="srcHand\STL.h" />
+    <ClInclude Include="srcHand\UserQuery.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BE1F7D0D-3528-419E-8626-9CF24A095C6B}</ProjectGuid>
