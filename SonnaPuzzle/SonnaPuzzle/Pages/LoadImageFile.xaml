@@ -1,0 +1,21 @@
+﻿<Page x:Class="SonnaPuzzle.Pages.LoadImageFile"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="363.898" d:DesignWidth="410.026"
+      Title="LoadImageFile">
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary Source="/Styles/NormalControls.xaml"/>
+        </Grid.Resources>
+        <TextBlock Text="Choose Image" FontFamily="Segoe UI Light" x:Name="ActionTitle" FontSize="36"/>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,55,0,0" Content="Reference" Width="80" Height="40" Click="ReferenceButtonClick"/>
+        <Button x:Name="NextButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Width="80" Height="40" Content="Next" Click="NextButtonClick" Visibility="Collapsed"/>
+        <Button x:Name="GoScanButtonInScanner" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,90" Width="100" Height="40" Content="End Selecting" Click="GoScanButtonInScannerClick" Visibility="Collapsed"/>
+        <Image x:Name="Previewer" Margin="115,87,10,10"/>
+        <TextBlock Text="Preview" FontFamily="Segoe UI Light" FontSize="20" Margin="95,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    </Grid>
+</Page>

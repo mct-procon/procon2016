@@ -1,0 +1,100 @@
+﻿<Page x:Class="SonnaPuzzle.Pages.Filter"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SonnaPuzzle.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="304.819" d:DesignWidth="354.217"
+      Unloaded="Page_Unloaded" Loaded="Page_Loaded"
+      Title="Main_FilterWindow">
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary Source="/Styles/NormalControls.xaml"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="ActionTitle" Grid.ColumnSpan="10" Text="Choose HSV Filtering" FontFamily="Segoe UI Light" FontSize="36"/>
+        <TextBlock Text="←←Low" Grid.Row="2" RenderTransformOrigin="0.5,0.5" Margin="-13,15,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <TextBlock Text="High→→" Grid.Row="2" RenderTransformOrigin="0.5,0.5" Margin="-15,0,4,17" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <Slider x:Name="H_MAX" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Maximum="360" Minimum="0" Value="30" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="H_MIN" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Maximum="360" Minimum="0" Value="0" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <TextBlock Text="H" Margin="5" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="H" Margin="5" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
+        <Slider x:Name="S_MAX" Grid.Column="4" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="85" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="S_MIN" Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="20" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <TextBlock Text="S" Margin="5" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center"/>
+        <TextBlock Text="S" Margin="5" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center"/>
+        <Slider x:Name="V_MAX" Grid.Column="6" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="100" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="V_MIN" Grid.Column="5" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="20" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <TextBlock Text="V" Margin="5" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center"/>
+        <TextBlock Text="V" Margin="5" Grid.Column="5" Grid.Row="1" VerticalAlignment="Center"/>
+        <ScrollViewer x:Name="Scroller" Grid.Row="2" Grid.Column="7" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">
+            <Canvas x:Name="imgCanvas" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Canvas.RenderTransform>
+                    <ScaleTransform x:Name="CanvasScale"/>
+                </Canvas.RenderTransform>
+                <Image x:Name="BaseImg" Stretch="UniformToFill" Height="{Binding ElementName=img, Path=ActualHeight}" Width="{Binding ElementName=img, Path=ActualWidth}"/>
+                <Image x:Name="img" Opacity="0.6"/>
+            </Canvas>
+        </ScrollViewer>
+        <Canvas Width="{Binding ElementName=Thumbnail, Path=ActualWidth}"
+                Height="{Binding ElementName=Thumbnail, Path=ActualHeight}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,10,10,0"
+                UseLayoutRounding="True"
+                Grid.Row="1" Grid.RowSpan="2"
+                Grid.Column="7">
+            <Image x:Name="Thumbnail"
+                   Width="200"
+                   Stretch="Uniform" Opacity="0.8" />
+            <Thumb x:Name="Viewport"
+           DragDelta="OnDragDelta">
+                <Thumb.Template>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border BorderBrush="Red"
+                        BorderThickness="2"
+                        Background="Transparent" />
+                    </ControlTemplate>
+                </Thumb.Template>
+            </Thumb>
+        </Canvas>
+        <Button Content="Update" Grid.Row="3" Grid.Column="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,90,5" Width="80" Height="40" Click="Update_Click" Visibility="Hidden"/>
+        <Button x:Name="NextButton" Content="Next" Grid.Row="3" Grid.Column="7" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="80" Height="40" Click="Next_Click" IsEnabled="false"/>
+    </Grid>
+</Page>

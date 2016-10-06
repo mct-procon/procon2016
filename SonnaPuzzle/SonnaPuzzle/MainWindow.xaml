@@ -1,0 +1,26 @@
+﻿<Window x:Class="SonnaPuzzle.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SonnaPuzzle"
+        mc:Ignorable="d"
+        WindowStyle="None" AllowsTransparency="True" BorderBrush="LimeGreen" BorderThickness="1"
+        Title="そんなパズルは壊してしまえ！" Height="600" Width="800" StateChanged="Window_StateChanged" Loaded="Window_Loaded">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="40" ResizeBorderThickness="4"/>
+    </WindowChrome.WindowChrome>
+    <Grid>
+        <Grid VerticalAlignment="Top">
+            <Grid.Resources>
+                <ResourceDictionary Source="/Styles/Caption.xaml"/>
+            </Grid.Resources>
+            <TextBlock Text="そんなパズルは壊してしまえ！" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="70,0,150,0" FontSize="24" FontFamily="Yu Gothic UI Light"/>
+            <Button x:Name="BackButton" WindowChrome.IsHitTestVisibleInChrome="True" Width="70" Height="40" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="MeiryoUI" FontSize="30" Style="{StaticResource ResourceKey=CloseButton}" Click="BackButton_Click"/>
+            <Button WindowChrome.IsHitTestVisibleInChrome="True" Width="60" Height="40" Content="r" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Click="CloseButton_Clicked" Style="{StaticResource ResourceKey=CloseButton}"/>
+            <Button x:Name="WindowNorMaxChangeButton" WindowChrome.IsHitTestVisibleInChrome="True" Width="40" Height="40" Content="1" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,60,0" Click="NorMaxButton_Clicked" Style="{StaticResource ResourceKey=MinMaxButton}"/>
+            <Button WindowChrome.IsHitTestVisibleInChrome="True" Width="40" Height="40" Content="0" FontFamily="Marlett" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,100,0" Click="MiniButton_Clicked" Style="{StaticResource ResourceKey=MinMaxButton}"/>
+        </Grid>
+        <Frame x:Name="MainFrame" Margin="10,45,10,10" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>

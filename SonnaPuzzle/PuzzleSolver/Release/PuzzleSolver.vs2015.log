@@ -1,0 +1,14 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (PuzzleSolver.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Main.cpp
+Main.cpp(24): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+LINK : warning C4727: 同じタイムスタンプを伴う、c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\puzzlesolver.vs2015.pch と名前指定された PCH が c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\margepoly.obj および c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\line.obj で見つかりました。最初の PCH を使用します。
+LINK : warning C4727: 同じタイムスタンプを伴う、c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\puzzlesolver.vs2015.pch と名前指定された PCH が c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\poly.obj および c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\line.obj で見つかりました。最初の PCH を使用します。
+LINK : warning C4727: 同じタイムスタンプを伴う、c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\puzzlesolver.vs2015.pch と名前指定された PCH が c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\solver.obj および c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\line.obj で見つかりました。最初の PCH を使用します。
+LINK : warning C4727: 同じタイムスタンプを伴う、c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\puzzlesolver.vs2015.pch と名前指定された PCH が c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\solverbase.obj および c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\release\line.obj で見つかりました。最初の PCH を使用します。
+  コード生成しています。
+  1 of 1437 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  コード生成が終了しました。
+  PuzzleSolver.vs2015.vcxproj -> C:\WorkSpace\BitBucket\procon2016-sub\master\PuzzleSolver\Release\PuzzleSolver.vs2015.exe
+  PuzzleSolver.vs2015.vcxproj -> C:\WorkSpace\BitBucket\procon2016-sub\master\PuzzleSolver\Release\PuzzleSolver.vs2015.pdb (Full PDB)

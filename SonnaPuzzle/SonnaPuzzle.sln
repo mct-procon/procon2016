@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.25802.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonnaPuzzle", "SonnaPuzzle\SonnaPuzzle.csproj", "{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PuzzleSolver.vs2015", "PuzzleSolver\PuzzleSolver.vs2015.vcxproj", "{BE1F7D0D-3528-419E-8626-9CF24A095C6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Debug|x64.Build.0 = Debug|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Release|x64.ActiveCfg = Release|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Release|x64.Build.0 = Release|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF9EE84B-F323-47DC-B3B4-B6BB8605706E}.Release|x86.Build.0 = Release|Any CPU
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Debug|x64.ActiveCfg = Debug|x64
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Debug|x64.Build.0 = Debug|x64
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Debug|x86.ActiveCfg = Debug|Win32
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Debug|x86.Build.0 = Debug|Win32
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Release|Any CPU.ActiveCfg = Release|Win32
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Release|x64.ActiveCfg = Release|x64
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Release|x64.Build.0 = Release|x64
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Release|x86.ActiveCfg = Release|Win32
+		{BE1F7D0D-3528-419E-8626-9CF24A095C6B}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
