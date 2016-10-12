@@ -20,6 +20,6 @@ private:
 	Poly to_poly(vector<Point> cycle, Poly &src_poly, Poly &dst_poly, double angle_error_deg, bool dst_is_piece);		//サイクルから冗長な点を除いて多角形を作成
 
 public:
-	bool can_marge(double dist_error, double angle_error_deg, Poly &src_poly, Poly &dst_poly, bool dst_is_piece, vector<Poly> &wakus);		//穴ができたらfalse, （マージすると, どの枠にも入らないピースができる場合もfalse）
-	pair<bool, vector<Poly> > marge_poly(double dist_error, double angle_error_deg, Poly &src_poly, Poly &dst_poly, bool dst_is_piece);		//多角形のマージ, マージ失敗時はfalseを返す
+	bool can_marge(double dist_error, Poly &src_poly, Poly &dst_poly, bool dst_is_piece, vector<Poly> &wakus);		//穴ができたらfalse, （マージすると, どの枠にも入らないピースができる場合もfalse）
+	pair<bool, vector<Poly> > marge_poly(double dist_error, Poly src_poly, Poly dst_poly, bool dst_is_piece);		//多角形のマージ, マージ失敗時はfalseを返す
 };

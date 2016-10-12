@@ -103,10 +103,10 @@ void UserQuery::right_click(int mouseX, int mouseY) {
 	}
 
 	//反転
-	tuple<bool, int, int> line = get_nearest_line(mouseX, mouseY, 1000);
+	/*tuple<bool, int, int> line = get_nearest_line(mouseX, mouseY, 1000);
 	if (get<0>(line)) {	//ピースの場合
 		pieces[get<1>(line)].turn();
-	}
+	}*/
 }
 
 
@@ -196,8 +196,8 @@ void UserQuery::init() {
 	is_exist_src = false;
 	is_exist_dst = false;
 	is_reverse_line = false;
-	prev_mouseInput = 0;
-	now_mouseInput = 0;
+	prev_mouseInput = GetMouseInput();
+	now_mouseInput = GetMouseInput();
 }
 
 
@@ -240,13 +240,14 @@ int UserQuery::set_query() {
 			State res = backup.pop();
 			pieces = res.pieces;
 			wakus = res.wakus;
+			init();
+			solver.print("answer.txt");
 		}
 
-		//スペースキーでマージ処理の実行許可を操作
+		//スペースキーで表示モードを操作
 		if (!bkey[KEY_INPUT_SPACE] && key[KEY_INPUT_SPACE]) {
-			is_do_marge = !is_do_marge;
+			isDrawInfo = !isDrawInfo;
 		}
-		DrawFormatString(100, 150, 0, "マージ処理：%s", (is_do_marge) ? "許可" : "拒否");
 
 		//描画
 		update_draw_option();

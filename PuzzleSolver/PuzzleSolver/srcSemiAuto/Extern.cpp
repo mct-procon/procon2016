@@ -7,6 +7,11 @@ Backup backup;				//バックアップ取る(Main)→[元に戻すか？|戻す, 何もしない](User
 vector<Poly> wakus;
 vector<Poly> pieces;
 
+vector<Poly> init_wakus;
+vector<Poly> out_pieces;
+
+Solver solver;		//コントロール用
+
 bool isDrawInfo;	//詳細情報の表示・非表示
 Point center;		//描画の中心座標
 double scale;		//描画の倍率
@@ -20,7 +25,7 @@ bool is_do_marge = true;	//falseなら、強制的にマージ処理を拒否する
 void init_draw_option() {
 	isDrawInfo = true;
 	center = Point(0, 0);
-	scale = 1.0;
+	scale = 0.2;
 	windowSizeX = 800;
 	windowSizeY = 666;
 }
@@ -33,8 +38,8 @@ void update_draw_option() {
 	if (CheckHitKey(KEY_INPUT_DOWN)) { center += Point(0, 3) / scale; }
 	if (CheckHitKey(KEY_INPUT_LEFT)) { center += Point(-3, 0) / scale; }
 	if (CheckHitKey(KEY_INPUT_RIGHT)) { center += Point(3, 0) / scale; }
-	if (CheckHitKey(KEY_INPUT_Z)) { scale -= 0.007; }
-	if (CheckHitKey(KEY_INPUT_X)) { scale += 0.007; }
+	if (CheckHitKey(KEY_INPUT_Z)) { scale -= 0.0014; }
+	if (CheckHitKey(KEY_INPUT_X)) { scale += 0.0014; }
 
 	//表示を動かす（マウス操作 : ドラックで平行移動, マウスホイールで拡大縮小）
 	{
@@ -51,7 +56,7 @@ void update_draw_option() {
 
 		int rot = GetMouseWheelRotVol();	//マウスホイールの回転量（手前から奥に回すと負の値を返す）
 		//奥から手前で拡大, 手前から奥で縮小
-		scale += rot * 0.028;
+		scale += rot * 0.0056;
 	}
 }
 
@@ -94,22 +99,20 @@ void draw() {
 
 	//多角形の番号 (ゾンビは無視)
 	if (isDrawInfo) {
-		for (i = 0; i < wakus.size(); i++) {
-			if (wakus[i].size() <= 0) continue;
-			s = Point(0, 0); for (j = 0; j < wakus[i].size(); j++) s += wakus[i].points[j]; s /= wakus[i].size();
-			//変換
-			s = to_draw_point( s );
-			//表示
-			DrawFormatString((int)s.real(), (int)s.imag(), GetColor(255, 0, 0), "%d", i);
-		}
+		//タグ番号iのピース
+		for (i = 0; i < out_pieces.size(); i++) {
+			if (out_pieces[i].size() <= 0) { continue; }		//ゾンビ
 
-		for (i = 0; i < pieces.size(); i++) {
-			if (pieces[i].size() <= 0) continue;
-			s = Point(0, 0); for (j = 0; j < pieces[i].size(); j++) s += pieces[i].points[j]; s /= pieces[i].size();
-			//変換
-			s = to_draw_point( s );
-			//表示
-			DrawFormatString((int)s.real(), (int)s.imag(), GetColor(0, 0, 255), "%d", i);
+			double base_x = 0;
+			double base_y = 0;
+			for (int j = 0; j < out_pieces[i].size(); j++) {
+				Point pos = to_draw_point(out_pieces[i].points[j]);
+				base_x += pos.real();
+				base_y += pos.imag();
+			}
+			base_x /= out_pieces[i].size();
+			base_y /= out_pieces[i].size();
+			DrawFormatString((int)base_x, (int)base_y, GetColor(0, 0, 255), "%d", i);
 		}
 	}
 

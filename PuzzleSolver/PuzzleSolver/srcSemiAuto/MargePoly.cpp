@@ -210,14 +210,8 @@ vector<Point> MargePoly::get_cycle(int start_id) {
 				if (tmp_ang > ang) { tmp_ang = ang; next_id = j; }
 			}
 			if (next_id == -1) {
-				printfDx("マージ処理エラー：サイクルが見つかりません\n");
-				//if (abs(now - points[start_id]) < 2 * dist_error) {
-				//	printfDx("強制的に始点に移動します\n");
-				//	next_id = start_id;
-				//}
-				//else {
-					break;
-				//}
+				//printfDx("マージ処理エラー：サイクルが見つかりません\n");
+				break;
 			}
 			//移動する
 			prev = now;
@@ -292,7 +286,7 @@ Poly MargePoly::to_poly(vector<Point> cycle, Poly &src_poly, Poly &dst_poly, dou
 
 //マージ可能ならtrueを返し, 不可能ならfalseを返す
 //dist_error, angle_error_degは、marge_polyに渡す値ではなく、評価関数evaluationで用いられている値にする。
-bool MargePoly::can_marge(double dist_error, double angle_error_deg, Poly &src_poly, Poly &dst_poly, bool dst_is_piece, vector<Poly> &wakus) {
+bool MargePoly::can_marge(double dist_error, Poly &src_poly, Poly &dst_poly, bool dst_is_piece, vector<Poly> &wakus) {
 	int i, j;
 
 	if (dst_is_piece == false) return true;
@@ -305,10 +299,13 @@ bool MargePoly::can_marge(double dist_error, double angle_error_deg, Poly &src_p
 			Line line1 = Line(src_poly.points[i], src_poly.points[i + 1]);
 			Line line2 = Line(dst_poly.points[j], dst_poly.points[j + 1]);
 			
+			double angle_error_deg = (atan2(dist_error, line1.length()) + atan2(dist_error, line2.length())) * 180.0 / 3.1415926;
+			angle_error_deg /= 1.41421356;
+
 			Point rot = (line1.e - line1.s) / (line2.e - line2.s); rot /= abs(rot);
-			if (abs(rot.imag()) > sin(2 * angle_error_deg * 3.1415926 / 180.0)) { continue; }
+			if (abs(rot.imag()) > sin(angle_error_deg * 3.1415926 / 180.0)) { continue; }
 			if (line1.dist(line2.s) > dist_error && line1.dist(line2.e) > dist_error && line2.dist(line1.s) > dist_error && line2.dist(line1.e) > dist_error) { continue; }
-			double score = line1.machi_score(line2, dist_error, angle_error_deg);
+			double score = line1.match_score(line2, dist_error, angle_error_deg);
 			if (score == 2) { continue; }
 
 			//line1とline2が重なっている場合
@@ -326,8 +323,8 @@ bool MargePoly::can_marge(double dist_error, double angle_error_deg, Poly &src_p
 //多角形のマージ
 //dist_error…ある頂点iから距離dist_error以下にある頂点をグループ化するなど…。評価関数で用いているdist_errorよりも1.5倍くらい大きい方がよい。
 //angle_error…冗長な点を取り除く際に用いる。大きすぎると頂点が欠落し、小さすぎると冗長な点が残る。評価関数で用いているangle_error_degと同じくらいにすると無難。
-pair<bool, vector<Poly>> MargePoly::marge_poly(double dist_error, double angle_error_deg, Poly &src_poly, Poly &dst_poly, bool dst_is_piece) {
-	this->dist_error = dist_error * 2;
+pair<bool, vector<Poly>> MargePoly::marge_poly(double dist_error, Poly src_poly, Poly dst_poly, bool dst_is_piece) {
+	this->dist_error = dist_error * 1.6;
 	
 	point_marge(src_poly, dst_poly);
 	make_group(src_poly, dst_poly);
@@ -343,7 +340,7 @@ pair<bool, vector<Poly>> MargePoly::marge_poly(double dist_error, double angle_e
 		if (cycle.size() <= 0) continue;
 		
 		//多角形を作る
-		ret.push_back(to_poly(cycle, src_poly, dst_poly, angle_error_deg, dst_is_piece));
+		ret.push_back(to_poly(cycle, src_poly, dst_poly, 4.0, dst_is_piece));
 	}
 	if (ret.size() > 0) {
 		return pair<bool, vector<Poly>>(true, ret);
@@ -352,11 +349,11 @@ pair<bool, vector<Poly>> MargePoly::marge_poly(double dist_error, double angle_e
 	//We cannot find any marged_polys
 	if (!dst_is_piece && abs(area) <= 1000) {	//枠を埋めた
 			cycle.push_back(Point(-114514, -114514));	//ダミーの点を追加
-			ret.push_back(to_poly(cycle, src_poly, dst_poly, angle_error_deg, dst_is_piece));
+			ret.push_back(to_poly(cycle, src_poly, dst_poly, 4.0, dst_is_piece));
 			return pair<bool, vector<Poly>>(true, ret);
 	}
 	//隣接行列を表示（デバッグ）
-	printfDx("-------隣接行列------------\n");
+	/*printfDx("-------隣接行列------------\n");
 	for (int i = 0; i < points.size(); i++) {
 		for (int j = 0; j < points.size(); j++) {
 			if (table[i][j]) {
@@ -365,7 +362,7 @@ pair<bool, vector<Poly>> MargePoly::marge_poly(double dist_error, double angle_e
 		}
 		printfDx("\n");
 	}
-	printfDx("---------------------------\n");
+	printfDx("---------------------------\n");*/
 
 	return pair<bool, vector<Poly>>(false, ret);
 }

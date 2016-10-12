@@ -70,6 +70,10 @@ void Line::turn(double center_y) {
 
 
 
+double Line::length()
+{
+	return abs(e - s);
+}
 
 /*計算*/
 //交点計算
@@ -113,6 +117,12 @@ double Line::dist(Point point) {
 	return abs(cross(e - s, point - s) / abs(e - s));
 }
 
+//点pointから直線thisへの距離
+double Line::straight_dist(Point point)
+{
+	return abs(cross(e - s, point - s) / abs(e - s));
+}
+
 //線分lineとの一致度
 //0…一点も共有していない
 //4…線分が一致
@@ -121,7 +131,7 @@ double Line::dist(Point point) {
 //線分の方向を見る際にも用いているので、ここの戻り値を変えると、marge_poly()と角度の評価がバグります。
 //線分の方向を返す関数とスコア関数を分け、適切な関数名を付けるの、誰かやってほしい。
 //normは実部^2 + 虚部^2 (つまり長さ^2)を返す。
-double Line::machi_score(Line line, double dist_error, double angle_error_deg) {
+double Line::match_score(Line line, double dist_error, double angle_error_deg) {
 	double dist_error2 = dist_error * dist_error;
 	if (norm(s - line.e) <= dist_error2 || norm(e - line.s) <= dist_error2) swap(line.s, line.e);
 	if (norm(s - line.s) <= dist_error2 && norm(e - line.e) <= dist_error2) return 4;
@@ -132,4 +142,28 @@ double Line::machi_score(Line line, double dist_error, double angle_error_deg) {
 	if (abs(angle.imag()) > sin(angle_error_deg * 3.1415926 / 180.0)) return 0;
 	if (angle.real() < 0) return 2;
 	return 1;
+}
+
+//入出力用
+void Line::set_tag(int poly_id, int line_id)
+{
+	if (poly_id < 0) { tag = 0; return; }
+	tag = (1 << 14);
+	tag += poly_id * (1 << 7);
+	tag += line_id;
+}
+
+bool Line::is_exist_tag()
+{
+	return (tag >> 14) % 2 == 1;
+}
+
+int Line::poly_id()
+{
+	return (tag >> 7) % 128;
+}
+
+int Line::line_id()
+{
+	return tag % 128;
 }
