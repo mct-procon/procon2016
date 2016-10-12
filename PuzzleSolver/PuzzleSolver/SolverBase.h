@@ -4,21 +4,18 @@
 #include "Line.h"
 #include "Poly.h"
 #include "DxLib.h"
-#include "WinAPIExt.h"
+#include "SolverParameter.h"
 
 class SolverBase {
 protected:
-	double dist;			//当たり判定の緩さ
-	vector<Poly> pieces;	//反時計回りの頂点列
-	vector<Poly> wakus;		//時計回りの頂点列
-
 	Poly input_poly(ifstream &ifs, bool is_clockwise);
-	Poly scaledown_poly(Poly &poly);		//当たり判定用の輪郭の取得
+	Poly scaledown_poly(Poly &poly, double dist);		//当たり判定用の輪郭の取得
+	SolverParameter parameter;							//当たり判定, 評価関数, マージ処理で用いるパラメータをまとめたもの
+	void print_poly(ofstream &ofs, Poly poly);
 
-	bool inputSerialize(ifstream*);
 public:
-	void input(string filename, double dist);											//入力
-	bool inputTstr(tstring filename, double dist);
+	void input(string filename);				//入力, 誤差パラメータの調整も行う
 	void 余分な頂点を取り除く(double dist_error);
-	void draw(Point center, double scale, double windowSizeX, double windowSizeY);		//表示
+	void 多角形を拡大(double dist_piece, double dist_waku);
+	void print(string filename);
 };
