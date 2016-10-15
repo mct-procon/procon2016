@@ -6,29 +6,29 @@
       xmlns:local="clr-namespace:SonnaPuzzle.Controls"
       mc:Ignorable="d"  Loaded="Grid_Loaded"
       d:DesignHeight="301.583" d:DesignWidth="605.798">
-        <Grid.Resources>
-            <ResourceDictionary Source="/Styles/NormalControls.xaml"/>
-        </Grid.Resources>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="175"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="40"/>
-        </Grid.RowDefinitions>
-        <ListBox x:Name="ImageList" Grid.Row="0" Grid.RowSpan="2" FontSize="18"/>
-        <ScrollViewer x:Name="Scroller"  Grid.Row="0" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">
-            <Grid>
-                <Grid.RenderTransform>
-                    <ScaleTransform x:Name="CanvasScale"/>
-                </Grid.RenderTransform>
+    <Grid.Resources>
+        <ResourceDictionary Source="/Styles/NormalControls.xaml"/>
+    </Grid.Resources>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="175"/>
+        <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition Height="40"/>
+    </Grid.RowDefinitions>
+    <ListBox x:Name="ImageList" Grid.Row="0" Grid.RowSpan="2" FontSize="18"/>
+    <ScrollViewer x:Name="Scroller"  Grid.Row="0" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">
+        <Grid>
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="CanvasScale"/>
+            </Grid.RenderTransform>
 
             <Canvas x:Name="ResultCanvas" HorizontalAlignment="Left" VerticalAlignment="Top" MouseRightButtonDown="ResultCanvas_MouseRightButtonDown" MouseRightButtonUp="ResultCanvas_MouseRightButtonUp" MouseMove="ResultCanvas_MouseMove"/>
             <Line StrokeThickness="4" x:Name="MeasureLine" Visibility="Hidden" Panel.ZIndex="8" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Grid>
-        </ScrollViewer>
-        <Canvas Width="{Binding ElementName=Thumbnail, Path=ActualWidth}"
+    </ScrollViewer>
+    <Canvas Width="{Binding ElementName=Thumbnail, Path=ActualWidth}"
                 Height="{Binding ElementName=Thumbnail, Path=ActualHeight}"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
@@ -36,23 +36,25 @@
                 UseLayoutRounding="True"
                 Grid.Row="0"
                 Grid.Column="1">
-            <Image x:Name="Thumbnail"
+        <Image x:Name="Thumbnail"
                    Width="200"
                    Stretch="Uniform" Opacity="0.8" />
-            <Thumb x:Name="Viewport"
+        <Thumb x:Name="Viewport"
            DragDelta="OnDragDelta">
-                <Thumb.Template>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border BorderBrush="Red"
+            <Thumb.Template>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border BorderBrush="Red"
                         BorderThickness="2"
                         Background="Transparent" />
-                    </ControlTemplate>
-                </Thumb.Template>
-            </Thumb>
-        </Canvas>
+                </ControlTemplate>
+            </Thumb.Template>
+        </Thumb>
+    </Canvas>
 
-        <Rectangle x:Name="Waiter" Visibility="Hidden" Fill="White" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-        <ToggleButton x:Name="ShowSizesButton" Grid.Row="1" Grid.Column="1" Content="IsShowSizes" IsChecked="True" Margin="0,0,175,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Shot_Button_Clicked"/>
-        <Button Grid.Row="1" Grid.Column="1" Content="Shot" Margin="0,0,90,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Shot_Button_Clicked"/>
-        <Button Grid.Row="1" Grid.Column="1" Content="Next" Margin="0,0,5,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="false"/>
+    <Rectangle x:Name="Waiter" Visibility="Hidden" Fill="White" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+    <Slider x:Name="ElipseSlider" Grid.Column="1" Grid.Row="1" Value="0.004" SmallChange="0.0001" Maximum="0.01" Margin="0,15,321,15" VerticalAlignment="Center" Foreground="Black"/>
+    <Button x:Name="ReScan" Content="{Binding ElementName=ElipseSlider, Path=Value}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,5,260,5" Width="56" Click="ReScan_Click"/>
+    <ToggleButton x:Name="ShowSizesButton" Grid.Row="1" Grid.Column="1" Content="IsShowSizes" IsChecked="True" Margin="0,0,175,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Shot_Button_Clicked"/>
+    <Button Grid.Row="1" Grid.Column="1" Content="Shot" Margin="0,0,90,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Shot_Button_Clicked"/>
+    <Button Grid.Row="1" Grid.Column="1" Content="Next" Margin="0,0,5,5" Width="80" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="false"/>
 </Grid>

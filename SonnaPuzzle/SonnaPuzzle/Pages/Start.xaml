@@ -20,6 +20,6 @@
         <Button x:Name="BeginButton" Content="Begin" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,213,0,0" Height="90" Width="140" IsEnabled="false" Click="BeginButton_Click"/>
         <Button x:Name="ScanWithCameraButton" Content="Scan With Camera" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="170,213,0,0" Height="45" Width="140" IsEnabled="false" Click="ScanWithCameraClicked"/>
         <Button x:Name="ScanWithScannerButton" Content="Scan With Scanner" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="170,263,0,0" Height="40" Width="140" IsEnabled="false" Click="ScanWithScannerClicked"/>
-        <Button x:Name="SolveOnly" Content="Puzzle Solve" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="320,213,0,0" Height="90" Width="140" IsEnabled="false"/>
+        <Button x:Name="SolveOnly" Content="Puzzle Solve" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="320,213,0,0" Height="90" Width="140" Click="SolveOnly_Click"/>
     </Grid>
 </Page>

@@ -17,7 +17,7 @@ namespace SonnaPuzzle.Controls {
         public PageState State;
         public Action StateChanged;
 
-        public virtual List<ResultPolygonData> GetResultData() { throw new NotImplementedException(); }
+        public virtual Tuple<IEnumerable<ResultPolygonData>, int> GetResultData(int OffsetX) { throw new NotImplementedException(); }
         public virtual void Unload_All() { throw new NotImplementedException(); }
     }
 

@@ -1,0 +1,9 @@
+﻿  SolverBase.cpp
+  Solver.cpp
+  Poly.cpp
+  MargePoly.cpp
+  Main.cpp
+c:\workspace\bitbucket\procon2016-sub\master\puzzlesolver\puzzlesolver\main.cpp(23): warning C4267: '=': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  Line.cpp
+  コードを生成中...
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(638,5): error MSB6006: "link.exe" はコード 1 を伴って終了しました。

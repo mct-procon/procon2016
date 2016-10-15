@@ -133,8 +133,10 @@ namespace SonnaPuzzle.Pages {
             Stack<UIElement> chardrawers = new Stack<UIElement>(result.Count * 7);
             UIPolygons = new Stack<Polygon>(result.Count);
             foreach (var poly in result) {
+                poly.Tag = App.ScannerImageCount;
+                App.ScannerImageCount++;
                 int cacheIndex = ImageList.Items.Count;
-                CustomControll.PolygonListedItem chbox = new CustomControll.PolygonListedItem(n.ToString());
+                CustomControll.PolygonListedItem chbox = new CustomControll.PolygonListedItem(n.ToString(), Colors.Black);
                 Stack<UIElement> drawers = new Stack<UIElement>((poly.Points.Length + 1) * 4);
 
                 Polygon po = new Polygon() { Stroke = Brushes.Green, StrokeThickness = 4 };
@@ -205,7 +207,16 @@ namespace SonnaPuzzle.Pages {
                         poly.Points[esp_index] = new Point((int)(pt.X - esp_DragOffset.X), (int)(pt.Y -  esp_DragOffset.Y));
                     };
                 }
-
+                TextBlock tag = new TextBlock() {
+                    Text = poly.Tag.ToString(),
+                    FontSize = 30,
+                    Foreground = Brushes.Purple
+                };
+                Canvas.SetTop(tag, poly.Points[0].X);
+                Canvas.SetLeft(tag, poly.Points[0].Y);
+                Canvas.SetZIndex(tag, 7);
+                ResultCanvas.Children.Add(tag);
+                drawers.Push(tag);
                 chbox.EnableButton.Checked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Visible; } };
                 chbox.EnableButton.Unchecked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Hidden; } };
                 ImageList.Items.Add(chbox);

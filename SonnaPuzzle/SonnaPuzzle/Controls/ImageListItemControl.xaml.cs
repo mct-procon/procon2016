@@ -37,9 +37,9 @@ namespace SonnaPuzzle.Controls {
             }
         }
 
-        public List<ResultPolygonData>  GetResultData() {
-            return p.GetResultData();
-        }
+        public Tuple<IEnumerable<ResultPolygonData>,int>  GetResultData(int OffsetX) {
+            return p.GetResultData(OffsetX);
+        } 
 
     }
 }

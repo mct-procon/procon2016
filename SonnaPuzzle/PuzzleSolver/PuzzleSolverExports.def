@@ -1,0 +1,7 @@
+LIBRARY PuzzleSolver.vs2015
+EXPORTS
+	Init_DynamicInvoke @1
+	Loop_DynamicInvoke @2
+	End_DynamicInvoke @3
+	GetSurfacePointer_DynamicInvoke @4
+

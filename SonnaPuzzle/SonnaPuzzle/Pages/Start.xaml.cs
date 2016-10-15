@@ -59,5 +59,9 @@ namespace SonnaPuzzle.Pages {
         private void BeginButton_Click(object sender, RoutedEventArgs e) {
             ((MainWindow)(Window.GetWindow(this))).MainFrame.Navigate(new Pages.NewOverall());
         }
+
+        private void SolveOnly_Click(Object sender, RoutedEventArgs e) {
+            ((MainWindow)(Window.GetWindow(this))).MainFrame.Navigate(new Pages.SolverPage());
+        }
     }
 }

@@ -34,6 +34,8 @@ namespace SonnaPuzzle.Controls {
 
         double Scale = 1;
 
+        private bool SecondaryLoad = false;
+
         Task filterTask;
         CancellationTokenSource filter_cancelToken = new CancellationTokenSource();
 
@@ -46,44 +48,51 @@ namespace SonnaPuzzle.Controls {
             ImagePath = imgPath;
         }
 
-        private async void Grid_Loaded(object sender, RoutedEventArgs e) {
+        private void Grid_Loaded(object sender, RoutedEventArgs e) {
+            if (SecondaryLoad)
+                return;
             if (string.IsNullOrWhiteSpace(ImagePath))
                 return;
-            await Task.Run(() => {
+            TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
+            Task.Run(() => {
                 ReadedImgData = CvInvoke.Imread(ImagePath, Emgu.CV.CvEnum.LoadImageType.Color);
                 ImageWidth = ReadedImgData.Width;
                 ImageHeight = ReadedImgData.Height;
                 CvInvoke.CvtColor(ReadedImgData, HsvImgData, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
                 FilteredImgData = new UMat(HsvImgData.Rows, HsvImgData.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
-            });
-            imgCanvas.Width = ImageWidth;
-            imgCanvas.Height = ImageHeight;
-            filter();
-            Scale = 1;
-            BaseImg.Source = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
+            }).ContinueWith((_) => {
+                //Dispatcher.BeginInvoke((Action)(() => {
+                    filter();
+                    imgCanvas.Width = ImageWidth;
+                    imgCanvas.Height = ImageHeight;
+                    Scale = 1;
+                    BaseImg.Source = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
 
 
-            // ExtentWidth/Height が ScrollViewer 内の広さ
-            // ViewportWidth/Height が ScrollViewer で実際に表示されているサイズ
+                    // ExtentWidth/Height が ScrollViewer 内の広さ
+                    // ViewportWidth/Height が ScrollViewer で実際に表示されているサイズ
 
-            var xfactor = this.Thumbnail.ActualWidth / Scroller.ExtentWidth;
-            var yfactor = this.Thumbnail.ActualHeight / Scroller.ExtentHeight;
+                    var xfactor = this.Thumbnail.ActualWidth / Scroller.ExtentWidth;
+                    var yfactor = this.Thumbnail.ActualHeight / Scroller.ExtentHeight;
 
-            var width = Scroller.ViewportWidth * xfactor;
-            if (width > this.Thumbnail.ActualWidth) width = this.Thumbnail.ActualWidth;
+                    var width = Scroller.ViewportWidth * xfactor;
+                    if (width > this.Thumbnail.ActualWidth) width = this.Thumbnail.ActualWidth;
 
-            var height = Scroller.ViewportHeight * yfactor;
-            if (height > this.Thumbnail.ActualHeight) height = this.Thumbnail.ActualHeight;
+                    var height = Scroller.ViewportHeight * yfactor;
+                    if (height > this.Thumbnail.ActualHeight) height = this.Thumbnail.ActualHeight;
 
-            // Canvas (親パネル) 上での Viewport の位置を、Left/Top 添付プロパティで設定
-            // (XAML で言う <Border Canvas.Left="0" ... \> みたいなやつ)
-            Canvas.SetLeft(this.Viewport, 0);
-            Canvas.SetTop(this.Viewport, 0);
+                    // Canvas (親パネル) 上での Viewport の位置を、Left/Top 添付プロパティで設定
+                    // (XAML で言う <Border Canvas.Left="0" ... \> みたいなやつ)
+                    Canvas.SetLeft(this.Viewport, 0);
+                    Canvas.SetTop(this.Viewport, 0);
 
-            this.Viewport.Width = width;
-            this.Viewport.Height = height;
+                    this.Viewport.Width = width;
+                    this.Viewport.Height = height;
 
-            ScanButton.IsEnabled = true;
+                    ScanButton.IsEnabled = true;
+                    SecondaryLoad = true;
+                //}));
+            }, t_s);
         }
 
         private void filter() {
@@ -114,12 +123,8 @@ namespace SonnaPuzzle.Controls {
             byte _s_max = (byte)(S_max.Value * 255 / 100);
             byte _v_min = (byte)(V_min.Value * 255 / 100);
             byte _v_max = (byte)(V_max.Value * 255 / 100);
-            TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
-            if (!filterTask.IsCompleted) {
-                filter_cancelToken.Cancel();
-                filter_cancelToken.Dispose();
-                filter_cancelToken = new CancellationTokenSource();
-            } else {
+            if (filterTask.IsCompleted) {
+                TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
                 filterTask = Task.Run(() => FilterMat(ref HsvImgData, ref FilteredImgData, _h_min, _h_max, _s_min, _s_max, _v_min, _v_max), filter_cancelToken.Token);
                 filterTask.ContinueWith((t) => {
                     if (!filterTask.IsCanceled) {
@@ -303,5 +308,18 @@ namespace SonnaPuzzle.Controls {
 
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr hObject);
+
+        private void CameraHonbanButton_Click(Object sender, RoutedEventArgs e) {
+            H_max.Value = 360;
+            H_min.Value = 0;
+            S_max.Value = 100;
+            S_min.Value = 63;
+            V_min.Value = 27;
+            V_max.Value = 100;
+        }
+
+        private void ForceFilter_Click(Object sender, RoutedEventArgs e) {
+            filter();
+        }
     }
 }

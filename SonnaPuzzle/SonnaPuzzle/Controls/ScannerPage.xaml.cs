@@ -43,6 +43,8 @@ namespace SonnaPuzzle.Controls {
         private double Scale = 1;
         private Mat InputImage;
 
+        private bool SecondaryLoad = false;
+
         protected UMat filtered;
         protected Mat Readed;
 
@@ -57,15 +59,12 @@ namespace SonnaPuzzle.Controls {
 
         public List<ResultPolygonData> result = new List<ResultPolygonData>();
 
-        char[] cascades = new char[] {
-            'あ','い','う','え','お','か','き','く','け','さ','し','す','せ','そ','た','て','と','な','に','ぬ','の','は','ひ','ふ','ま','み','む','も','や','ゆ','よ','ら','れ','ろ','わ','A','B','C','D','E','F','G','H','I','J','K','K','M','N','S','T','U'
-        };
-
         /// <summary>
         /// 処理全容
         /// </summary>
         /// <param name="FilteredImg">フィルタしたイメージ</param>
         private async void UpdateContent_WithoutFilter(UMat FilteredImg) {
+            ShowSizesButton.IsChecked = false;
             InputImage = Readed.Clone();
             ImageList.Items.Clear();
             ResultCanvas.Children.Clear();
@@ -82,6 +81,7 @@ namespace SonnaPuzzle.Controls {
             CheckBox TEST_CHECKBOX = new CheckBox { Content = "Filtered", IsChecked = true };
             TEST_CHECKBOX.Checked += (ss, ee) => TEST_IMG.Visibility = Visibility.Visible;
             TEST_CHECKBOX.Unchecked += (ss, ee) => TEST_IMG.Visibility = Visibility.Hidden;
+            TEST_CHECKBOX.IsChecked = false;
             ImageList.Items.Add(TEST_CHECKBOX);
 
             await Task.Run(() => CvInvoke.FindContours(FilteredImg, contours, null, Emgu.CV.CvEnum.RetrType.List, Emgu.CV.CvEnum.ChainApproxMethod.LinkRuns));
@@ -108,9 +108,10 @@ namespace SonnaPuzzle.Controls {
             ImageHeight = Readed.Height;
 
             Queue<Emgu.CV.Util.VectorOfPoint> polyStorage = new Queue<Emgu.CV.Util.VectorOfPoint>(res.Count());
+            int elp = (int)(ElipseSlider.Value * Math.Max(ImageWidth, ImageHeight));
+
             await Task.Run(() => {
                 Emgu.CV.Util.VectorOfPoint polyCache = null;
-                int elp = (int)(0.003 * Math.Max(ImageWidth, ImageHeight));
                 foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 1000)) {
                     polyCache = new Emgu.CV.Util.VectorOfPoint();
                     CvInvoke.ApproxPolyDP(parray, polyCache, elp, true);
@@ -122,24 +123,30 @@ namespace SonnaPuzzle.Controls {
             Stack<UIElement> chardrawers = new Stack<UIElement>(result.Count * 7);
             UIPolygons = new Stack<Polygon>(result.Count);
             foreach (var poly in result) {
+                poly.Tag = App.ScannerImageCount;
+                App.ScannerImageCount++;
                 int cacheIndex = ImageList.Items.Count;
-                CustomControll.PolygonListedItem chbox = new CustomControll.PolygonListedItem(n.ToString());
+                Color c = MakeRandomColor();
+                CustomControll.PolygonListedItem chbox = new CustomControll.PolygonListedItem(poly.Tag.ToString(), c);
                 Stack<UIElement> drawers = new Stack<UIElement>((poly.Points.Length + 1) * 4);
 
-                Polygon po = new Polygon() { Stroke = Brushes.Green, StrokeThickness = 4 };
+                Polygon po = new Polygon() { Stroke = Brushes.Green, StrokeThickness = 4, Fill = new SolidColorBrush( Color.FromArgb(125, c.R, c.G, c.B)) };
                 //po.MouseLeftButtonUp += (ss, ee) => ImageList.SelectedIndex = cacheIndex;
                 po.MouseLeftButtonUp += (ss, ee) => {
-                    if (chbox.FrameButton.IsChecked == true) {
-                        chbox.FrameButton.IsChecked = false;
-                        po.Stroke = Brushes.Green;
-                        poly.IsFrame = false;
+                    if (Keyboard.GetKeyStates(Key.LeftShift) == KeyStates.Down || Keyboard.GetKeyStates(Key.RightShift) == KeyStates.Down) {
+                        chbox.EnableButton.IsChecked = chbox.EnableButton.IsChecked == true ? false : true;
                     } else {
-                        chbox.FrameButton.IsChecked = true;
-                        po.Stroke = Brushes.Magenta;
-                        poly.IsFrame = true;
+                        if (chbox.FrameButton.IsChecked == true) {
+                            chbox.FrameButton.IsChecked = false;
+                            po.Stroke = Brushes.Green;
+                            poly.IsFrame = false;
+                        } else {
+                            chbox.FrameButton.IsChecked = true;
+                            po.Stroke = Brushes.Magenta;
+                            poly.IsFrame = true;
+                        }
                     }
                 };
-                po.MouseRightButtonUp += (ss, ee) => chbox.EnableButton.IsChecked = chbox.EnableButton.IsChecked == true ? false : true;
                 Canvas.SetZIndex(po, 2);
                 Canvas.SetTop(po, Offset);
                 Canvas.SetLeft(po, Offset);
@@ -165,10 +172,10 @@ namespace SonnaPuzzle.Controls {
                             po.Points[esp_index] = new System.Windows.Point(pt.X - esp_DragOffset.X, pt.Y - esp_DragOffset.Y);
                         }
                     };
-                    Canvas.SetZIndex(esp, 4);
+                    Canvas.SetZIndex(esp, 5);
                     Canvas.SetTop(esp, poly.Points[m].Y);
                     Canvas.SetLeft(esp, poly.Points[m].X);
-                    TextBlock tb = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkRed, Background = new SolidColorBrush(Color.FromArgb(125, 255, 255, 255)), Text = poly.Angles[m].ToString("F") + "°" };
+                    TextBlock tb = new TextBlock() { FontSize = 24, Visibility = Visibility.Hidden, Foreground = Brushes.DarkRed, Background = new SolidColorBrush(Color.FromArgb(125, 255, 255, 255)), Text = poly.Angles[m].ToString("F") + "°" };
                     chardrawers.Push(tb);
                     Canvas.SetZIndex(tb, 3);
                     Canvas.SetTop(tb, poly.Points[m].Y);
@@ -178,7 +185,7 @@ namespace SonnaPuzzle.Controls {
 
                     ResultCanvas.Children.Add(tb);
                     ResultCanvas.Children.Add(esp);
-                    TextBlock tb2 = new TextBlock() { FontSize = 24, Foreground = Brushes.DarkGreen, Background = new SolidColorBrush(Color.FromArgb(125, 255, 255, 255)), Text = poly.Lines[m - 1].ToString("F") + "px" };
+                    TextBlock tb2 = new TextBlock() { FontSize = 24,Visibility = Visibility.Hidden, Foreground = Brushes.DarkGreen, Background = new SolidColorBrush(Color.FromArgb(125, 255, 255, 255)), Text = poly.Lines[m - 1].ToString("F") + "px" };
                     chardrawers.Push(tb2);
                     Canvas.SetZIndex(tb2, 3);
                     Canvas.SetTop(tb2, (poly.Points[m].Y + poly.Points[m - 1].Y) / 2);
@@ -197,6 +204,13 @@ namespace SonnaPuzzle.Controls {
                     };
                 }
 
+                TextBlock tb3 = new TextBlock() { FontSize=32};
+                tb3.Text = poly.Tag.ToString();
+                Canvas.SetTop(tb3, poly.Points[0].X - 10);
+                Canvas.SetLeft(tb3, poly.Points[0].Y - 10);
+                Canvas.SetZIndex(tb3, 4);
+                ResultCanvas.Children.Add(tb3);
+                drawers.Push(tb3);
                 chbox.EnableButton.Checked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Visible; } };
                 chbox.EnableButton.Unchecked += (ee, ss) => { foreach (var uu in drawers) { uu.Visibility = Visibility.Hidden; } };
                 ImageList.Items.Add(chbox);
@@ -231,19 +245,20 @@ namespace SonnaPuzzle.Controls {
         /// <summary>
         /// タグ付けを行う．
         /// </summary>
-        private void DetectTags() {
+        public void DetectTags() {
             OpenCvSharp.CascadeClassifier cascade = null;
             OpenCvSharp.Mat Readed_copied = new OpenCvSharp.Mat(Readed.Rows, Readed.Cols, (int)Readed.Depth, Readed.DataPointer);
-            OpenCvSharp.Rect[] detects;
-            for (sbyte n = 0; n < cascades.Length; ++n) {
-                cascade = new OpenCvSharp.CascadeClassifier(System.IO.Path.Combine(Environment.CurrentDirectory, "Cascades", cascades[n].ToString(), "cascade.xml"));
+            OpenCvSharp.Rect[] detects = { };
+            for (sbyte n = 0; n < App.ScannerUnDetectedChars.Count; ++n) {
+                System.Diagnostics.Debug.WriteLine($"{n} {App.ScannerUnDetectedChars[n]}");
+                cascade = new OpenCvSharp.CascadeClassifier(System.IO.Path.Combine(Environment.CurrentDirectory, "Cascades", App.ScannerUnDetectedChars[n].ToString(), "cascade.xml"));
                 try {
                     detects = cascade.DetectMultiScale(Readed_copied);
                     foreach (OpenCvSharp.Rect r in detects) {
-                        WpfRect wr = new WpfRect() { Stroke = Brushes.Blue, StrokeThickness = 1.0, Width = r.Width, Height = r.Height };
-                        Canvas.SetLeft(wr, r.X);
-                        Canvas.SetTop(wr, r.Y);
-                        ResultCanvas.Children.Add(wr);
+                        //WpfRect wr = new WpfRect() { Stroke = Brushes.Blue, StrokeThickness = 1.0, Width = r.Width, Height = r.Height };
+                        //Canvas.SetLeft(wr, r.X);
+                        //Canvas.SetTop(wr, r.Y);
+                        //ResultCanvas.Children.Add(wr);
                         AttachTag(r.Location, n);
                     }
                 } catch {
@@ -313,6 +328,23 @@ namespace SonnaPuzzle.Controls {
             }
         }
 
+
+        private Color MakeRandomColor() {
+            if (App.RandomColors_itr > 57) {
+                Random r = new Random();
+                r.NextBytes(App.RandomColors);
+                App.RandomColors_itr = 0;
+                return MakeRandomColor();
+            } else {
+                byte r = App.RandomColors[App.RandomColors_itr];
+                App.RandomColors_itr++;
+                byte g = App.RandomColors[App.RandomColors_itr];
+                App.RandomColors_itr++;
+                byte b = App.RandomColors[App.RandomColors_itr];
+                App.RandomColors_itr++;
+                return Color.FromRgb(r,g,b);
+            }
+        }
 
         private void Next_Button_Clicked(object sender, RoutedEventArgs e) { /*Next(); */}
 
@@ -619,6 +651,8 @@ namespace SonnaPuzzle.Controls {
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
+            if (SecondaryLoad)
+                return;
             Waiter.Opacity = 0;
             Waiter.Visibility = Visibility.Visible;
             var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
@@ -627,6 +661,7 @@ namespace SonnaPuzzle.Controls {
             anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
             Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
             Waiter.Visibility = Visibility.Hidden;
+            SecondaryLoad = true;
         }
 
         private void ResultCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e) {
@@ -644,7 +679,7 @@ namespace SonnaPuzzle.Controls {
             ResultCanvas.ReleaseMouseCapture();
             MeasureLineMoving = false;
             System.Windows.Point pt = Mouse.GetPosition(ResultCanvas);
-            MeasureScale = 1 / (Math.Sqrt(pt.X * pt.X + pt.Y * pt.Y));
+            MeasureScale = 1520 / (Math.Sqrt((MeasureLine.X2 * MeasureLine.X2) + (MeasureLine.Y2 * MeasureLine.Y2)));
             MeasureLine.Stroke = Brushes.Blue;
             MeasureLine.X2 = pt.X - Line_offset.X;
             MeasureLine.Y2 = pt.Y - Line_offset.Y;
@@ -658,6 +693,31 @@ namespace SonnaPuzzle.Controls {
             } else {
 
             }
+        }
+
+        public Tuple<IEnumerable<ResultPolygonData>, int> GetResultPolygonData(int OffsetX) {
+            if (MeasureScale == 1) {
+                for (int n = 0; n < result.Count; ++n)
+                    for (int m = 0; m < result[n].Points.Length; ++m)
+                        result[n].Points[m] = new System.Drawing.Point(result[n].Points[m].X + OffsetX, result[n].Points[m].Y);
+                return Tuple.Create(result.Where((x, c) => ((CustomControll.PolygonListedItem)(ImageList.Items[c + 2])).EnableButton.IsChecked == true),(int)(ImageWidth * MeasureScale));
+            } else {
+                for (int n = 0; n < result.Count; ++n)
+                    for (int m = 0; m < result[n].Points.Length; ++m)
+                        result[n].Points[m] = new System.Drawing.Point((int)(result[n].Points[m].X * MeasureScale) + OffsetX, (int)(result[n].Points[m].Y * MeasureScale));
+                return Tuple.Create(result.Where((x, c) => ((CustomControll.PolygonListedItem)(ImageList.Items[c + 2])).EnableButton.IsChecked == true),(int)(ImageWidth * MeasureScale));
+            }
+        }
+
+        private void ReScan_Click(Object sender, RoutedEventArgs e) {
+            Waiter.Opacity = 0;
+            Waiter.Visibility = Visibility.Visible;
+            var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
+            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
+            UpdateContent_WithoutFilter(filtered);
+            anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
+            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
+            Waiter.Visibility = Visibility.Hidden;
         }
     }
 }

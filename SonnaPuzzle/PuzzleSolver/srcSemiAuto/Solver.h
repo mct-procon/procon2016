@@ -6,23 +6,25 @@
 #include "MargePoly.h"
 #include "SolverParameter.h"
 #include "MoveNode.h"
-
+#include "Evaluation.h"
 
 class Solver : public SolverBase {
 private:
 	//移動の仕方を全列挙する関数
 	MoveNode get_hand_moving(bool src_turnflag, int src_poly_id, int src_line_id, bool dst_is_piece, int dst_poly_id, int dst_line_id, bool is_reverse_line);
 	vector<MoveNode> get_semiAuto_moving(bool is_turn_ok, bool dst_is_piece, int dst_poly_id, int dst_line_id, bool is_reverse_line);
-	vector<MoveNode> get_auto_moving(bool is_turn_ok);
+	vector<MoveNode> auto_moving; 
+	void set_auto_moving(bool is_turn_ok);
 
 	//移動
 	int moved_piece_id;
 	Poly backup_piece;
-	void move(MoveNode &move_node);	//ピースを移動
-	void restore();					//ピースを元の位置に戻す
 
 	//評価, （当たり判定の計算量は, 前処理をすることで, ピースの個数倍くらい落とすことができます）
-	double evaluation(Poly &poly1, Poly &poly2, bool is_poly2_piece);	//評価 O(頂点数1 * 頂点数2), 定数重い
+	Evaluation eval_obj;								//conncetを呼び出すたびに初期化
+	double evaluation_line(Poly &poly1, Poly &poly2);	//辺の評価 O(頂点数1 * 頂点数2), 定数重い
+	double evaluation_angle(Poly &poly1, Poly &poly2);	//頂点の評価
+	double evaluation(Poly &poly1, Poly &poly2, bool is_poly2_piece);
 
 	//「移動→評価→戻す」の一連動作をする関数
 	double action_score(MoveNode &move_node);
@@ -39,4 +41,8 @@ public:
 
 	//手動でくっつける。成功時はtrue, 失敗時はfalseを返す。
 	bool connect_hand(MoveNode move_node);
+
+	//リザルト選択用としてmove, restoreをどうぞ
+	void move(MoveNode &move_node);	//ピースを移動
+	void restore();					//ピースを元の位置に戻す
 };

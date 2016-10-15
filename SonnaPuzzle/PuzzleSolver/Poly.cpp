@@ -37,9 +37,6 @@ void Poly::point_reverse() {
 	for (int i = 0; i < points.size(); i++) points[i] = tmp[points.size() - 1 - i];
 }
 
-
-#include "DxLib.h"
-
 //移動（半直線points[id]->points[id+1]を半直線s->eにくっつける)
 void Poly::move(int id, Point s, Point e) {
 	Point mul = (e - s) / (points[id + 1] - points[id]);
@@ -59,17 +56,38 @@ void Poly::move(int id, Point s, Point e) {
 	update_rect();
 }
 
-//反転（y=0を基準として反転し、頂点列の向きを修正する。）
+
+//移動 (半直線point[id+1]->point[id]を半直線s->eにくっつける
+void Poly::move_reverse(int id, Point s, Point e) {
+	Point mul = (e - s) / (points[id] - points[id + 1]);
+	
+	//頂点列の回転
+	mul /= abs(mul);
+	for (int i = 0; i < points.size(); i++) { points[i] *= mul; }
+
+	//頂点列の平行移動
+	Point trans = s - points[id + 1];
+	for (int i = 0; i < points.size(); i++) { points[i] += trans; }
+
+	//表示辺の移動
+	for (int i = 0; i < lines.size(); i++) { lines[i].rotate(mul); lines[i].transrate(trans); }
+
+	//外接四角形の再計算
+	update_rect();
+}
+
+
+//反転（y=points[0].imag()を基準として反転し、頂点列の向きを修正する。）
 void Poly::turn() {
 	int i;
 	vector<Point> tmp(points.size());
 
 	//頂点列の反転
-	for (i = 0; i < points.size(); i++) tmp[i] = conj(points[i]);
+	for (i = 0; i < points.size(); i++) tmp[i] = Point(points[i].real(), 2 * points[0].imag() - points[i].imag());
 	for (i = 0; i < points.size(); i++) points[i] = tmp[points.size() - 1 - i];
 
 	//表示辺の反転
-	for (i = 0; i < lines.size(); i++) lines[i].turn();
+	for (i = 0; i < lines.size(); i++) lines[i].turn(points[0].imag());
 
 	//反転フラグの更新
 	is_turn = !is_turn;
@@ -103,6 +121,23 @@ double Poly::area() {
 	ret *= 0.5;
 	return ret;
 }
+
+
+//角度を°で返す。枠なら外角で、ピースなら内閣
+double Poly::angle(int point_id)
+{
+	int a = point_id - 1; if (a < 0) a += size();
+	int b = point_id;
+	int c = point_id + 1;
+
+	Point ang = (points[a] - points[b]) / (points[c] - points[b]);
+	double ret = atan2(ang.imag(), ang.real()) * 180 / 3.1415926535;
+
+	while (ret < 0) { ret += 360; }
+	while (ret >= 360) { ret -= 360; }
+	return ret;
+}
+
 
 //辺が接触しているならtrue, 接触していないならfalseを返す.
 bool Poly::is_hit(Poly &poly) {

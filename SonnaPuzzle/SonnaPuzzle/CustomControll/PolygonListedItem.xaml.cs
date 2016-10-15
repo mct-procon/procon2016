@@ -22,9 +22,10 @@ namespace SonnaPuzzle.CustomControll {
             InitializeComponent();
         }
 
-        public PolygonListedItem(string description) {
+        public PolygonListedItem(string description, Color lc) {
             InitializeComponent();
             DescriptionLabel.Text = description;
+            LabelColor.Fill = new SolidColorBrush(lc);
         }
 
         public bool IsChosen {

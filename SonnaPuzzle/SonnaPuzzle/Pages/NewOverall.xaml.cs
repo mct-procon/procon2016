@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using SonnaPuzzle.Controls;
 using SonnaPuzzle.Utils.ExtClasses;
 using static SonnaPuzzle.Utils.LINQExtensions;
+using System.Diagnostics;
 
 namespace SonnaPuzzle.Pages {
     /// <summary>
@@ -43,7 +44,14 @@ namespace SonnaPuzzle.Pages {
         }
 
         private async void TextWriteOut_Click(object sender, RoutedEventArgs e) {
-            IEnumerable<ResultPolygonData> result = MergeAllList(PagesItemList.Items.Cast<ImageListItemControl>().Select(x => x.GetResultData()).ToList());
+            //    App.ScannerUnDetectedChars = new List<char>(new char[]{
+            //    'あ','い','う','え','お','か','き','く','け','さ','し','す','せ','そ','た','て','と','な','に','ぬ','の','は','ひ','ふ','ま','み','む','も','や','ゆ','よ','ら','れ','ろ','わ','A','B','C','D','E','G','H','I','J','K','M','N','S','T','U'
+            //});
+            IEnumerable<ResultPolygonData> result = null;
+            int OffsetX = 0;
+            await Task.Run(() =>
+                result = MergeAllList(PagesItemList.Items.Cast<ImageListItemControl>().Select(x => { var t =  x.GetResultData(OffsetX); OffsetX = t.Item2; return t.Item1; }).ToList())
+            );
             Stack<ResultPolygonData> s = new Stack<ResultPolygonData>();
             Stack<ResultPolygonData> s_frm = new Stack<ResultPolygonData>();
 
@@ -57,7 +65,7 @@ namespace SonnaPuzzle.Pages {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(s_frm.Count.ToString());
             foreach (var f in s_frm) {
-                sb.AppendLine($"-1:{f.Points.Length.ToString()}");
+                sb.AppendLine($"{f.Tag}:{f.Points.Length.ToString()}");
                 foreach (var pts in f.Points.Get_Array) {
                     sb.Append(pts.X);
                     sb.Append(" ");
@@ -75,10 +83,54 @@ namespace SonnaPuzzle.Pages {
                 }
                 sb.AppendLine();
             }
-            System.IO.StreamWriter sw = new System.IO.StreamWriter("result.txt", false, Encoding.UTF8);
+            System.IO.StreamWriter sw = new System.IO.StreamWriter("result.txt", false, Encoding.GetEncoding("shift_jis"));
             await sw.WriteAsync(sb.ToString());
             sw.Close();
             sw.Dispose();
+        }
+
+        private async void NextButton_Click(Object sender, RoutedEventArgs e) {
+            IEnumerable<ResultPolygonData> result = null;
+            int OffsetX = 0;
+            await Task.Run(() =>
+                result = MergeAllList(PagesItemList.Items.Cast<ImageListItemControl>().Select(x => { var t = x.GetResultData(OffsetX); OffsetX = t.Item2; return t.Item1; }).ToList())
+            );
+            Stack<ResultPolygonData> s = new Stack<ResultPolygonData>();
+            Stack<ResultPolygonData> s_frm = new Stack<ResultPolygonData>();
+
+            foreach (var v in result) {
+                if (v.IsFrame)
+                    s_frm.Push(v);
+                else
+                    s.Push(v);
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(s_frm.Count.ToString());
+            foreach (var f in s_frm) {
+                sb.AppendLine($"{f.Tag}:{f.Points.Length.ToString()}");
+                foreach (var pts in f.Points.Get_Array) {
+                    sb.Append(pts.X);
+                    sb.Append(" ");
+                    sb.AppendLine(pts.Y.ToString());
+                }
+                sb.AppendLine();
+            }
+            sb.AppendLine(s.Count.ToString());
+            foreach (var f in s) {
+                sb.AppendLine($"{f.Tag}:{f.Points.Length.ToString()}");
+                foreach (var pts in f.Points.Get_Array) {
+                    sb.Append(pts.X);
+                    sb.Append(" ");
+                    sb.AppendLine(pts.Y.ToString());
+                }
+                sb.AppendLine();
+            }
+            System.IO.StreamWriter sw = new System.IO.StreamWriter("result.txt", false, Encoding.GetEncoding("shift_jis"));
+            await sw.WriteAsync(sb.ToString());
+            sw.Close();
+            sw.Dispose();
+            Process.Start(System.IO.Path.Combine(Environment.CurrentDirectory, "PuzzleSolver.vs2015.exe"));
         }
     }
 }

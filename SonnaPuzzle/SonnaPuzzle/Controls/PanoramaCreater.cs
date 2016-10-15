@@ -18,7 +18,7 @@ namespace SonnaPuzzle.Controls {
         private static async Task<Emgu.CV.Mat> INTERNAL_CreatePanorama(params Mat[] imgs){
             Mat Result = new Mat();
             using (Stitcher stitch = Stitcher.Create(true)) {
-                stitch.Stitch(imgs, Result);
+                await Task.Run ( () => stitch.Stitch(imgs, Result));
             }
             return new Emgu.CV.Mat(Result.Rows, Result.Cols, (Emgu.CV.CvEnum.DepthType)((int)Result.Type()), Result.Channels(),Result.DataStart,0);
         }

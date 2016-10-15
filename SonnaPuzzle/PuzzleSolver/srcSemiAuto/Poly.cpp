@@ -37,9 +37,6 @@ void Poly::point_reverse() {
 	for (int i = 0; i < points.size(); i++) points[i] = tmp[points.size() - 1 - i];
 }
 
-
-#include "DxLib.h"
-
 //ˆÚ“®i”¼’¼üpoints[id]->points[id+1]‚ğ”¼’¼üs->e‚É‚­‚Á‚Â‚¯‚é)
 void Poly::move(int id, Point s, Point e) {
 	Point mul = (e - s) / (points[id + 1] - points[id]);
@@ -124,6 +121,23 @@ double Poly::area() {
 	ret *= 0.5;
 	return ret;
 }
+
+
+//Šp“x‚ğ‹‚Å•Ô‚·B˜g‚È‚çŠOŠp‚ÅAƒs[ƒX‚È‚ç“àŠt
+double Poly::angle(int point_id)
+{
+	int a = point_id - 1; if (a < 0) a += size();
+	int b = point_id;
+	int c = point_id + 1;
+
+	Point ang = (points[a] - points[b]) / (points[c] - points[b]);
+	double ret = atan2(ang.imag(), ang.real()) * 180 / 3.1415926535;
+
+	while (ret < 0) { ret += 360; }
+	while (ret >= 360) { ret -= 360; }
+	return ret;
+}
+
 
 //•Ó‚ªÚG‚µ‚Ä‚¢‚é‚È‚çtrue, ÚG‚µ‚Ä‚¢‚È‚¢‚È‚çfalse‚ğ•Ô‚·.
 bool Poly::is_hit(Poly &poly) {

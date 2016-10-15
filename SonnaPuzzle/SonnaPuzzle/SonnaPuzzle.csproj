@@ -112,6 +112,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Pages\SolverPage.xaml.cs">
+      <DependentUpon>SolverPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ExtClasses.cs" />
     <Compile Include="Utils\LINQExtensions.cs" />
     <Compile Include="Utils\ParallelExtensions.cs" />
@@ -174,6 +177,10 @@
     <Page Include="Pages\Scanner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SolverPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Start.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -26,14 +26,12 @@ namespace SonnaPuzzle.Controls {
         /// Please check the state before calling this method.
         /// </summary>
         /// <returns></returns>
-        public override List<ResultPolygonData> GetResultData() {
-            if (p.MeasureScale == 1) return p.result;
-            else {
-                for (int n = 0; n < p.result.Count; ++n)
-                    for (int m = 0; m < p.result[n].Points.Length; ++m)
-                        p.result[n].Points[m] = new System.Drawing.Point((int)(p.result[n].Points[m].X * p.MeasureScale), (int)(p.result[n].Points[m].Y * p.MeasureScale));
-                return p.result;
-            }
+        public override Tuple<IEnumerable<ResultPolygonData>, int> GetResultData(int OffsetX) {
+            if (State == PageState.Scanner) {
+                //p.DetectTags();
+                return p.GetResultPolygonData(OffsetX);
+            } else
+                return Tuple.Create(Enumerable.Repeat(new ResultPolygonData(new double[]{ },new double[]{ }, new System.Drawing.Point[]{ }), 1), 0);
         }
 
         public override void Unload_All() {
