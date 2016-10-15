@@ -14,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
-using Microsoft.Wpf.Interop.DirectX;
 using System.Windows.Interop;
 
 namespace SonnaPuzzle.Pages {
