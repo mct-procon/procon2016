@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Emgu.CV;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics;
 
 namespace PuzzleScanner.Controls {
     /// <summary>
@@ -34,8 +35,11 @@ namespace PuzzleScanner.Controls {
 
         double Scale = 1;
 
-        Task filterTask;
-        CancellationTokenSource filter_cancelToken = new CancellationTokenSource();
+        Task filterTask = Task.Run(() => { });
+        Task afterTask = Task.Run(() => { });
+
+        (byte H_MIN, byte H_MAX, byte S_MIN, byte S_MAX, byte V_MIN, byte V_MAX) lastInfo = (0,0,0,0,0,0);
+        bool changed = false;
 
         public FilterPage() {
             InitializeComponent();
@@ -87,50 +91,41 @@ namespace PuzzleScanner.Controls {
         }
 
         private void filter() {
-            byte _h_min = (byte)(H_min.Value * 255 / 360);
-            byte _h_max = (byte)(H_max.Value * 255 / 360);
-            byte _s_min = (byte)(S_min.Value * 255 / 100);
-            byte _s_max = (byte)(S_max.Value * 255 / 100);
-            byte _v_min = (byte)(V_min.Value * 255 / 100);
-            byte _v_max = (byte)(V_max.Value * 255 / 100);
-            TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
-            filterTask = Task.Run(() => FilterMat(ref HsvImgData, ref FilteredImgData, _h_min, _h_max, _s_min, _s_max, _v_min, _v_max), filter_cancelToken.Token);
-            filterTask.ContinueWith((t) => {
-                if (!filterTask.IsCanceled) {
+            var filterinfo = GetFilterInfo();
+            if (filterTask.Status == TaskStatus.Running || afterTask.Status == TaskStatus.Running) {
+                lastInfo = filterinfo;
+                changed = true;
+                Debug.WriteLine("Changed!");
+            } else {
+                TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
+
+                void afterAct(Task t)
+                {
                     bmp = FilteredImgData.Bitmap;
                     img.Source = ToWPFBitmap(bmp);
                     bmp.Dispose();
                     Thumbnail.Source = img.Source;
-                }
-            }, t_s);
+                    if (changed) {
+                        Debug.WriteLine("AfterAct");
+
+                        changed = false;
+                        filterTask = Task.Run(() => FilterMat(ref HsvImgData, ref FilteredImgData, lastInfo.H_MIN, lastInfo.H_MAX, lastInfo.S_MIN, lastInfo.S_MAX, lastInfo.V_MIN, lastInfo.V_MAX));
+                        afterTask = filterTask.ContinueWith(afterAct, t_s);
+                    }
+                };
+
+                filterTask = Task.Run(() => FilterMat(ref HsvImgData, ref FilteredImgData, filterinfo.H_MIN, filterinfo.H_MAX, filterinfo.S_MIN, filterinfo.S_MAX, filterinfo.V_MIN, filterinfo.V_MAX));
+                afterTask = filterTask.ContinueWith(afterAct, t_s);
+            }
         }
+
+        private (byte H_MIN, byte H_MAX, byte S_MIN, byte S_MAX, byte V_MIN, byte V_MAX) GetFilterInfo() =>
+            ((byte)(H_min.Value * 255 / 360), (byte)(H_max.Value * 255 / 360), (byte)(S_min.Value * 255 / 100), (byte)(S_max.Value * 255 / 100), (byte)(V_min.Value * 255 /100), (byte)(V_max.Value * 255 /100) );
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             if (!this.IsInitialized || !this.IsLoaded)
                 return;
-            byte _h_min = (byte)(H_min.Value * 255 / 360);
-            byte _h_max = (byte)(H_max.Value * 255 / 360);
-            byte _s_min = (byte)(S_min.Value * 255 / 100);
-            byte _s_max = (byte)(S_max.Value * 255 / 100);
-            byte _v_min = (byte)(V_min.Value * 255 / 100);
-            byte _v_max = (byte)(V_max.Value * 255 / 100);
-            TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
-            if (!filterTask.IsCompleted) {
-                filter_cancelToken.Cancel();
-                filter_cancelToken.Dispose();
-                filter_cancelToken = new CancellationTokenSource();
-            } else {
-                filterTask = Task.Run(() => FilterMat(ref HsvImgData, ref FilteredImgData, _h_min, _h_max, _s_min, _s_max, _v_min, _v_max), filter_cancelToken.Token);
-                filterTask.ContinueWith((t) => {
-                    if (!filterTask.IsCanceled) {
-                        bmp = FilteredImgData.Bitmap;
-                        img.Source = ToWPFBitmap(bmp);
-                        bmp.Dispose();
-                        Thumbnail.Source = img.Source;
-                    }
-                }, t_s);
-            }
-
+            filter();
         }
 
         /// <summary>
@@ -148,7 +143,7 @@ namespace PuzzleScanner.Controls {
             if (cc.Rows != mm.Rows || cc.Cols != mm.Cols)
                 cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             byte[] cache_in = mm.Bytes;
-
+            
             //--------------------------
             //　　並列化した方が遅かった…
             //--------------------------

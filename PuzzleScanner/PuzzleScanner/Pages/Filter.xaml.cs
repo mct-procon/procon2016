@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Emgu.CV;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics;
 
 namespace PuzzleScanner.Pages {
     /// <summary>
@@ -23,9 +24,9 @@ namespace PuzzleScanner.Pages {
     public partial class Filter : Page {
         string ImagePath;
 
-        UMat mm = new UMat();
-        Mat readed = new Mat();
-        UMat cc = new UMat();
+        UMat HsvImgData = new UMat();
+        Mat ReadedImgData = new Mat();
+        UMat FilteredImgData = new UMat();
         System.Drawing.Bitmap bmp;
 
         int ImageHeight = 0;
@@ -33,8 +34,11 @@ namespace PuzzleScanner.Pages {
 
         double Scale = 1;
 
-        Task filterTask;
-        CancellationTokenSource filter_cancelToken = new CancellationTokenSource();
+        Task afterTask = Task.Run(() => { });
+        Task filterTask = Task.Run(() => { });
+
+        (byte H_MIN, byte H_MAX, byte S_MIN, byte S_MAX, byte V_MIN, byte V_MAX) lastInfo = (0, 0, 0, 0, 0, 0);
+        bool changed = false;
 
         public Filter() {
             InitializeComponent();
@@ -49,11 +53,11 @@ namespace PuzzleScanner.Pages {
             if (string.IsNullOrWhiteSpace(ImagePath))
                 return;
             await Task.Run(() => {
-                readed = CvInvoke.Imread(ImagePath, Emgu.CV.CvEnum.LoadImageType.Color);
-                ImageWidth = readed.Width;
-                ImageHeight = readed.Height;
-                CvInvoke.CvtColor(readed, mm, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
-                cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
+                ReadedImgData = CvInvoke.Imread(ImagePath, Emgu.CV.CvEnum.LoadImageType.Color);
+                ImageWidth = ReadedImgData.Width;
+                ImageHeight = ReadedImgData.Height;
+                CvInvoke.CvtColor(ReadedImgData, HsvImgData, Emgu.CV.CvEnum.ColorConversion.Bgr2HsvFull);
+                FilteredImgData = new UMat(HsvImgData.Rows, HsvImgData.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             });
             imgCanvas.Width = ImageWidth;
             imgCanvas.Height = ImageHeight;
@@ -86,51 +90,42 @@ namespace PuzzleScanner.Pages {
         }
 
         private void filter() {
-            byte _h_min = (byte)(H_MIN.Value * 255 / 360);
-            byte _h_max = (byte)(H_MAX.Value * 255 / 360);
-            byte _s_min = (byte)(S_MIN.Value * 255 / 100);
-            byte _s_max = (byte)(S_MAX.Value * 255 / 100);
-            byte _v_min = (byte)(V_MIN.Value * 255 / 100);
-            byte _v_max = (byte)(V_MAX.Value * 255 / 100);
-            TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
-            filterTask = Task.Run(() => FilterMat(ref mm, ref cc, _h_min, _h_max, _s_min, _s_max, _v_min, _v_max), filter_cancelToken.Token);
-            filterTask.ContinueWith((t) => {
-                if (!filterTask.IsCanceled) {
-                    bmp = cc.Bitmap;
-                    img.Source = Scanner.ToWPFBitmap(bmp);
+            var filterinfo = GetFilterInfo();
+            if (filterTask.Status == TaskStatus.Running || afterTask.Status == TaskStatus.Running) {
+                lastInfo = filterinfo;
+                changed = true;
+                Debug.WriteLine("Changed!");
+            } else {
+                TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
+
+                void afterAct(Task t)
+                {
+                    bmp = FilteredImgData.Bitmap;
+                    img.Source = Controls.FilterPage.ToWPFBitmap(bmp);
                     bmp.Dispose();
                     Thumbnail.Source = img.Source;
-                }
-            }, t_s);
+                    if (changed) {
+                        Debug.WriteLine("AfterAct");
+
+                        changed = false;
+                        filterTask = Task.Run(() => FilterMat(ref HsvImgData, ref FilteredImgData, lastInfo.H_MIN, lastInfo.H_MAX, lastInfo.S_MIN, lastInfo.S_MAX, lastInfo.V_MIN, lastInfo.V_MAX));
+                        afterTask = filterTask.ContinueWith(afterAct, t_s);
+                    }
+                };
+
+                filterTask = Task.Run(() => FilterMat(ref HsvImgData, ref FilteredImgData, filterinfo.H_MIN, filterinfo.H_MAX, filterinfo.S_MIN, filterinfo.S_MAX, filterinfo.V_MIN, filterinfo.V_MAX));
+                afterTask = filterTask.ContinueWith(afterAct, t_s);
+            }
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             if (!this.IsInitialized || !this.IsLoaded)
                 return;
-            byte _h_min = (byte)(H_MIN.Value * 255 / 360);
-            byte _h_max = (byte)(H_MAX.Value * 255 / 360);
-            byte _s_min = (byte)(S_MIN.Value * 255 / 100);
-            byte _s_max = (byte)(S_MAX.Value * 255 / 100);
-            byte _v_min = (byte)(V_MIN.Value * 255 / 100);
-            byte _v_max = (byte)(V_MAX.Value * 255 / 100);
-            TaskScheduler t_s = TaskScheduler.FromCurrentSynchronizationContext();
-            if (!filterTask.IsCompleted) {
-                filter_cancelToken.Cancel();
-                filter_cancelToken.Dispose();
-                filter_cancelToken = new CancellationTokenSource();
-            } else {
-                filterTask = Task.Run(() => FilterMat(ref mm, ref cc, _h_min, _h_max, _s_min, _s_max, _v_min, _v_max), filter_cancelToken.Token);
-                filterTask.ContinueWith((t) => {
-                    if (!filterTask.IsCanceled) {
-                        bmp = cc.Bitmap;
-                        img.Source = Scanner.ToWPFBitmap(bmp);
-                        bmp.Dispose();
-                        Thumbnail.Source = img.Source;
-                    }
-                }, t_s);
-            }
-
+            filter();
         }
+
+        private (byte H_MIN, byte H_MAX, byte S_MIN, byte S_MAX, byte V_MIN, byte V_MAX) GetFilterInfo() =>
+            ((byte)(H_min.Value * 255 / 360), (byte)(H_max.Value * 255 / 360), (byte)(S_min.Value * 255 / 100), (byte)(S_max.Value * 255 / 100), (byte)(V_min.Value * 255 / 100), (byte)(V_max.Value * 255 / 100));
 
         /// <summary>
         /// HSVでフィルタします．
@@ -190,15 +185,6 @@ namespace PuzzleScanner.Pages {
             cc.Bytes = filtercache;
         }
 
-        //private struct _data_Vector3_filterMat {
-        //    public byte H, S, V;
-        //    public _data_Vector3_filterMat(byte _h, byte _s, byte _v) {
-        //        H = _h;
-        //        S = _s;
-        //        V = _v;
-        //    }
-        //}
-
         private void UpdateThumbnailViewport(object sender, ScrollChangedEventArgs e) {
             // ExtentWidth/Height が ScrollViewer 内の広さ
             // ViewportWidth/Height が ScrollViewer で実際に表示されているサイズ
@@ -240,12 +226,12 @@ namespace PuzzleScanner.Pages {
         private void Next_Click(object sender, RoutedEventArgs e) {
             filter();
             if (App.IsScannerScan) {
-                App.Scanner_Filter = new byte[] { (byte)(H_MIN.Value * 255 / 360), (byte)(H_MAX.Value * 255 / 360), (byte)(S_MIN.Value * 255 / 100),
-                    (byte)(S_MAX.Value * 255 / 100), (byte)(V_MIN.Value * 255 / 100), (byte)(V_MAX.Value * 255 / 100) };
+                App.Scanner_Filter = new byte[] { (byte)(H_min.Value * 255 / 360), (byte)(H_max.Value * 255 / 360), (byte)(S_min.Value * 255 / 100),
+                    (byte)(S_max.Value * 255 / 100), (byte)(V_min.Value * 255 / 100), (byte)(V_max.Value * 255 / 100) };
                 App.ScannerScanCount++;
                 ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.LoadImageFile());
             } else {
-                ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Scanner(cc, readed));
+                ((MainWindow)Window.GetWindow(this)).MainFrame.Navigate(new Pages.Scanner(FilteredImgData, ReadedImgData));
             }
         }
 
@@ -277,7 +263,7 @@ namespace PuzzleScanner.Pages {
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e) {
-            mm.Dispose();
+            HsvImgData.Dispose();
         }
     }
 }

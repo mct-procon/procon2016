@@ -51,16 +51,16 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <Slider x:Name="H_MAX" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Maximum="360" Minimum="0" Value="30" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
-        <Slider x:Name="H_MIN" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Maximum="360" Minimum="0" Value="0" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="H_max" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Maximum="360" Minimum="0" Value="30" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="H_min" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Maximum="360" Minimum="0" Value="0" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="H" Margin="5" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
         <TextBlock Text="H" Margin="5" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
-        <Slider x:Name="S_MAX" Grid.Column="4" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="85" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
-        <Slider x:Name="S_MIN" Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="20" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="S_max" Grid.Column="4" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="85" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="S_min" Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="20" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="S" Margin="5" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center"/>
         <TextBlock Text="S" Margin="5" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center"/>
-        <Slider x:Name="V_MAX" Grid.Column="6" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="100" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
-        <Slider x:Name="V_MIN" Grid.Column="5" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="20" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="V_max" Grid.Column="6" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="100" Foreground="Red" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="V_min" Grid.Column="5" Grid.Row="2" Grid.RowSpan="2" Maximum="100" Minimum="0" Value="20" Foreground="Blue" Orientation="Vertical" ValueChanged="Slider_ValueChanged"/>
         <TextBlock Text="V" Margin="5" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center"/>
         <TextBlock Text="V" Margin="5" Grid.Column="5" Grid.Row="1" VerticalAlignment="Center"/>
         <ScrollViewer x:Name="Scroller" Grid.Row="2" Grid.Column="7" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">

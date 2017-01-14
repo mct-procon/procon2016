@@ -51,6 +51,10 @@ namespace PuzzleScanner.Controls {
         int ImageWidth = 0;
         int ImageHeight = 0;
 
+        private bool MeasureLineMoving = false;
+        private System.Windows.Point Line_offset = new System.Windows.Point();
+        private double MeasureScale = 1;
+
         public List<ResultPolygonData> result = new List<ResultPolygonData>();
 
         char[] cascades = new char[] {
@@ -623,6 +627,37 @@ namespace PuzzleScanner.Controls {
             anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
             Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
             Waiter.Visibility = Visibility.Hidden;
+        }
+
+        private void ResultCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e) {
+            MeasureLineMoving = true;
+            MeasureLine.Visibility = Visibility.Visible;
+            MeasureLine.Stroke = Brushes.Orange;
+            Line_offset = Mouse.GetPosition(ResultCanvas);
+            MeasureLine.Margin = new Thickness(Line_offset.X, Line_offset.Y, 0, 0);
+            MeasureLine.X2 = Line_offset.X;
+            MeasureLine.Y2 = Line_offset.Y;
+            Mouse.Capture(ResultCanvas);
+        }
+
+        private void ResultCanvas_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
+            ResultCanvas.ReleaseMouseCapture();
+            MeasureLineMoving = false;
+            System.Windows.Point pt = Mouse.GetPosition(ResultCanvas);
+            MeasureScale = 1 / (Math.Sqrt(pt.X * pt.X + pt.Y * pt.Y));
+            MeasureLine.Stroke = Brushes.Blue;
+            MeasureLine.X2 = pt.X - Line_offset.X;
+            MeasureLine.Y2 = pt.Y - Line_offset.Y;
+        }
+
+        private void ResultCanvas_MouseMove(object sender, MouseEventArgs e) {
+            if(MeasureLineMoving) {
+                System.Windows.Point pt = Mouse.GetPosition(ResultCanvas);
+                MeasureLine.X2 = pt.X - Line_offset.X;
+                MeasureLine.Y2 = pt.Y - Line_offset.Y;
+            } else {
+
+            }
         }
     }
 }
