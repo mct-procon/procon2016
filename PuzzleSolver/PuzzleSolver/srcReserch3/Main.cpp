@@ -84,16 +84,14 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR arg,int) {
 
 	vector<string> fnameList;
 
-	fnameList.push_back("NewProblem/sample/9piece_small.txt");
-	fnameList.push_back("NewProblem/TR_prob22.txt");
+	for (int i = 1; i < 10; i++) fnameList.push_back("NewProblem/TR_prob0" + toString(i) + ".txt");
+	for (int i = 10; i < 26; i++) fnameList.push_back("NewProblem/TR_prob" + toString(i) + ".txt");
 	fnameList.push_back("Problem/Research/LuckyPuzzle.txt");
 	fnameList.push_back("Problem/Research/Seisyonagon.txt");
 	fnameList.push_back("Problem/Research/Tangram.txt");
 	fnameList.push_back("Problem/Research/ManyParallelogram.txt");
 	fnameList.push_back("Problem/Research/ManyRect.txt");
 	fnameList.push_back("Problem/Research/ManySquare.txt");
-	for (int i = 1; i < 10; i++) fnameList.push_back("NewProblem/TR_prob0" + toString(i) + ".txt");
-	for (int i = 10; i < 26; i++) fnameList.push_back("NewProblem/TR_prob" + toString(i) + ".txt");
 
 	for (int i = 0; i < fnameList.size(); i++) {
 		read_file_name = fnameList[i];

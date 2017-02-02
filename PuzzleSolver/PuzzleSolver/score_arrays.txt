@@ -1,0 +1,112 @@
+NewProblem/sample/9piece_small.txt
+12 10 8 8 6 5 5 5
+ïsê≥âÅ~
+
+NewProblem/TR_prob22.txt
+37 29 23 22 22 16 15 15 15 15 13 13 12 12 12 17 18 21
+ê≥âÅZ
+
+Problem/Research/LuckyPuzzle.txt
+8 8 8 8 8 3
+ïsê≥âÅ~
+
+Problem/Research/Seisyonagon.txt
+8 8 8 6 6 5
+ïsê≥âÅ~
+
+Problem/Research/Tangram.txt
+6 11 6 8 10 8
+ïsê≥âÅ~
+
+Problem/Research/ManyParallelogram.txt
+8 8 8 8 8 8 8 12 8 8 8 12 8 12 12 28
+ê≥âÅZ
+
+Problem/Research/ManyRect.txt
+8 12 8 12 8 12 8 12 8 12 8 12 12 12 12 28
+ê≥âÅZ
+
+Problem/Research/ManySquare.txt
+8 8 8 8 8 8 8 12 8 12 8 12 8 12 12 28
+ê≥âÅZ
+
+NewProblem/TR_prob01.txt
+26 22 19 24 35 28 8 8 8 12 17 21
+ê≥âÅZ
+
+NewProblem/TR_prob02.txt
+8 8 8 8 12 17 21
+ê≥âÅZ
+
+NewProblem/TR_prob03.txt
+28 15 12 17 12 12 17 12 10 8 8 8 5 12 10
+ïsê≥âÅ~
+
+NewProblem/TR_prob04.txt
+29 24 22 22 22 22 19 12 19 19 28 12 19 19 28 12 10 12 12 12 9 5
+ïsê≥âÅ~
+
+NewProblem/TR_prob05.txt
+17 18 16 16 15 12 10 10 22 8 11 12 17 10 12 12 8 6
+ïsê≥âÅ~
+
+NewProblem/TR_prob06.txt
+8 8 8 8 8 6 5 12 5 5 3
+ïsê≥âÅ~
+
+NewProblem/TR_prob07.txt
+8 8 12 8 12 8 8 8
+ïsê≥âÅ~
+
+NewProblem/TR_prob08.txt
+12 15 15 15 12 15 15 21
+ê≥âÅZ
+
+NewProblem/TR_prob09.txt
+12 15 12 15 15 29 28 21
+ê≥âÅZ
+
+NewProblem/TR_prob10.txt
+12 16 15 28 12 12 15 25 21 11 11 8 8 6 13 8 12
+ê≥âÅZ
+
+NewProblem/TR_prob11.txt
+18 18 15 20 18 13 12 11 11 10 10 10 8 8 8 8 8 6 6 6 6 5 5 5 5 5 5 4 4
+ïsê≥âÅ~
+
+NewProblem/TR_prob12.txt
+8 8 8 12 8 8 8 8 6 6 6 6 6 5 5 5 5 8 5
+ïsê≥âÅ~
+
+NewProblem/TR_prob13.txt
+10 12 10 10 10 11 10 15 8 8 5 5
+ïsê≥âÅ~
+
+NewProblem/TR_prob14.txt
+15 15 15 15 15 12 12 15 12 15 10 21 19
+ê≥âÅZ
+
+NewProblem/TR_prob15.txt
+12 12 8 8 8 8 8 8 8 10
+ïsê≥âÅ~
+
+NewProblem/TR_prob16.txt
+21 19 19 16
+ïsê≥âÅ~
+
+NewProblem/TR_prob17.txt
+8 8 6 6 5 4 4 5 1
+ïsê≥âÅ~
+
+NewProblem/TR_prob01.txt
+26 17 15 19 12 24 8 6 8 6 6 11
+ê≥âÅZ
+
+NewProblem/TR_prob02.txt
+8 5 5 5 5 4
+ïsê≥âÅ~
+
+NewProblem/TR_prob03.txt
+28 15 12 12 12 12 8 8 11 16 12 12 12 12 12 19
+ê≥âÅZ
+

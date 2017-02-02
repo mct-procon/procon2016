@@ -65,8 +65,8 @@ void SolverBase::input(string filename)
 	ifs.close();
 
 	//Œë·ƒpƒ‰ƒ[ƒ^‚Ìİ’è
-	parameter.dist_error_meter = 1.200 * 0.001;
-	parameter.dist_error_waku_meter = 1.500 * 0.001;
+	parameter.dist_error_meter = 0.500 * 0.001;
+	parameter.dist_error_waku_meter = 1.200 * 0.001;
 	parameter.pixel_per_meter = 20000 / 2.54;		//200[dpi]‚Ìê‡
 }
 
