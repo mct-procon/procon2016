@@ -1,11 +1,10 @@
 PuzzleScanner/PuzzleScanner/bin/
 PuzzleScanner/PuzzleScanner/obj/
-PuzzleScanner/.vs
 PuzzleScanner/packages/
 SolverVisualizer/SolverVisualizer/bin/
 SolverVisualizer/SolverVisualizer/obj/
 SolverVisualizer/packages/
-SolverVisualizer/.vs
 MarkLearner/negs/
 MarkLearner/vecs/
-/CameraCalibrator
+/PuzzleScanner/.vs/PuzzleScanner/v15
+/PuzzleScanner/.vs/PuzzleScanner/v15/.suo

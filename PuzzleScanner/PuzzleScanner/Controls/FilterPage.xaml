@@ -23,14 +23,14 @@
     </Grid.ColumnDefinitions>
 
     <TextBlock Text="H" HorizontalAlignment="Center"/>
-    <Slider x:Name="H_min" Grid.Row="0" Grid.Column="1" Foreground="Blue" Maximum="360" Minimum="0" Value="0"  Margin="1"/>
-    <Slider x:Name="H_max" Grid.Row="0" Grid.Column="2"  Foreground="Red" Maximum="360" Minimum="0" Value="30" Margin="1"/>
+    <Slider x:Name="H_min" Grid.Row="0" Grid.Column="1" Foreground="Blue" Maximum="360" Minimum="0" Value="0"  Margin="1" ValueChanged="Slider_ValueChanged"/>
+    <Slider x:Name="H_max" Grid.Row="0" Grid.Column="2"  Foreground="Red" Maximum="360" Minimum="0" Value="30" Margin="1" ValueChanged="Slider_ValueChanged"/>
     <TextBlock Text="S" Grid.Row="1" HorizontalAlignment="Center"/>
-    <Slider x:Name="S_min" Grid.Row="1" Grid.Column="1" Foreground="Blue" Maximum="100" Minimum="0" Value="20" Margin="1"/>
-    <Slider x:Name="S_max" Grid.Row="1" Grid.Column="2"  Foreground="Red" Maximum="100" Minimum="0" Value="85" Margin="1"/>
+    <Slider x:Name="S_min" Grid.Row="1" Grid.Column="1" Foreground="Blue" Maximum="100" Minimum="0" Value="20" Margin="1" ValueChanged="Slider_ValueChanged"/>
+    <Slider x:Name="S_max" Grid.Row="1" Grid.Column="2"  Foreground="Red" Maximum="100" Minimum="0" Value="85" Margin="1" ValueChanged="Slider_ValueChanged"/>
     <TextBlock Text="V" Grid.Row="2" HorizontalAlignment="Center"/>
-    <Slider x:Name="V_min" Grid.Row="2" Grid.Column="1" Foreground="Blue" Maximum="100" Minimum="0" Value="20" Margin="1"/>
-    <Slider x:Name="V_max" Grid.Row="2" Grid.Column="2"  Foreground="Red" Maximum="100" Minimum="0" Value="100" Margin="1"/>
+    <Slider x:Name="V_min" Grid.Row="2" Grid.Column="1" Foreground="Blue" Maximum="100" Minimum="0" Value="20" Margin="1" ValueChanged="Slider_ValueChanged"/>
+    <Slider x:Name="V_max" Grid.Row="2" Grid.Column="2"  Foreground="Red" Maximum="100" Minimum="0" Value="100" Margin="1" ValueChanged="Slider_ValueChanged"/>
 
     <ScrollViewer x:Name="Scroller" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="UpdateThumbnailViewport" PreviewMouseWheel="Scroller_PreviewMouseWheel">
         <Canvas x:Name="imgCanvas" HorizontalAlignment="Left" VerticalAlignment="Top">

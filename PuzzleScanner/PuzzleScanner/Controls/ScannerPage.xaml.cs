@@ -104,13 +104,11 @@ namespace PuzzleScanner.Controls {
             Canvas.SetTop(TEST_IMG, Offset);
             Canvas.SetLeft(TEST_IMG, Offset);
             Canvas.SetZIndex(TEST_IMG, 1);
-            ImageWidth = Readed.Width;
-            ImageHeight = Readed.Height;
 
             Queue<Emgu.CV.Util.VectorOfPoint> polyStorage = new Queue<Emgu.CV.Util.VectorOfPoint>(res.Count());
+            int elp = (int)EpsilonSlider.Value;
             await Task.Run(() => {
                 Emgu.CV.Util.VectorOfPoint polyCache = null;
-                int elp = (int)(0.003 * Math.Max(ImageWidth, ImageHeight));
                 foreach (var parray in res.Where((x) => CvInvoke.ContourArea(x) > 1000)) {
                     polyCache = new Emgu.CV.Util.VectorOfPoint();
                     CvInvoke.ApproxPolyDP(parray, polyCache, elp, true);
@@ -253,7 +251,7 @@ namespace PuzzleScanner.Controls {
         }
 
         //Frozed
-        private bool judgeInclusion(ResultPolygonData d, Point p) {
+        private bool JudgeInclusion(ResultPolygonData d, Point p) {
             double deg = 0;
             int px = p.X;
             int py = p.Y;
@@ -619,14 +617,13 @@ namespace PuzzleScanner.Controls {
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
-            Waiter.Opacity = 0;
-            Waiter.Visibility = Visibility.Visible;
-            var anim = new System.Windows.Media.Animation.DoubleAnimation(1, TimeSpan.FromSeconds(1));
-            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
+            ImageWidth = Readed.Width;
+            ImageHeight = Readed.Height;
+            EpsilonSlider.Maximum = 1000;
+            EpsilonSlider.Minimum = 0;
+            EpsilonSlider.LargeChange = 0.01;
+            EpsilonSlider.Value = 0.003 * Math.Max(ImageWidth, ImageHeight);
             UpdateContent_WithoutFilter(filtered);
-            anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromSeconds(1));
-            Waiter.BeginAnimation(UIElement.OpacityProperty, anim);
-            Waiter.Visibility = Visibility.Hidden;
         }
 
         private void ResultCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e) {
@@ -658,6 +655,10 @@ namespace PuzzleScanner.Controls {
             } else {
 
             }
+        }
+
+        private void EpsilonButton_Clicked(object sender, RoutedEventArgs e) {
+            UpdateContent_WithoutFilter(filtered);
         }
     }
 }

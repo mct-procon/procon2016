@@ -143,39 +143,6 @@ namespace PuzzleScanner.Controls {
             if (cc.Rows != mm.Rows || cc.Cols != mm.Cols)
                 cc = new UMat(mm.Rows, mm.Cols, Emgu.CV.CvEnum.DepthType.Cv8U, 1);
             byte[] cache_in = mm.Bytes;
-            
-            //--------------------------
-            //　　並列化した方が遅かった…
-            //--------------------------
-            //int thread_job = cc.Bytes.Length / Environment.ProcessorCount;
-            //int surplus = cc.Bytes.Length - (thread_job * Environment.ProcessorCount);
-            //Task<byte[]>[] tasks = new Task<byte[]>[Environment.ProcessorCount];
-            //int cache_iter = 0;
-            //for(int n = 0; n < tasks.Length; ++n) {
-            //    int m = n < surplus ? thread_job + 1 : thread_job;
-            //    _data_Vector3_filterMat[] cache_data = new _data_Vector3_filterMat[m];
-            //    for (int p = 0; p < m; ++p) {
-            //        cache_data[p] = new _data_Vector3_filterMat();
-            //        cache_data[p].H = cache_in[cache_iter];
-            //        cache_iter++;
-            //        cache_data[p].S = cache_in[cache_iter];
-            //        cache_iter++;
-            //        cache_data[p].V = cache_in[cache_iter];
-            //        cache_iter++;
-            //    }
-
-            //    tasks[n] = Task.Run(() => {
-            //        byte[] _return_cache = new byte[m];
-            //        for (int p = 0; p < m; ++p) {
-            //            _return_cache[p] = (cache_data[p].H >= MIN_H && cache_data[p].H <= MAX_H && 
-            //            cache_data[p].S <= MAX_S && cache_data[p].S >= MIN_S && cache_data[p].V <= MAX_V && cache_data[p].V >= MIN_V) ?
-            //                (byte)255 : (byte)0;
-            //        }
-            //        return _return_cache;
-            //    });
-            //}
-            //Task.WaitAll(tasks);
-            //cc.Bytes = PuzzleScanner.Utils.ParallelExtensions.Merge(tasks).ToArray();
             byte[] filtercache = cc.Bytes;
             int cache_at = 0;
             for (int n = 0; n < filtercache.Length; ++n) {
@@ -185,15 +152,6 @@ namespace PuzzleScanner.Controls {
             }
             cc.Bytes = filtercache;
         }
-
-        //private struct _data_Vector3_filterMat {
-        //    public byte H, S, V;
-        //    public _data_Vector3_filterMat(byte _h, byte _s, byte _v) {
-        //        H = _h;
-        //        S = _s;
-        //        V = _v;
-        //    }
-        //}
 
         private void UpdateThumbnailViewport(object sender, ScrollChangedEventArgs e) {
             // ExtentWidth/Height が ScrollViewer 内の広さ
