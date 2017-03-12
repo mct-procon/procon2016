@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using PuzzleScanner.Utils.ExtClasses;
 
 namespace PuzzleScanner.Controls {
-    public class PageInterface {
+    public abstract class PageInterface {
         protected string ImagePath;
 
         protected FilterPage f;
@@ -17,8 +17,9 @@ namespace PuzzleScanner.Controls {
         public PageState State;
         public Action StateChanged;
 
-        public virtual List<ResultPolygonData> GetResultData() { throw new NotImplementedException(); }
-        public virtual void Unload_All() { throw new NotImplementedException(); }
+        public abstract int Width { get; }
+        public abstract List<ResultPolygonData> GetResultData();
+        public abstract void Unload_All();
     }
 
     public enum PageState {

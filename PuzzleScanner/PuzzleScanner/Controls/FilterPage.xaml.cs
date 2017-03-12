@@ -30,8 +30,8 @@ namespace PuzzleScanner.Controls {
 
         System.Drawing.Bitmap bmp;
 
-        int ImageHeight = 0;
-        int ImageWidth = 0;
+        public int ImageHeight = 0;
+        public int ImageWidth = 0;
 
         double Scale = 1;
 
@@ -50,9 +50,9 @@ namespace PuzzleScanner.Controls {
             ImagePath = imgPath;
         }
 
+        private bool isLoaded = false;
         private async void Grid_Loaded(object sender, RoutedEventArgs e) {
-            if (string.IsNullOrWhiteSpace(ImagePath))
-                return;
+            if (string.IsNullOrWhiteSpace(ImagePath) || isLoaded) return;
             await Task.Run(() => {
                 ReadedImgData = CvInvoke.Imread(ImagePath, Emgu.CV.CvEnum.LoadImageType.Color);
                 ImageWidth = ReadedImgData.Width;
@@ -88,6 +88,7 @@ namespace PuzzleScanner.Controls {
             this.Viewport.Height = height;
 
             ScanButton.IsEnabled = true;
+            isLoaded = true;
         }
 
         private void filter() {

@@ -13,5 +13,13 @@ namespace PuzzleScanner.Utils {
                 }
             }
         }
+
+        public static IEnumerable<T> MergeAllEnumerable<T>(IEnumerable<IEnumerable<T>> l) {
+            foreach (var a in l) {
+                foreach (var b in a) {
+                    yield return b;
+                }
+            }
+        }
     }
 }

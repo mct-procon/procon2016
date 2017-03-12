@@ -22,6 +22,19 @@ namespace PuzzleScanner.Controls {
             };
         }
 
+        public override int Width {
+            get {
+                switch(State) {
+                    case PageState.Scanner:
+                        return p.ImageWidth;
+                    case PageState.Filter:
+                        return f.ImageWidth;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
         /// <summary>
         /// Please check the state before calling this method.
         /// </summary>

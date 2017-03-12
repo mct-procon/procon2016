@@ -11,7 +11,7 @@ namespace PuzzleScanner.Utils.ExtClasses {
         /// </summary>
         /// <typeparam name="T">格納する型</typeparam>
         public class RingBuffer<T> {
-            T[] data;
+            public T[] data;
             public T this[int i] {
                 get {
                     return i == -1 ? data[Length - 1] : (i < 0 ? Math.Abs(i) % data.Length == 0 ? data[0] : data[data.Length - (Math.Abs(i) % data.Length)] : data[i % data.Length]);

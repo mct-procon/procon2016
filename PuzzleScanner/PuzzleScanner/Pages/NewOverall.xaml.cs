@@ -43,7 +43,17 @@ namespace PuzzleScanner.Pages {
         }
 
         private async void TextWriteOut_Click(object sender, RoutedEventArgs e) {
-            IEnumerable<ResultPolygonData> result = MergeAllList(PagesItemList.Items.Cast<ImageListItemControl>().Select(x => x.GetResultData()).ToList());
+            var result_cache = PagesItemList.Items.Cast<ImageListItemControl>().ToList();
+            IEnumerable<ResultPolygonData> result = MergeAllEnumerable(result_cache.Select((x, idx) => {
+                if (idx == 0)
+                    return x.GetResultData();
+                return x.GetResultData().Select(y => {
+                    for (int n = 0; n < y.Points.Length; ++n) {
+                        y.Points.data[n].X += result_cache[idx - 1].p.Width;
+                    }
+                    return y;
+                });
+            }));
             Stack<ResultPolygonData> s = new Stack<ResultPolygonData>();
             Stack<ResultPolygonData> s_frm = new Stack<ResultPolygonData>();
 

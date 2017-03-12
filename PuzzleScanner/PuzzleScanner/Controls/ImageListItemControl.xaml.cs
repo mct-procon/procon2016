@@ -37,7 +37,7 @@ namespace PuzzleScanner.Controls {
             }
         }
 
-        public List<ResultPolygonData>  GetResultData() {
+        public IEnumerable<ResultPolygonData>  GetResultData() {
             return p.GetResultData();
         }
 

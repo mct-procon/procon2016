@@ -48,8 +48,8 @@ namespace PuzzleScanner.Controls {
 
         Stack<Polygon> UIPolygons = null;
 
-        int ImageWidth = 0;
-        int ImageHeight = 0;
+        public int ImageWidth = 0;
+        public int ImageHeight = 0;
 
         private bool MeasureLineMoving = false;
         private System.Windows.Point Line_offset = new System.Windows.Point();
@@ -616,7 +616,9 @@ namespace PuzzleScanner.Controls {
             result = null;
         }
 
+        private bool isLoaded = false;
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
+            if (isLoaded) return;
             ImageWidth = Readed.Width;
             ImageHeight = Readed.Height;
             EpsilonSlider.Maximum = 1000;
@@ -624,6 +626,7 @@ namespace PuzzleScanner.Controls {
             EpsilonSlider.LargeChange = 0.01;
             EpsilonSlider.Value = 0.003 * Math.Max(ImageWidth, ImageHeight);
             UpdateContent_WithoutFilter(filtered);
+            isLoaded = true;
         }
 
         private void ResultCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e) {
