@@ -2,7 +2,7 @@
 #include "Extern.h"
 
 //多角形を読み込む
-Poly SolverBase::input_poly(ifstream &ifs, bool is_clockwise) {
+Poly SolverBase::input_poly(ifstream &ifs, bool is_clockwise, int defaultTag) {
 	int n;			//頂点数
 	int poly_id;	//多角形にはられたシールの番号 (なければ-1）
 	vector<Point> points;	//多角形の頂点列
@@ -16,7 +16,8 @@ Poly SolverBase::input_poly(ifstream &ifs, bool is_clockwise) {
 		n = 0;
 		for (int j = i; j < (int)tag_num.size(); j++) { n *= 10; n += tag_num[j] - '0'; }
 		poly_id = 0;
-		if (tag_num[0] == '-') { poly_id = -1; }
+		if (i == 0) { poly_id = defaultTag; }
+		else if (tag_num[0] == '-') { poly_id = -1; }
 		else { for (int j = 0; j < i - 1; j++) { poly_id *= 10; poly_id += tag_num[j] - '0'; } }
 		//printfDx("%s %d %d %d", tag_num, tag_num.size(), n, poly_id);
 	}
@@ -57,16 +58,16 @@ void SolverBase::input(string filename)
 	int poly_num;
 
 	ifs >> poly_num;
-	for (int i = 0; i < poly_num; i++) { wakus.push_back(input_poly(ifs, true)); }
+	for (int i = 0; i < poly_num; i++) { wakus.push_back(input_poly(ifs, true, -1)); }
 	init_wakus = wakus;
 
 	ifs >> poly_num;
-	for (int i = 0; i < poly_num; i++) { pieces.push_back(input_poly(ifs, false)); }
+	for (int i = 0; i < poly_num; i++) { pieces.push_back(input_poly(ifs, false, i)); }
 	ifs.close();
 
 	//誤差パラメータの設定
-	parameter.dist_error_meter = 1.200 * 0.001;
-	parameter.dist_error_waku_meter = 1.500 * 0.001;
+	parameter.dist_error_meter = 0.00001 * 0.001;
+	parameter.dist_error_waku_meter = 0.00001 * 0.001;
 	parameter.pixel_per_meter = 20000 / 2.54;		//200[dpi]の場合
 }
 

@@ -21,7 +21,7 @@ bool game_loop() {
 
 	//dst辺が無ければ自動
 	if (user_query.is_exist_dst == false) {
-		vector<MoveNode> how_to_move = solver.connect_auto(false, 10);
+		vector<MoveNode> how_to_move = solver.connect_auto(true, 10);
 
 		if (how_to_move.size() > 0) {
 			//if (show.select_result(&solver, &how_to_move) != 0) return false;
@@ -84,23 +84,28 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR arg,int) {
 
 	vector<string> fnameList;
 
-	fnameList.push_back("NewProblem/sample/9piece_small.txt");
-	fnameList.push_back("NewProblem/TR_prob22.txt");
+	for (int i = 1; i < 6; i++) {
+		fnameList.push_back("Problem/Aoki/problem_" + toString(i) + ".txt");
+	}
+
+	fnameList.push_back("Problem/Matoryoshika/problem.txt");
+	fnameList.push_back("NewProblem/sample28.txt");
+	fnameList.push_back("NewProblem/sample28Ex.txt");
+	for (int i = 1; i < 10; i++) fnameList.push_back("NewProblem/TR_prob0" + toString(i) + ".txt");
+	for (int i = 10; i < 26; i++) fnameList.push_back("NewProblem/TR_prob" + toString(i) + ".txt");
 	fnameList.push_back("Problem/Research/LuckyPuzzle.txt");
 	fnameList.push_back("Problem/Research/Seisyonagon.txt");
 	fnameList.push_back("Problem/Research/Tangram.txt");
 	fnameList.push_back("Problem/Research/ManyParallelogram.txt");
 	fnameList.push_back("Problem/Research/ManyRect.txt");
 	fnameList.push_back("Problem/Research/ManySquare.txt");
-	for (int i = 1; i < 10; i++) fnameList.push_back("NewProblem/TR_prob0" + toString(i) + ".txt");
-	for (int i = 10; i < 26; i++) fnameList.push_back("NewProblem/TR_prob" + toString(i) + ".txt");
 
 	for (int i = 0; i < fnameList.size(); i++) {
 		read_file_name = fnameList[i];
 		solver.input(read_file_name);
 
-		solver.余分な多角形を取り除く(100);
-		solver.余分な頂点を取り除く(5);							//引数値を大きくするほど、頂点が取り除かれやすくなります。
+		//solver.余分な多角形を取り除く(100);
+		//solver.余分な頂点を取り除く(5);							//引数値を大きくするほど、頂点が取り除かれやすくなります。
 
 		// while(裏画面を表画面に反映,メッセージ処理,画面クリア, ESCで終了)
 		init_draw_option();

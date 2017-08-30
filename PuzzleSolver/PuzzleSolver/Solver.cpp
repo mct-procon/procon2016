@@ -375,6 +375,7 @@ vector<MoveNode> Solver::connect_auto(bool is_turn_ok, int max_moveList_size)
 	for (i = 0; i < min(table.size(), max_moveList_size); i++) {
 		res.push_back(table[i]);
 	}
+	printfDx("Œ‹‡“x = %.1f\n, Œó•â” = %d\n", res[0].score, dst_list[0].first);
 	return res;
 }
 

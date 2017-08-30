@@ -38,8 +38,8 @@ void update_draw_option() {
 	if (CheckHitKey(KEY_INPUT_DOWN)) { center += Point(0, 3) / scale; }
 	if (CheckHitKey(KEY_INPUT_LEFT)) { center += Point(-3, 0) / scale; }
 	if (CheckHitKey(KEY_INPUT_RIGHT)) { center += Point(3, 0) / scale; }
-	if (CheckHitKey(KEY_INPUT_Z)) { scale -= 0.0014; }
-	if (CheckHitKey(KEY_INPUT_X)) { scale += 0.0014; }
+	if (CheckHitKey(KEY_INPUT_Z)) { scale *= 0.99; }
+	if (CheckHitKey(KEY_INPUT_X)) { scale /= 0.99; }
 
 	//表示を動かす（マウス操作 : ドラックで平行移動, マウスホイールで拡大縮小）
 	{

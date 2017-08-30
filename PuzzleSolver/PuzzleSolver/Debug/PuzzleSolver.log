@@ -1,0 +1,131 @@
+﻿  UserQuery.cpp
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(17): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(74): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(77): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(96): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(99): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\userquery.cpp(15): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\userquery.cpp(26): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\userquery.cpp(48): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\userquery.cpp(59): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\userquery.cpp(190): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\userquery.cpp(191): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  SolverBase.cpp
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(17): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(74): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(77): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(96): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(99): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(76): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(88): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(115): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(118): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(142): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(160): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(161): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(170): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(171): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(202): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(211): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solverbase.cpp(219): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  Solver.cpp
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(17): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(74): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(77): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(96): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(99): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(19): warning C4804: '<=': 演算中の 'bool' 型の使用方法が安全ではありません
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(22): warning C4800: 'int': ブール値を 'true' または 'false' に強制的に設定します (警告の処理)
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(36): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(39): warning C4800: 'int': ブール値を 'true' または 'false' に強制的に設定します (警告の処理)
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(40): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(45): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(47): warning C4800: 'int': ブール値を 'true' または 'false' に強制的に設定します (警告の処理)
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(48): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(220): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(254): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(259): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(311): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(315): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(319): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(323): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(327): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(331): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(340): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(354): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(375): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(303): warning C4101: 'k': ローカル変数は 1 度も使われていません。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(390): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(401): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\solver.cpp(402): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  Poly.cpp
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(37): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(46): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(50): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(53): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(66): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(70): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(73): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(86): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(87): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\poly.cpp(90): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  MargePoly.cpp
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(84): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(88): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(95): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(100): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(135): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(137): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(140): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(186): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(196): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(207): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(299): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(300): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\margepoly.cpp(359): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  Main.cpp
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(17): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(74): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(77): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(96): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(99): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\show.h(33): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\show.h(59): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\main.cpp(61): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\main.cpp(63): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\main.cpp(68): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\main.cpp(96): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  Line.cpp
+  Extern.cpp
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(17): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(74): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(77): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(96): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\evaluation.h(99): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(77): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(84): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(96): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(110): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(112): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(120): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(122): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(133): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(150): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(161): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(177): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(185): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(186): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(192): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(200): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(201): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(209): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+c:\users\naott\documents\visual studio 2015\projects\procon27\puzzlesolver\puzzlesolver\extern.cpp(210): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  コードを生成中...
+  PuzzleSolver.vcxproj -> C:\Users\naott\Documents\Visual Studio 2015\Projects\procon27\PuzzleSolver\Debug\PuzzleSolver.exe
+  PuzzleSolver.vcxproj -> C:\Users\naott\Documents\Visual Studio 2015\Projects\procon27\PuzzleSolver\Debug\PuzzleSolver.pdb (Full PDB)

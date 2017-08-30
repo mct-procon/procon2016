@@ -8,7 +8,7 @@
 
 class SolverBase {
 protected:
-	Poly input_poly(ifstream &ifs, bool is_clockwise);
+	Poly input_poly(ifstream &ifs, bool is_clockwise, int defaultTag);
 	void print_poly(ofstream &ofs, Poly poly);
 
 public:
